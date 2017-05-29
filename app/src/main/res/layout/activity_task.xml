@@ -1,0 +1,49 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    tools:context="com.example.khalil.myrobot.TaskActivity"
+    android:orientation="vertical">
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:id="@+id/usless"
+        android:layout_height="wrap_content"
+        android:layout_centerHorizontal="true"
+        android:text="Usless" />
+
+    <TextView
+        android:id="@+id/bearingToDis"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_centerHorizontal="true"
+        android:layout_below="@id/usless"
+        android:paddingTop="2dp"
+        android:text="Direction" />
+
+    <TextView
+        android:id="@+id/motion"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/bearingToDis"
+        android:layout_centerHorizontal="true"
+        android:text="Motion" />
+
+    <TextView
+        android:id="@+id/distanceToFinal"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/motion"
+        android:layout_centerHorizontal="true"
+        android:text="Distance" />
+
+    <FrameLayout
+        android:id="@+id/content"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/distanceToFinal">
+
+    </FrameLayout>
+
+</RelativeLayout>
