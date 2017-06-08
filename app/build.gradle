@@ -7,6 +7,7 @@ android {
         applicationId "com.example.khalil.myrobot"
         minSdkVersion 15
         targetSdkVersion 25
+        multiDexEnabled true
         versionCode 1
         versionName "1.0"
         testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
@@ -31,6 +32,7 @@ dependencies {
     compile 'com.google.android.gms:play-services-maps:10.2.1'
     compile 'com.google.maps.android:android-maps-utils:0.5+'
     compile 'org.greenrobot:eventbus:3.0.0'
+    compile 'com.android.support:multidex:1.0.1'
     testCompile 'junit:junit:4.12'
     compile 'com.github.ytai.ioio:IOIOLibAndroidDevice:5.07'
     compile 'com.github.ytai.ioio:IOIOLibAndroidBluetooth:5.07'
