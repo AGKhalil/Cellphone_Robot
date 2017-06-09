@@ -15,11 +15,9 @@ package com.example.khalil.myrobot;
  * https://www.androidtutorialpoint.com/intermediate/google-maps-draw-path-two-points-using-google-directions-google-map-android-api-v2/
  */
 
-import android.Manifest;
 import android.app.Service;
 import android.content.Context;
 import android.content.Intent;
-import android.content.pm.PackageManager;
 import android.hardware.Sensor;
 import android.hardware.SensorEvent;
 import android.hardware.SensorEventListener;
@@ -27,18 +25,11 @@ import android.hardware.SensorManager;
 import android.location.Location;
 import android.location.LocationManager;
 import android.os.AsyncTask;
-import android.os.Build;
-import android.os.Bundle;
 import android.os.IBinder;
 import android.support.annotation.Nullable;
-import android.support.v4.content.ContextCompat;
 import android.util.Log;
 import android.widget.Toast;
 
-import com.google.android.gms.common.ConnectionResult;
-import com.google.android.gms.common.api.GoogleApiClient;
-import com.google.android.gms.location.LocationListener;
-import com.google.android.gms.location.LocationServices;
 import com.google.android.gms.maps.model.LatLng;
 
 import org.json.JSONObject;
@@ -57,20 +48,21 @@ import java.util.concurrent.ExecutionException;
 import static android.R.id.message;
 
 public class NavigationService extends Service implements
-        GoogleApiClient.OnConnectionFailedListener,
-        GoogleApiClient.ConnectionCallbacks,
-        LocationListener,
-        SensorEventListener {
+//        GoogleApiClient.OnConnectionFailedListener,
+//        GoogleApiClient.ConnectionCallbacks,
+//        LocationListener,
+        SensorEventListener{
+    private LocationHelper locationHelper = new LocationHelper(this);
 
-    GoogleApiClient mGoogleApiClient;  // This is the API client that interacts with the Google API.
-    Location mCurrentLocation;  // This variable stores the robot's current location.
-    public LatLng currentLocationLatLng;  // This variable stores the current location as a LatLng.
-    public double currentLocationLat;  // This is the current location latitude.
-    public double currentLocationLng;  // This is the current location longitude.
+//GoogleApiClient mGoogleApiClient;  // This is the API client that interacts with the Google API.
+//    Location mCurrentLocation;  // This variable stores the robot's current location.
+//    public LatLng currentLocationLatLng;  // This variable stores the current location as a LatLng.
+//    public double currentLocationLat;  // This is the current location latitude.
+//    public double currentLocationLng;  // This is the current location longitude.
     public double nextDestinationLat;  // This is the final destination latitude.
     public double nextDestinationLng;  // This is the final destination longitude.
     public String routesUrl;  // This is the url that gets filed to the API.
-    private static final String TAG = "BroadcastService";  // The TAG used for the logcat for
+    private static final String TAG = "NavigationService";  // The TAG used for the logcat for
             // debugging.
     // This is the string used for broadcasting the results to TaskActivity.
     public static final String BROADCAST_ACTION = "com.websmithing.broadcasttest.displayevent";
@@ -101,18 +93,18 @@ public class NavigationService extends Service implements
     */
     @Override
     public void onCreate() {
-
+        Log.d(TAG,"onCreate");
         // This IF block checks for permission and then builds the Google API client.
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
-            if (ContextCompat.checkSelfPermission(this,
-                    Manifest.permission.ACCESS_FINE_LOCATION)
-                    == PackageManager.PERMISSION_GRANTED) {
-                buildGoogleApiClient();
-            }
-        } else {
-            buildGoogleApiClient();
-        }
-
+//        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
+//            if (ContextCompat.checkSelfPermission(this,
+//                    Manifest.permission.ACCESS_FINE_LOCATION)
+//                    == PackageManager.PERMISSION_GRANTED) {
+//                buildGoogleApiClient();
+//            }
+//        } else {
+//            buildGoogleApiClient();
+//        }
+        locationHelper.startnavigationservice();
         intent = new Intent(BROADCAST_ACTION);  // This creates the broadcast intent.
 
         // This block initiates the sensors and start them.
@@ -131,7 +123,7 @@ public class NavigationService extends Service implements
     */
      public int onStartCommand(Intent intent, int flags, int startId) {
         mMessage = intent.getStringExtra("message");  // Obtains the SMS.
-
+         Log.d(TAG, "onStartCommand: "+mMessage);
         // Creates a new thread upon which NavigationService runs.
         Thread t = new Thread(new Runnable() {
             @Override
@@ -165,9 +157,9 @@ public class NavigationService extends Service implements
     public void startNavigation(String destinationSms) {
         ArrayList<Location> pointsArray = null;
 
-        if (currentLocationLatLng != null) {
-
-            LatLng origin = currentLocationLatLng;  // Retrieves current location.
+        if (locationHelper.currentLocationLatLng != null) {
+            Log.d(TAG, "startNavigation");
+            LatLng origin = locationHelper.currentLocationLatLng;  // Retrieves current location.
             String dest = destinationSms;  // Retrieves final destination.
 
             // Getting URL to the Google Directions API.
@@ -210,7 +202,7 @@ public class NavigationService extends Service implements
             Location finalDestination = pointsArray.get(pointsArray.size() - 1);
             double finalDestinationLat = finalDestination.getLatitude();
             double finalDestinationLng = finalDestination.getLongitude();
-            distance = calculateDistance(currentLocationLat, currentLocationLng,
+            distance = calculateDistance(locationHelper.currentLocationLat, locationHelper.currentLocationLng,
                     finalDestinationLat, finalDestinationLng);
 
             intent.putExtra("distance", distance);
@@ -463,56 +455,56 @@ public class NavigationService extends Service implements
     /**
      * This method builds the Google Api Client and establishes the listener.
     */
-    protected synchronized void buildGoogleApiClient() {
-        mGoogleApiClient = new GoogleApiClient.Builder(this)
-                .addConnectionCallbacks(this)
-                .addOnConnectionFailedListener(this)
-                .addApi(LocationServices.API)
-                .build();
-        mGoogleApiClient.connect();
-    }
+
+//    protected synchronized void buildGoogleApiClient() {
+//        mGoogleApiClient = new GoogleApiClient.Builder(this)
+//                .addConnectionCallbacks(this)
+//                .addOnConnectionFailedListener(this)
+//                .addApi(LocationServices.API)
+//                .build();
+//        mGoogleApiClient.connect();
+//    }
 
     /**
      * This method is called when a connection to the Google API is established. The LocationHelper
      * is called to start the current location requests.
     */
-    @Override
-    public void onConnected(Bundle bundle) {
-        LocationHelper.initLocation(this.getBaseContext(), (LocationListener) this,
-                mGoogleApiClient);
-    }
+//    @Override
+//    public void onConnected(Bundle bundle) {
+//        locationHelper.initLocation(this.getBaseContext(), (LocationListener) this,
+//                mGoogleApiClient);
+//    }
 
     /**
      * This method is called when the robot's location changes. This updates all the current
      * location variables.
      */
     public void onLocationChanged(Location location) {
-        mCurrentLocation = location;
-        currentLocationLat = location.getLatitude();
-        currentLocationLng = location.getLongitude();
-        currentLocationLatLng = new LatLng(currentLocationLat, currentLocationLng);
+//        mCurrentLocation = location;
+//        currentLocationLat = location.getLatitude();
+//        currentLocationLng = location.getLongitude();
+//        currentLocationLatLng = new LatLng(currentLocationLat, currentLocationLng);
     }
 
-    /**
-     * This method is called when a connection to the Google API is suspended.
-     */
-    @Override
-    public void onConnectionSuspended(int i) {
-    }
-
-    /**
-     * This method is called when a connection to the Google API has failed.
-     */
-    @Override
-    public void onConnectionFailed(ConnectionResult connectionResult) {
-    }
+//    /**
+//     * This method is called when a connection to the Google API is suspended.
+//     */
+//    @Override
+//    public void onConnectionSuspended(int i) {}
+//
+//    /**
+//     * This method is called when a connection to the Google API has failed.
+//     */
+//    @Override
+//    public void onConnectionFailed(ConnectionResult connectionResult) {}
 
     /**
      * This method is called when the service stops. It disconnects the API client.
      */
     @Override
     public void onDestroy() {
-        mGoogleApiClient.disconnect();
+//        mGoogleApiClient.disconnect();
+        locationHelper.mGoogleApiClient.disconnect();
         super.onDestroy();
     }
 
@@ -570,7 +562,7 @@ public class NavigationService extends Service implements
                 azimuth = (azimuth + 360) % 360;
                 if (destination != null) {
                     Toast.makeText(this, "I've been called", Toast.LENGTH_SHORT).show();
-                    azimuth -= bearing(currentLocationLat, currentLocationLng, nextDestinationLat,
+                    azimuth -= bearing(locationHelper.currentLocationLat, locationHelper.currentLocationLng, nextDestinationLat,
                             nextDestinationLng);
                     if (azimuth < 0) {
                         azimuth = azimuth + 360;

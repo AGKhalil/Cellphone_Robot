@@ -19,6 +19,7 @@ import android.os.Handler;
 import android.support.v4.app.ActivityCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
+import android.view.View;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -38,6 +39,7 @@ import twitter4j.TwitterFactory;
 import twitter4j.conf.ConfigurationBuilder;
 
 public class TaskActivity extends AppCompatActivity implements CameraFragmentResultListener {
+    public String TAG = "TaskActivity";
     private Intent mIntent; // The intent that starts the NavigationService.
     public float direction; // The robot's bearing to the next location point.
     public String message;  // The SMS message passed in through the EventBus.
@@ -90,6 +92,14 @@ public class TaskActivity extends AppCompatActivity implements CameraFragmentRes
                 .commit();
     }
 
+
+    public void onclicksend(View view){
+        String msg = "Engineering Fountain";
+        if (msg != null) {
+            Toast.makeText(this,msg,Toast.LENGTH_SHORT).show();
+            callNavigationService(msg);
+        }
+    }
     /**
      * This BroadcastReceiver starts when an intent is sent from NavigationActivity to TaskActivity.
     */
@@ -97,6 +107,7 @@ public class TaskActivity extends AppCompatActivity implements CameraFragmentRes
         @Override
         // onReceive receives the intent from NavigationService
         public void onReceive(Context context, Intent intent) {
+            Log.d(TAG, "onReceive: Broadcasting");
             updateUI(intent); // The updateUI method is started. It needs the received intent to be
                     // passed to it.
 
@@ -326,6 +337,7 @@ public class TaskActivity extends AppCompatActivity implements CameraFragmentRes
     private void callNavigationService(String message) {
         mIntent.putExtra("message", message); // The SMS, which is the destination name, is passed
                 // to NavigationService, because it needs it to file the API request.
+        Log.d(TAG,"callNavigationService");
         this.startService(mIntent);  // This line is what actually starts the NavigationService.
     }
 }
