@@ -61,13 +61,10 @@ public class LocationHelper implements
         }
 
     }
-    public Location getmCurrentLocation(){return this.mCurrentLocation;}
-    public LatLng getCurrentLocationLatLng(){return this.currentLocationLatLng;}
-    public double getCurrentLocationLat(){return this.currentLocationLat;}
-    public double getCurrentLocationLng(){return this.currentLocationLng;}
 
-     void startnavigationservice() {
+    void startnavigationservice() {
          Log.d(TAG, "startnavigationservice");
+        // This IF block checks for permission and then builds the Google API client.
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
             if (ContextCompat.checkSelfPermission(c,
                     Manifest.permission.ACCESS_FINE_LOCATION)
@@ -79,7 +76,9 @@ public class LocationHelper implements
         }
     }
 
-
+    /**
+     * This method builds the Google Api Client and establishes the listener.
+     */
     protected synchronized void buildGoogleApiClient() {
         mGoogleApiClient = new GoogleApiClient.Builder(c)
                 .addConnectionCallbacks(this)
@@ -89,22 +88,34 @@ public class LocationHelper implements
         mGoogleApiClient.connect();
     }
 
+    /**
+     * This method is called when a connection to the Google API is established. The LocationHelper
+     * is called to start the current location requests.
+     */
     @Override
     public void onConnected(@Nullable Bundle bundle) {
-        initLocation((LocationListener) this,
+        initLocation(this,
                 mGoogleApiClient);
     }
 
+    /**
+     * This method is called when a connection to the Google API is suspended.
+     */
     @Override
     public void onConnectionSuspended(int i) {
-
     }
 
+    /**
+     * This method is called when a connection to the Google API has failed.
+     */
     @Override
     public void onConnectionFailed(@NonNull ConnectionResult connectionResult) {
-
     }
 
+    /**
+     * This method is called when the robot's location changes. This updates all the current
+     * location variables.
+     */
     @Override
     public void onLocationChanged(Location location) {
         mCurrentLocation = location;

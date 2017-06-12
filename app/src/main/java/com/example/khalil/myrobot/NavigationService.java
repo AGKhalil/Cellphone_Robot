@@ -48,17 +48,9 @@ import java.util.concurrent.ExecutionException;
 import static android.R.id.message;
 
 public class NavigationService extends Service implements
-//        GoogleApiClient.OnConnectionFailedListener,
-//        GoogleApiClient.ConnectionCallbacks,
-//        LocationListener,
         SensorEventListener{
     private LocationHelper locationHelper = new LocationHelper(this);
 
-//GoogleApiClient mGoogleApiClient;  // This is the API client that interacts with the Google API.
-//    Location mCurrentLocation;  // This variable stores the robot's current location.
-//    public LatLng currentLocationLatLng;  // This variable stores the current location as a LatLng.
-//    public double currentLocationLat;  // This is the current location latitude.
-//    public double currentLocationLng;  // This is the current location longitude.
     public double nextDestinationLat;  // This is the final destination latitude.
     public double nextDestinationLng;  // This is the final destination longitude.
     public String routesUrl;  // This is the url that gets filed to the API.
@@ -94,16 +86,6 @@ public class NavigationService extends Service implements
     @Override
     public void onCreate() {
         Log.d(TAG,"onCreate");
-        // This IF block checks for permission and then builds the Google API client.
-//        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
-//            if (ContextCompat.checkSelfPermission(this,
-//                    Manifest.permission.ACCESS_FINE_LOCATION)
-//                    == PackageManager.PERMISSION_GRANTED) {
-//                buildGoogleApiClient();
-//            }
-//        } else {
-//            buildGoogleApiClient();
-//        }
         locationHelper.startnavigationservice();
         intent = new Intent(BROADCAST_ACTION);  // This creates the broadcast intent.
 
@@ -451,52 +433,6 @@ public class NavigationService extends Service implements
             }
         }
     }
-
-    /**
-     * This method builds the Google Api Client and establishes the listener.
-    */
-
-//    protected synchronized void buildGoogleApiClient() {
-//        mGoogleApiClient = new GoogleApiClient.Builder(this)
-//                .addConnectionCallbacks(this)
-//                .addOnConnectionFailedListener(this)
-//                .addApi(LocationServices.API)
-//                .build();
-//        mGoogleApiClient.connect();
-//    }
-
-    /**
-     * This method is called when a connection to the Google API is established. The LocationHelper
-     * is called to start the current location requests.
-    */
-//    @Override
-//    public void onConnected(Bundle bundle) {
-//        locationHelper.initLocation(this.getBaseContext(), (LocationListener) this,
-//                mGoogleApiClient);
-//    }
-
-    /**
-     * This method is called when the robot's location changes. This updates all the current
-     * location variables.
-     */
-    public void onLocationChanged(Location location) {
-//        mCurrentLocation = location;
-//        currentLocationLat = location.getLatitude();
-//        currentLocationLng = location.getLongitude();
-//        currentLocationLatLng = new LatLng(currentLocationLat, currentLocationLng);
-    }
-
-//    /**
-//     * This method is called when a connection to the Google API is suspended.
-//     */
-//    @Override
-//    public void onConnectionSuspended(int i) {}
-//
-//    /**
-//     * This method is called when a connection to the Google API has failed.
-//     */
-//    @Override
-//    public void onConnectionFailed(ConnectionResult connectionResult) {}
 
     /**
      * This method is called when the service stops. It disconnects the API client.
