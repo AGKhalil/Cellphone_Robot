@@ -6,20 +6,116 @@ package com.example.khalil.myrobot;
  * courtesy of: https://www.androidtutorialpoint.com/intermediate/google-maps-draw-path-two-points-using-google-directions-google-map-android-api-v2/
  */
 
+import android.location.Location;
+import android.location.LocationManager;
+import android.util.Log;
+
 import com.google.android.gms.maps.model.LatLng;
 
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import java.io.BufferedReader;
+import java.io.IOException;
+import java.io.InputStream;
+import java.io.InputStreamReader;
+import java.net.HttpURLConnection;
+import java.net.URL;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 
-public class DataParser {
+class DataParser {
+
+    private static String message;
+
+    //Constructor get Context
+    DataParser(String message){
+        DataParser.message = message;
+    }
+
+    /**
+     * This method builds the url that gets filed to the Google API. It takes in two parameters,
+     * the first is the LatLng of the robot's current location, the second is the string
+     * destination, which is retrieved from the SMS passed to this service.
+     */
+    String getUrl(LatLng origin, String dest) {
+        // Origin of route
+        String str_origin = "origin=" + origin.latitude + "," + origin.longitude;
+
+        // If the SMS destination is composed of multiple words like "Engineering Fountain", this
+        // block of code breaks this phrase into separate words and add a "+" sign between
+        // each word resulting in "Engineering+Fountain". This is done because the url filed
+        // to Google has to be in a certain format.
+        String[] encodeDest = dest.split("\\P{L}+");
+        StringBuilder str_dest = new StringBuilder("destination=");
+        for (String anEncodeDest : encodeDest) {
+            str_dest.append(anEncodeDest).append("+");
+        }
+
+        // This stores the destination as a variable.
+        String destination = str_dest.toString();
+        Log.i("SmsReceiver", "Destination: " + destination + "; message: " + message);
+
+        // Sensor enabled.
+        String sensor = "sensor=false";
+
+        // Building the parameters to the web service.
+        String parameters = str_origin + "&" + str_dest + "&" + sensor;
+
+        // Output format.
+        String output = "json";
+
+        // Return the url to the web service.
+        return "https://maps.googleapis.com/maps/api/directions/" + output + "?" + parameters
+                + "&mode=walking";
+    }
+
+    /**
+     * This method downloads the data returned from the API as a string.
+     */
+    String downloadUrl(String strUrl) throws IOException {
+        String data = "";
+        InputStream iStream = null;
+        HttpURLConnection urlConnection = null;
+        try {
+            URL url = new URL(strUrl);
+
+            // Creating an http connection to communicate with url.
+            urlConnection = (HttpURLConnection) url.openConnection();
+
+            // Connecting to url.
+            urlConnection.connect();
+
+            // Reading data from url.
+            iStream = urlConnection.getInputStream();
+
+            BufferedReader br = new BufferedReader(new InputStreamReader(iStream));
+
+            StringBuilder sb = new StringBuilder();
+
+            String line;
+            while ((line = br.readLine()) != null) {
+                sb.append(line);
+            }
+
+            data = sb.toString();
+            Log.d("downloadUrl", data);
+            br.close();
+
+        } catch (Exception e) {
+            Log.d("Exception", e.toString());
+        } finally {
+            assert iStream != null;
+            iStream.close();
+            urlConnection.disconnect();
+        }
+        return data;
+    }
 
     /** Receives a JSONObject and returns a list of lists containing latitude and longitude. */
-    public List<List<HashMap<String,String>>> parse(JSONObject jObject){
+    List<List<HashMap<String,String>>> parse(JSONObject jObject){
 
         List<List<HashMap<String, String>>> routes = new ArrayList<>() ;
         JSONArray jRoutes;
@@ -33,7 +129,7 @@ public class DataParser {
             /** Traversing all routes */
             for(int i=0;i<jRoutes.length();i++){
                 jLegs = ( (JSONObject)jRoutes.get(i)).getJSONArray("legs");
-                List path = new ArrayList<>();
+                List<HashMap<String, String>> path = new ArrayList<>();
 
                 /** Traversing all legs */
                 for(int j=0;j<jLegs.length();j++){
@@ -41,7 +137,7 @@ public class DataParser {
 
                     /** Traversing all steps */
                     for(int k=0;k<jSteps.length();k++){
-                        String polyline = "";
+                        String polyline;
                         polyline = (String)((JSONObject)((JSONObject)jSteps.get(k)).get("polyline"))
                                 .get("points");
                         List<LatLng> list = decodePoly(polyline);
@@ -59,7 +155,7 @@ public class DataParser {
             }
         } catch (JSONException e) {
             e.printStackTrace();
-        }catch (Exception e){
+        }catch (Exception ignored){
         }
         return routes;
     }
@@ -102,5 +198,34 @@ public class DataParser {
         }
 
         return poly;
+    }
+
+    /**
+     * This method converts a List<List<HashMap<String, String>>> into an ArrayList<Location>.
+     */
+    ArrayList<Location> positionArray(List<List<HashMap<String, String>>> routesList) {
+        ArrayList<Location> points = null;
+
+        // Traversing through all the routes
+        for (int i = 0; i < routesList.size(); i++) {
+            points = new ArrayList<>();
+
+            // Fetching i-th route
+            List<HashMap<String, String>> path = routesList.get(i);
+
+            // Fetching all the points in i-th route
+            for (int j = 0; j < path.size(); j++) {
+                HashMap<String, String> point = path.get(j);
+
+                double lat = Double.parseDouble(point.get("lat"));
+                double lng = Double.parseDouble(point.get("lng"));
+                Location position = new Location(LocationManager.GPS_PROVIDER);
+                position.setLatitude(lat);
+                position.setLongitude(lng);
+
+                points.add(position);
+            }
+        }
+        return points;
     }
 }
