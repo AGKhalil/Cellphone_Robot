@@ -79,7 +79,7 @@ public class NavigationService extends Service implements
     @Override
     public void onCreate() {
         Log.d(TAG,"onCreate");
-        locationHelper.startnavigationservice();
+        locationHelper.startLocationServices();
         intent = new Intent(BROADCAST_ACTION);  // This creates the broadcast intent.
 
         // This block initiates the sensors and start them.

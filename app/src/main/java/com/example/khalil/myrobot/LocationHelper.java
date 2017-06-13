@@ -25,7 +25,7 @@ import com.google.android.gms.location.LocationServices;
 import com.google.android.gms.maps.model.LatLng;
 
 
-public class LocationHelper implements
+class LocationHelper implements
         GoogleApiClient.OnConnectionFailedListener,
         GoogleApiClient.ConnectionCallbacks,
         LocationListener{
@@ -35,18 +35,17 @@ public class LocationHelper implements
      * location request will be filed.
     */
     GoogleApiClient mGoogleApiClient;  // This is the API client that interacts with the Google API.
-    Location mCurrentLocation;  // This variable stores the robot's current location.
-    public LatLng currentLocationLatLng;  // This variable stores the current location as a LatLng.
-    public double currentLocationLat;  // This is the current location latitude.
-    public double currentLocationLng;  // This is the current location longitude.
-    static public Context c;
-    public static String TAG = "LocationHelper";
+    LatLng currentLocationLatLng;  // This variable stores the current location as a LatLng.
+    double currentLocationLat;  // This is the current location latitude.
+    double currentLocationLng;  // This is the current location longitude.
+    private static Context c;
+    private static String TAG = "LocationHelper";
     //Constructor get Context
-    public LocationHelper(Context c){
-        this.c = c;
+    LocationHelper(Context c){
+        LocationHelper.c = c;
     }
 
-    static void initLocation(LocationListener listener, GoogleApiClient apiClient) {
+    private static void initLocation(LocationListener listener, GoogleApiClient apiClient) {
 
         Log.d(TAG, "initLocation");
         LocationRequest mLocationRequest = LocationRequest.create();
@@ -62,8 +61,8 @@ public class LocationHelper implements
 
     }
 
-    void startnavigationservice() {
-         Log.d(TAG, "startnavigationservice");
+    void startLocationServices() {
+         Log.d(TAG, "startLocationServices");
         // This IF block checks for permission and then builds the Google API client.
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
             if (ContextCompat.checkSelfPermission(c,
@@ -79,7 +78,7 @@ public class LocationHelper implements
     /**
      * This method builds the Google Api Client and establishes the listener.
      */
-    protected synchronized void buildGoogleApiClient() {
+    private synchronized void buildGoogleApiClient() {
         mGoogleApiClient = new GoogleApiClient.Builder(c)
                 .addConnectionCallbacks(this)
                 .addOnConnectionFailedListener(this)
@@ -118,7 +117,6 @@ public class LocationHelper implements
      */
     @Override
     public void onLocationChanged(Location location) {
-        mCurrentLocation = location;
         currentLocationLat = location.getLatitude();
         currentLocationLng = location.getLongitude();
         currentLocationLatLng = new LatLng(currentLocationLat, currentLocationLng);
