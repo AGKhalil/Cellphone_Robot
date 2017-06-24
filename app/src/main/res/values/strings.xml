@@ -1,4 +1,9 @@
 <resources>
     <string name="app_name">myRobot</string>
     <string name="title_activity_maps">Map</string>
+    <string name="usless">Usless</string>
+    <string name="direction">Direction</string>
+    <string name="motion">Motion</string>
+    <string name="distance">Distance</string>
+    <string name="send">Send</string>
 </resources>

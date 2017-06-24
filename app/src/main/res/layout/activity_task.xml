@@ -11,7 +11,7 @@
         android:id="@+id/usless"
         android:layout_height="wrap_content"
         android:layout_centerHorizontal="true"
-        android:text="Usless" />
+        android:text="@string/usless" />
 
     <TextView
         android:id="@+id/bearingToDis"
@@ -20,7 +20,7 @@
         android:layout_centerHorizontal="true"
         android:layout_below="@id/usless"
         android:paddingTop="2dp"
-        android:text="Direction" />
+        android:text="@string/direction" />
 
     <TextView
         android:id="@+id/motion"
@@ -28,7 +28,7 @@
         android:layout_height="wrap_content"
         android:layout_below="@id/bearingToDis"
         android:layout_centerHorizontal="true"
-        android:text="Motion" />
+        android:text="@string/motion" />
 
     <TextView
         android:id="@+id/distanceToFinal"
@@ -36,7 +36,7 @@
         android:layout_height="wrap_content"
         android:layout_below="@id/motion"
         android:layout_centerHorizontal="true"
-        android:text="Distance" />
+        android:text="@string/distance" />
 
     <FrameLayout
         android:id="@+id/content"
@@ -50,8 +50,8 @@
         android:id="@+id/BTN_send"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Send"
-        android:onClick="onclicksend"
+        android:text="@string/send"
+        android:onClick="onClickSend"
         android:layout_above="@+id/distanceToFinal"
         android:layout_toRightOf="@+id/bearingToDis"
         android:layout_toEndOf="@+id/bearingToDis"

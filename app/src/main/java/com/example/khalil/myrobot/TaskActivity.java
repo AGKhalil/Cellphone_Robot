@@ -87,7 +87,7 @@ public class TaskActivity extends AppCompatActivity implements CameraFragmentRes
     }
 
 
-    public void onclicksend(View view){
+    public void onClickSend(View view){
         String msg = "Engineering Fountain";
         if (msg != null) {
             Toast.makeText(this,msg,Toast.LENGTH_SHORT).show();
@@ -104,43 +104,6 @@ public class TaskActivity extends AppCompatActivity implements CameraFragmentRes
             Log.d(TAG, "onReceive: Broadcasting");
             updateUI(intent); // The updateUI method is started. It needs the received intent to be
                     // passed to it.
-
-            // This IF block stops the robot after 150ms after a command is issued for it to turn
-                    // left or right. Else if the robot is moving forwards, it will stop the robot
-                    // after 3 seconds.
-            if (motionDirection.equals(RIGHT) || motionDirection.equals(LEFT)) {
-                // This handler block runs a certain code after a period of time, in this case it
-                        // stops the robot after 150ms and updates the TextViews on the main screen.
-                final Handler handler = new Handler();
-                handler.postDelayed(new Runnable() {
-                    @Override
-                    public void run() {
-                        myRobot.setMotion(STOP);
-                        motionDirection = STOP;
-                        TextView directionTextView = (TextView) findViewById(R.id.bearingToDis);
-                        directionTextView.setText("Direction: " + direction);
-
-                        TextView motionTextView = (TextView) findViewById(R.id.motion);
-                        motionTextView.setText("I am moving: " + motionDirection);
-                    }
-                }, 150);
-            } else {
-                // This handler block runs a certain code after a period of time, in this case it
-                        // stops the robot after 3s and updates the TextViews on the main screen.
-                final Handler handler = new Handler();
-                handler.postDelayed(new Runnable() {
-                    @Override
-                    public void run() {
-                        myRobot.setMotion(STOP);
-                        motionDirection = STOP;
-                        TextView directionTextView = (TextView) findViewById(R.id.bearingToDis);
-                        directionTextView.setText("Direction: " + direction);
-
-                        TextView motionTextView = (TextView) findViewById(R.id.motion);
-                        motionTextView.setText("I am moving: " + motionDirection);
-                    }
-                }, 3000);
-            }
         }
     };
 
