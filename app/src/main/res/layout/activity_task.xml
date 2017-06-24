@@ -50,11 +50,21 @@
         android:id="@+id/BTN_send"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="@string/send"
-        android:onClick="onClickSend"
+        android:text="@string/send_sms"
+        android:onClick="mockSendSMS"
         android:layout_above="@+id/distanceToFinal"
         android:layout_toRightOf="@+id/bearingToDis"
         android:layout_toEndOf="@+id/bearingToDis"
+        android:layout_marginLeft="21dp"
+        android:layout_marginStart="21dp" />
+
+    <Button
+        android:id="@+id/tweet"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/test_twitter"
+        android:onClick="mockTweet"
+        android:layout_above="@+id/distanceToFinal"
         android:layout_marginLeft="21dp"
         android:layout_marginStart="21dp" />
 

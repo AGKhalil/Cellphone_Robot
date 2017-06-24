@@ -13,7 +13,6 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.IntentFilter;
 import android.content.pm.PackageManager;
-import android.os.AsyncTask;
 import android.os.Bundle;
 import android.os.Handler;
 import android.support.v4.app.ActivityCompat;
@@ -48,6 +47,38 @@ public class TaskActivity extends AppCompatActivity implements CameraFragmentRes
             // used to take the picture.
     private SocialPost postToMedia = new SocialPost(message); // Social media object that posts to
             // social media.
+
+    /**
+     **************************** Start of Testing Methods *****************************************
+     */
+
+    /**
+     * This method is used to bypass the SMS segment of the code. It starts NavigationService with
+     * a mock SMS destination.
+     * @param view is the button view SEND SMS
+     */
+    public void mockSendSMS(View view){
+        String msg = "Engineering Fountain";
+        if (msg != null) {
+            Toast.makeText(this,msg,Toast.LENGTH_SHORT).show();
+            callNavigationService(msg);
+        }
+    }
+
+    /**
+     * This method is used to test posting a tweet. It bypasses all the code and takes a picture and
+     * triggers SocialPost.
+     * @param view is the button view TWEET
+     */
+    public void mockTweet(View view){
+        stopService(mIntent);
+        cameraFragment.takePhotoOrCaptureVideo(TaskActivity.this,
+                "/storage/self/primary", "thePicture001");
+    }
+
+    /**
+     **************************** End of Testing Methods *******************************************
+     */
 
     /**
      * This method sets up the entire app, from the different intents that will be issued throughout
@@ -86,14 +117,6 @@ public class TaskActivity extends AppCompatActivity implements CameraFragmentRes
                 .commit();
     }
 
-
-    public void onClickSend(View view){
-        String msg = "Engineering Fountain";
-        if (msg != null) {
-            Toast.makeText(this,msg,Toast.LENGTH_SHORT).show();
-            callNavigationService(msg);
-        }
-    }
     /**
      * This BroadcastReceiver starts when an intent is sent from NavigationActivity to TaskActivity.
     */
@@ -227,17 +250,7 @@ public class TaskActivity extends AppCompatActivity implements CameraFragmentRes
     @Override
     public void onPhotoTaken(byte[] bytes, String filePath) {
         Toast.makeText(this, "Photo: " + bytes.length + filePath, Toast.LENGTH_SHORT).show();
-
-        // This is the background task in charge of accessing Twitter and uploading the picture to
-                // it.
-        new AsyncTask<String, Void, Void>() {
-
-            @Override
-            protected Void doInBackground(String... params) {
-                postToMedia.postToTwitter(params);
-                return null;
-            }
-        }.execute(filePath);
+        postToMedia.postToTwitter(filePath);
     }
 
     /**
