@@ -9,7 +9,6 @@ package com.example.khalil.myrobot;
 import android.location.Location;
 import android.location.LocationManager;
 import android.os.AsyncTask;
-import android.util.Log;
 
 import com.google.android.gms.maps.model.LatLng;
 
@@ -89,7 +88,7 @@ class DataParser {
         for (String anEncodeDest : encodeDest) {
             str_dest.append(anEncodeDest).append("+");
         }
-
+      
         // This stores the destination as a variable.
         String destination = str_dest.toString();
         Log.i("SmsReceiver", "Destination: " + destination + "; message: " + message);
@@ -240,6 +239,7 @@ class DataParser {
      * This method converts a List<List<HashMap<String, String>>> into an ArrayList<Location>.
      */
     private ArrayList<Location> positionArray(List<List<HashMap<String, String>>> routesList) {
+
         ArrayList<Location> points = null;
 
         // Traversing through all the routes

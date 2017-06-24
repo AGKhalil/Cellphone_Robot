@@ -168,8 +168,8 @@ public class NavigationService extends Service implements
         double c = 2 * Math.asin(Math.sqrt(a));
         return earthRadius * c * 1000;
     }
-
-    /**
+  
+ /**
      * This method is necessary for any service class. It is not being used however.
     */
     @Nullable
@@ -195,9 +195,9 @@ public class NavigationService extends Service implements
      * This method starts the compass sensors.
      */
     public void startCompass() {
-        sensorManager.registerListener(this, gSensor,
+        sensorManager.registerListener(this, gsensor,
                 SensorManager.SENSOR_DELAY_GAME);
-        sensorManager.registerListener(this, mSensor,
+        sensorManager.registerListener(this, msensor,
                 SensorManager.SENSOR_DELAY_GAME);
     }
 
