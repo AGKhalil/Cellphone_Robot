@@ -8,7 +8,7 @@ package com.example.khalil.myrobot;
 
 import android.location.Location;
 import android.location.LocationManager;
-import android.util.Log;
+import android.os.AsyncTask;
 
 import com.google.android.gms.maps.model.LatLng;
 
@@ -25,10 +25,12 @@ import java.net.URL;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
+import java.util.concurrent.ExecutionException;
 
 class DataParser {
 
     private static String message;
+    private String routesUrl;  // This is the url that gets filed to the API.
 
     //Constructor get Context
     DataParser(String message){
@@ -36,11 +38,44 @@ class DataParser {
     }
 
     /**
+     * This method is in charge of creating the url, sending the request to Google Directions API,
+     * retrieving the data, parsing it, and converting the data into an array of Location points.
+     * @param origin is the robot's current LatLng.
+     * @param destinationSms is the robot's final destination as a string.
+     * @return an array of Location points.
+     */
+    ArrayList<Location> retrieveData(LatLng origin, String destinationSms) {
+        // Getting URL to the Google Directions API.
+        String url = getUrl(origin, destinationSms);
+        Log.d("onMapClick", url);
+        ArrayList<Location> pointsArray;
+
+        // Start downloading json data from Google Directions API.
+        try {
+            routesUrl = new FetchUrl().execute(url).get();
+        } catch (InterruptedException | ExecutionException e) {
+            e.printStackTrace();
+        }
+
+        // Invokes the thread for parsing the JSON data.
+        List<List<HashMap<String, String>>> routesList = null;
+        try {
+            routesList = new ParserTask().execute(routesUrl).get();
+        } catch (InterruptedException | ExecutionException e) {
+            e.printStackTrace();
+        }
+
+        pointsArray = positionArray(routesList);  // converts routesList to an array
+        // of locations.
+        return pointsArray;
+    }
+
+    /**
      * This method builds the url that gets filed to the Google API. It takes in two parameters,
      * the first is the LatLng of the robot's current location, the second is the string
      * destination, which is retrieved from the SMS passed to this service.
      */
-    String getUrl(LatLng origin, String dest) {
+    private String getUrl(LatLng origin, String dest) {
         // Origin of route
         String str_origin = "origin=" + origin.latitude + "," + origin.longitude;
 
@@ -53,7 +88,7 @@ class DataParser {
         for (String anEncodeDest : encodeDest) {
             str_dest.append(anEncodeDest).append("+");
         }
-
+      
         // This stores the destination as a variable.
         String destination = str_dest.toString();
         Log.i("SmsReceiver", "Destination: " + destination + "; message: " + message);
@@ -75,7 +110,7 @@ class DataParser {
     /**
      * This method downloads the data returned from the API as a string.
      */
-    String downloadUrl(String strUrl) throws IOException {
+    private String downloadUrl(String strUrl) throws IOException {
         String data = "";
         InputStream iStream = null;
         HttpURLConnection urlConnection = null;
@@ -115,7 +150,7 @@ class DataParser {
     }
 
     /** Receives a JSONObject and returns a list of lists containing latitude and longitude. */
-    List<List<HashMap<String,String>>> parse(JSONObject jObject){
+    private List<List<HashMap<String,String>>> parse(JSONObject jObject){
 
         List<List<HashMap<String, String>>> routes = new ArrayList<>() ;
         JSONArray jRoutes;
@@ -203,7 +238,8 @@ class DataParser {
     /**
      * This method converts a List<List<HashMap<String, String>>> into an ArrayList<Location>.
      */
-    ArrayList<Location> positionArray(List<List<HashMap<String, String>>> routesList) {
+    private ArrayList<Location> positionArray(List<List<HashMap<String, String>>> routesList) {
+
         ArrayList<Location> points = null;
 
         // Traversing through all the routes
@@ -227,5 +263,100 @@ class DataParser {
             }
         }
         return points;
+    }
+
+    /**
+     * This class Fetches data from url passed. It runs in the background as an AsyncTask. After
+     * the data is retrieved, this class starts another background class called ParserTask,
+     * which parses the data.
+     */
+    private class FetchUrl extends AsyncTask<String, Void, String> {
+
+        @Override
+        protected String doInBackground(String... url) {
+
+            // For storing data from web service.
+            String data = "";
+
+            try {
+                // Fetching the data from web service.
+                data = downloadUrl(url[0]);
+                Log.d("Background Task data", data);
+            } catch (Exception e) {
+                Log.d("Background Task", e.toString());
+            }
+            return data;
+        }
+
+        @Override
+        protected void onPostExecute(String result) {
+            super.onPostExecute(result);
+
+            ParserTask parserTask = new ParserTask();
+
+            // Invokes the thread for parsing the JSON data.
+            parserTask.execute(result);
+
+        }
+    }
+
+    /**
+     * A class to parse the Google Directions in JSON format. This occurs in the background. Here,
+     * DataParser is called.
+     */
+    private class ParserTask extends AsyncTask<String, Integer,
+            List<List<HashMap<String, String>>>> {
+
+        // Parsing the data in non-ui thread.
+        @Override
+        protected List<List<HashMap<String, String>>> doInBackground(String... jsonData) {
+
+            JSONObject jObject;
+            List<List<HashMap<String, String>>> routes = null;
+
+            try {
+                jObject = new JSONObject(jsonData[0]);
+                Log.d("ParserTask", jsonData[0]);
+                Log.d("ParserTask", toString());
+
+                // Starts parsing data
+                routes = parse(jObject);
+                Log.d("ParserTask", "Executing routes");
+                Log.d("ParserTask", routes.toString());
+
+            } catch (Exception e) {
+                Log.d("ParserTask", e.toString());
+                e.printStackTrace();
+            }
+            return routes;
+        }
+
+        // Executes in UI thread, after the parsing process.
+        @Override
+        protected void onPostExecute(List<List<HashMap<String, String>>> result) {
+            ArrayList<LatLng> points;
+
+            // Traversing through all the routes.
+            for (int i = 0; i < result.size(); i++) {
+                points = new ArrayList<>();
+
+                // Fetching i-th route.
+                List<HashMap<String, String>> path = result.get(i);
+
+                // Fetching all the points in i-th route.
+                for (int j = 0; j < path.size(); j++) {
+                    HashMap<String, String> point = path.get(j);
+
+                    double lat = Double.parseDouble(point.get("lat"));
+                    double lng = Double.parseDouble(point.get("lng"));
+                    LatLng position = new LatLng(lat, lng);
+
+                    points.add(position);
+                }
+
+                Log.d("onPostExecute", "onPostExecute lineoptions decoded");
+
+            }
+        }
     }
 }
