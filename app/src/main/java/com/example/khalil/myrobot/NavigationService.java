@@ -23,7 +23,6 @@ import android.hardware.SensorEvent;
 import android.hardware.SensorEventListener;
 import android.hardware.SensorManager;
 import android.location.Location;
-import android.os.AsyncTask;
 import android.os.IBinder;
 import android.support.annotation.Nullable;
 import android.util.Log;
@@ -31,12 +30,7 @@ import android.widget.Toast;
 
 import com.google.android.gms.maps.model.LatLng;
 
-import org.json.JSONObject;
-
 import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.concurrent.ExecutionException;
 
 public class NavigationService extends Service implements
         SensorEventListener{
@@ -44,7 +38,6 @@ public class NavigationService extends Service implements
     public Location finalDestination;     // This is the final destination location.
     public double nextDestinationLat;  // This is the next destination latitude.
     public double nextDestinationLng;  // This is the next destination longitude.
-    public String routesUrl;  // This is the url that gets filed to the API.
     private static final String TAG = "NavigationService";  // The TAG used for the logcat for
             // debugging.
     // This is the string used for broadcasting the results to TaskActivity.
@@ -56,8 +49,8 @@ public class NavigationService extends Service implements
     public LatLng destination;  // This stores the next destination point in the location
             // array as a LatLng.
     private SensorManager sensorManager;  // This manager allows access to the phone's sensors.
-    private Sensor gsensor;  // This is the phone's gravity sensor.
-    private Sensor msensor;  // This is the phone's magnetic sensor.
+    private Sensor gSensor;  // This is the phone's gravity sensor.
+    private Sensor mSensor;  // This is the phone's magnetic sensor.
 
     // These variables are necessary for finding the phone's current bearing due compass north and
             // the phone's bearing to a custom location point, which, in this case, is the next
@@ -85,8 +78,8 @@ public class NavigationService extends Service implements
         // This block initiates the sensors and start them.
         sensorManager = (SensorManager) getBaseContext()
                 .getSystemService(Context.SENSOR_SERVICE);
-        gsensor = sensorManager.getDefaultSensor(Sensor.TYPE_ACCELEROMETER);
-        msensor = sensorManager.getDefaultSensor(Sensor.TYPE_MAGNETIC_FIELD);
+        gSensor = sensorManager.getDefaultSensor(Sensor.TYPE_ACCELEROMETER);
+        mSensor = sensorManager.getDefaultSensor(Sensor.TYPE_MAGNETIC_FIELD);
         startCompass();
 
         super.onCreate();
@@ -202,9 +195,9 @@ public class NavigationService extends Service implements
      * This method starts the compass sensors.
      */
     public void startCompass() {
-        sensorManager.registerListener(this, gsensor,
+        sensorManager.registerListener(this, gSensor,
                 SensorManager.SENSOR_DELAY_GAME);
-        sensorManager.registerListener(this, msensor,
+        sensorManager.registerListener(this, mSensor,
                 SensorManager.SENSOR_DELAY_GAME);
     }
 
@@ -293,36 +286,13 @@ public class NavigationService extends Service implements
      */
 
     /**
-     * This method is incharge of retreiveing all the data through utilizing DataParser, FetchUrl,
-     * and ParserTask.
+     * This method is in charge of retrieving all the data through utilizing DataParser.
      */
     private void retrieveData(String destinationSms){
-        ArrayList<Location> pointsArray;
 
         Log.d(TAG, "startNavigation");
         LatLng origin = locationHelper.currentLocationLatLng;  // Retrieves current location.
-
-        // Getting URL to the Google Directions API.
-        String url = dataParser.getUrl(origin, destinationSms);
-        Log.d("onMapClick", url);
-
-        // Start downloading json data from Google Directions API.
-        try {
-            routesUrl = new FetchUrl().execute(url).get();
-        } catch (InterruptedException | ExecutionException e) {
-            e.printStackTrace();
-        }
-
-        // Invokes the thread for parsing the JSON data.
-        List<List<HashMap<String, String>>> routesList = null;
-        try {
-            routesList = new ParserTask().execute(routesUrl).get();
-        } catch (InterruptedException | ExecutionException e) {
-            e.printStackTrace();
-        }
-
-        pointsArray = dataParser.positionArray(routesList);  // converts routesList to an array
-        // of locations.
+        ArrayList<Location> pointsArray = dataParser.retrieveData(origin, destinationSms);
 
         // This IF block retrieves the second point in the array unless the array's size is 1.
         if (pointsArray.size() == 1) {
@@ -334,100 +304,6 @@ public class NavigationService extends Service implements
         finalDestination = pointsArray.get(pointsArray.size() - 1);
     }
 
-    /**
-     * This class Fetches data from url passed. It runs in the background as an AsyncTask. After
-     * the data is retrieved, this class starts another background class called ParserTask,
-     * which parses the data.
-     */
-    private class FetchUrl extends AsyncTask<String, Void, String> {
-
-        @Override
-        protected String doInBackground(String... url) {
-
-            // For storing data from web service.
-            String data = "";
-
-            try {
-                // Fetching the data from web service.
-                data = dataParser.downloadUrl(url[0]);
-                Log.d("Background Task data", data);
-            } catch (Exception e) {
-                Log.d("Background Task", e.toString());
-            }
-            return data;
-        }
-
-        @Override
-        protected void onPostExecute(String result) {
-            super.onPostExecute(result);
-
-            ParserTask parserTask = new ParserTask();
-
-            // Invokes the thread for parsing the JSON data.
-            parserTask.execute(result);
-
-        }
-    }
-
-    /**
-     * A class to parse the Google Directions in JSON format. This occurs in the background. Here,
-     * DataParser is called.
-     */
-    private class ParserTask extends AsyncTask<String, Integer,
-            List<List<HashMap<String, String>>>> {
-
-        // Parsing the data in non-ui thread.
-        @Override
-        protected List<List<HashMap<String, String>>> doInBackground(String... jsonData) {
-
-            JSONObject jObject;
-            List<List<HashMap<String, String>>> routes = null;
-
-            try {
-                jObject = new JSONObject(jsonData[0]);
-                Log.d("ParserTask", jsonData[0]);
-                Log.d("ParserTask", dataParser.toString());
-
-                // Starts parsing data
-                routes = dataParser.parse(jObject);
-                Log.d("ParserTask", "Executing routes");
-                Log.d("ParserTask", routes.toString());
-
-            } catch (Exception e) {
-                Log.d("ParserTask", e.toString());
-                e.printStackTrace();
-            }
-            return routes;
-        }
-
-        // Executes in UI thread, after the parsing process.
-        @Override
-        protected void onPostExecute(List<List<HashMap<String, String>>> result) {
-            ArrayList<LatLng> points;
-
-            // Traversing through all the routes.
-            for (int i = 0; i < result.size(); i++) {
-                points = new ArrayList<>();
-
-                // Fetching i-th route.
-                List<HashMap<String, String>> path = result.get(i);
-
-                // Fetching all the points in i-th route.
-                for (int j = 0; j < path.size(); j++) {
-                    HashMap<String, String> point = path.get(j);
-
-                    double lat = Double.parseDouble(point.get("lat"));
-                    double lng = Double.parseDouble(point.get("lng"));
-                    LatLng position = new LatLng(lat, lng);
-
-                    points.add(position);
-                }
-
-                Log.d("onPostExecute", "onPostExecute lineoptions decoded");
-
-            }
-        }
-    }
     /**
      **************************** End of Data Fetching *********************************************
      */
