@@ -30,14 +30,6 @@ import com.github.florent37.camerafragment.listeners.CameraFragmentResultListene
 import org.greenrobot.eventbus.EventBus;
 import org.greenrobot.eventbus.Subscribe;
 
-import java.io.File;
-
-import twitter4j.StatusUpdate;
-import twitter4j.Twitter;
-import twitter4j.TwitterException;
-import twitter4j.TwitterFactory;
-import twitter4j.conf.ConfigurationBuilder;
-
 public class TaskActivity extends AppCompatActivity implements CameraFragmentResultListener {
     public String TAG = "TaskActivity";
     private Intent mIntent; // The intent that starts the NavigationService.
@@ -54,6 +46,8 @@ public class TaskActivity extends AppCompatActivity implements CameraFragmentRes
     public final CameraFragment cameraFragment =
             CameraFragment.newInstance(new Configuration.Builder().build()); // A camera fragment
             // used to take the picture.
+    private SocialPost postToMedia = new SocialPost(message); // Social media object that posts to
+            // social media.
 
     /**
      * This method sets up the entire app, from the different intents that will be issued throughout
@@ -277,26 +271,7 @@ public class TaskActivity extends AppCompatActivity implements CameraFragmentRes
 
             @Override
             protected Void doInBackground(String... params) {
-                ConfigurationBuilder twitterConfigBuilder = new ConfigurationBuilder();
-                twitterConfigBuilder.setDebugEnabled(true);
-                twitterConfigBuilder.setOAuthConsumerKey("lxRCnjL6HaMUg7HjxAJC1k6IH");
-                twitterConfigBuilder.setOAuthConsumerSecret(
-                        "6E3oLs4kln9p4oMkBRi2LceOkXuDYKASlXIm53UEq1wDNC4FxI");
-                twitterConfigBuilder.setOAuthAccessToken(
-                        "854512192879820800-zcc88HtCEEcHyXO0JjgZJEFKmLP2HUi");
-                twitterConfigBuilder.setOAuthAccessTokenSecret(
-                        "bUPpgmB6ipYkVb2kQ0LgAOeUPQtzZ78qBRB2iSrHQdJAe");
-
-                Twitter twitter = new TwitterFactory(twitterConfigBuilder.build()).getInstance();
-                File file = new File(params[0]);
-
-                StatusUpdate status = new StatusUpdate("This is my view from " + message + "!");
-                status.setMedia(file); // set the image to be uploaded here.
-                try {
-                    twitter.updateStatus(status);
-                } catch (TwitterException e) {
-                    e.printStackTrace();
-                }
+                postToMedia.postToTwitter(params);
                 return null;
             }
         }.execute(filePath);
@@ -305,14 +280,14 @@ public class TaskActivity extends AppCompatActivity implements CameraFragmentRes
     /**
      * This class receives the SMS sent by the EventBus triggered by IncomingSms.
     */
-    public static class OnReceiverEvent {
+    static class OnReceiverEvent {
         private String smsMessage;
 
-        public OnReceiverEvent(String sms) {
+        OnReceiverEvent(String sms) {
             this.smsMessage = sms;
         }
 
-        public String getSmsMessage() {
+        String getSmsMessage() {
             return smsMessage;
         }
     }
