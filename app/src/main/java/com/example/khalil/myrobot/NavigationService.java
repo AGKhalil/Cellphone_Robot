@@ -195,9 +195,9 @@ public class NavigationService extends Service implements
      * This method starts the compass sensors.
      */
     public void startCompass() {
-        sensorManager.registerListener(this, gsensor,
+        sensorManager.registerListener(this, gSensor,
                 SensorManager.SENSOR_DELAY_GAME);
-        sensorManager.registerListener(this, msensor,
+        sensorManager.registerListener(this, mSensor,
                 SensorManager.SENSOR_DELAY_GAME);
     }
 

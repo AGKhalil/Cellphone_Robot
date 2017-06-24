@@ -9,6 +9,7 @@ package com.example.khalil.myrobot;
 import android.location.Location;
 import android.location.LocationManager;
 import android.os.AsyncTask;
+import android.util.Log;
 
 import com.google.android.gms.maps.model.LatLng;
 
