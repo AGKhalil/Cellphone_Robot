@@ -30,7 +30,7 @@ import java.util.concurrent.ExecutionException;
 
 class DataParser {
 
-    private static String message;
+    private static String message;  // Stores the destination location.
     private String routesUrl;  // This is the url that gets filed to the API.
 
     //Constructor get Context
