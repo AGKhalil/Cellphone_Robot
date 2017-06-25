@@ -16,7 +16,7 @@ import ioio.lib.util.IOIOLooper;
 import ioio.lib.util.IOIOLooperProvider;
 import ioio.lib.util.android.IOIOAndroidApplicationHelper;
 
-public class IOIOClass extends BaseIOIOLooper implements IOIOLooperProvider {
+class IOIOClass extends BaseIOIOLooper implements IOIOLooperProvider {
 
     // Motor DC : Right Forward.
     private DigitalOutput INA1F; // L298n In 1
@@ -60,7 +60,7 @@ public class IOIOClass extends BaseIOIOLooper implements IOIOLooperProvider {
     /**
      * This constructor is used to create the helper.
     */
-    public IOIOClass(TaskActivity mTheGui) {
+    IOIOClass(TaskActivity mTheGui) {
         helper = new IOIOAndroidApplicationHelper(mTheGui, this);
     }
 
@@ -136,43 +136,48 @@ public class IOIOClass extends BaseIOIOLooper implements IOIOLooperProvider {
      * This method is used to change the motors' directions and speeds based on a string command.
      * This method is publicly accessible by other classes, such as TaskActivity.
      */
-    public void setMotion(String direction) {
-        if (direction.equals(FORWARDS)) {
-            FLeftSpeed = (float) 0.6;
-            FRightSpeed = (float) 0.6;
-            FMotorLeft = true;
-            FMotorRight = false;
+    void setMotion(String direction) {
+        switch (direction) {
+            case FORWARDS:
+                FLeftSpeed = (float) 0.6;
+                FRightSpeed = (float) 0.6;
+                FMotorLeft = true;
+                FMotorRight = false;
 
-            RLeftSpeed = (float) 0.6;
-            RRightSpeed = (float) 0.6;
-            RMotorLeft = true;
-            RMotorRight = false;
-        } else if (direction.equals(RIGHT)) {
-            FLeftSpeed = (float) 0.4;
-            FRightSpeed = (float) 0.4;
-            FMotorLeft = true;
-            FMotorRight = true;
+                RLeftSpeed = (float) 0.6;
+                RRightSpeed = (float) 0.6;
+                RMotorLeft = true;
+                RMotorRight = false;
+                break;
+            case RIGHT:
+                FLeftSpeed = (float) 0.4;
+                FRightSpeed = (float) 0.4;
+                FMotorLeft = true;
+                FMotorRight = true;
 
-            RLeftSpeed = (float) 0.4;
-            RRightSpeed = (float) 0.4;
-            RMotorLeft = true;
-            RMotorRight = true;
-        } else if (direction.equals(LEFT)) {
-            FLeftSpeed = (float) 0.4;
-            FRightSpeed = (float) 0.4;
-            FMotorLeft = false;
-            FMotorRight = false;
+                RLeftSpeed = (float) 0.4;
+                RRightSpeed = (float) 0.4;
+                RMotorLeft = true;
+                RMotorRight = true;
+                break;
+            case LEFT:
+                FLeftSpeed = (float) 0.4;
+                FRightSpeed = (float) 0.4;
+                FMotorLeft = false;
+                FMotorRight = false;
 
-            RLeftSpeed = (float) 0.4;
-            RRightSpeed = (float) 0.4;
-            RMotorRight = false;
-            RMotorLeft = false;
-        } else if (direction.equals(STOP)) {
-            FLeftSpeed = 0;
-            FRightSpeed = 0;
+                RLeftSpeed = (float) 0.4;
+                RRightSpeed = (float) 0.4;
+                RMotorRight = false;
+                RMotorLeft = false;
+                break;
+            case STOP:
+                FLeftSpeed = 0;
+                FRightSpeed = 0;
 
-            RLeftSpeed = 0;
-            RRightSpeed = 0;
+                RLeftSpeed = 0;
+                RRightSpeed = 0;
+                break;
         }
     }
 
@@ -188,7 +193,7 @@ public class IOIOClass extends BaseIOIOLooper implements IOIOLooperProvider {
      * This method is used to allow an external class to access the helper to be able to create an
      * instance of the IOIOClass.
      */
-    public IOIOAndroidApplicationHelper getIOIOAndroidApplicationHelper() {
+    IOIOAndroidApplicationHelper getIOIOAndroidApplicationHelper() {
         return helper;
     }
 }
