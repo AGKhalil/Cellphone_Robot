@@ -125,7 +125,18 @@ public class NavigationService extends Service implements
     public void startNavigation(String destinationSms) {
         if (locationHelper.currentLocationLatLng != null) {
 
-            retrieveData(destinationSms);
+            Log.d(TAG, "startNavigation");
+            LatLng origin = locationHelper.currentLocationLatLng;  // Retrieves current location.
+            ArrayList<Location> pointsArray = dataParser.retrieveData(origin, destinationSms);
+
+            // This IF block retrieves the second point in the array unless the array's size is 1.
+            if (pointsArray.size() == 1) {
+                nextDestinationObj = pointsArray.get(0);
+            } else {
+                nextDestinationObj = pointsArray.get(1);
+            }
+
+            finalDestination = pointsArray.get(pointsArray.size() - 1);
 
             nextDestinationLat = nextDestinationObj.getLatitude();
             nextDestinationLng = nextDestinationObj.getLongitude();
@@ -279,32 +290,5 @@ public class NavigationService extends Service implements
 
     /**
      **************************** End of Compass Code **********************************************
-     */
-
-    /**
-     **************************** Start of Data Fetching *******************************************
-     */
-
-    /**
-     * This method is in charge of retrieving all the data through utilizing DataParser.
-     */
-    private void retrieveData(String destinationSms){
-
-        Log.d(TAG, "startNavigation");
-        LatLng origin = locationHelper.currentLocationLatLng;  // Retrieves current location.
-        ArrayList<Location> pointsArray = dataParser.retrieveData(origin, destinationSms);
-
-        // This IF block retrieves the second point in the array unless the array's size is 1.
-        if (pointsArray.size() == 1) {
-            nextDestinationObj = pointsArray.get(0);
-        } else {
-            nextDestinationObj = pointsArray.get(1);
-        }
-
-        finalDestination = pointsArray.get(pointsArray.size() - 1);
-    }
-
-    /**
-     **************************** End of Data Fetching *********************************************
      */
 }
