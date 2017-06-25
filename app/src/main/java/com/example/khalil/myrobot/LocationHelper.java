@@ -37,7 +37,10 @@ class LocationHelper implements
     private static Context c;  // The NavigationService Context.
     private static String TAG = "LocationHelper";
 
-    //Constructor get Context
+    /**
+     * Constructor used to create an instance of LocationHelper and pass to it the NavigationService
+     * context.
+     */
     LocationHelper(Context c){
         LocationHelper.c = c;
     }
