@@ -33,7 +33,10 @@ class DataParser {
     private static String message;  // Stores the destination location.
     private String routesUrl;  // This is the url that gets filed to the API.
 
-    //Constructor get Context
+    /**
+     * Constructor used to create an instance of LocationHelper and pass to it the NavigationService
+     * context.
+     */
     DataParser(String message){
         DataParser.message = message;
     }
@@ -74,7 +77,7 @@ class DataParser {
     /**
      * This method builds the url that gets filed to the Google API. It takes in two parameters,
      * the first is the LatLng of the robot's current location, the second is the string
-     * destination, which is retrieved from the SMS passed to this service.
+     * destination.
      */
     private String getUrl(LatLng origin, String dest) {
         // Origin of route
@@ -162,23 +165,23 @@ class DataParser {
 
             jRoutes = jObject.getJSONArray("routes");
 
-            /** Traversing all routes */
+            /* Traversing all routes */
             for(int i=0;i<jRoutes.length();i++){
                 jLegs = ( (JSONObject)jRoutes.get(i)).getJSONArray("legs");
                 List<HashMap<String, String>> path = new ArrayList<>();
 
-                /** Traversing all legs */
+                /* Traversing all legs */
                 for(int j=0;j<jLegs.length();j++){
                     jSteps = ( (JSONObject)jLegs.get(j)).getJSONArray("steps");
 
-                    /** Traversing all steps */
+                    /* Traversing all steps */
                     for(int k=0;k<jSteps.length();k++){
                         String polyline;
                         polyline = (String)((JSONObject)((JSONObject)jSteps.get(k)).get("polyline"))
                                 .get("points");
                         List<LatLng> list = decodePoly(polyline);
 
-                        /** Traversing all points */
+                        /* Traversing all points */
                         for(int l=0;l<list.size();l++){
                             HashMap<String, String> hm = new HashMap<>();
                             hm.put("lat", Double.toString((list.get(l)).latitude) );
@@ -302,8 +305,7 @@ class DataParser {
     }
 
     /**
-     * A class to parse the Google Directions in JSON format. This occurs in the background. Here,
-     * DataParser is called.
+     * A class to parse the Google Directions in JSON format. This occurs in the background.
      */
     private class ParserTask extends AsyncTask<String, Integer,
             List<List<HashMap<String, String>>>> {
