@@ -29,22 +29,43 @@ class LocationHelper implements
         GoogleApiClient.OnConnectionFailedListener,
         GoogleApiClient.ConnectionCallbacks,
         LocationListener{
-    /**
-     * This method files for a location request. It specifies the priority as high accuracy and uses
-     * ACCESS_FINE_LOCATION for best results. It also sets the time interval after which another
-     * location request will be filed.
-    */
+
     GoogleApiClient mGoogleApiClient;  // This is the API client that interacts with the Google API.
     LatLng currentLocationLatLng;  // This variable stores the current location as a LatLng.
     double currentLocationLat;  // This is the current location latitude.
     double currentLocationLng;  // This is the current location longitude.
-    private static Context c;
+    private static Context c;  // The NavigationService Context.
     private static String TAG = "LocationHelper";
+
     //Constructor get Context
     LocationHelper(Context c){
         LocationHelper.c = c;
     }
 
+    /**
+     * This method checks for permission and then builds the GoogleApiClient.
+     */
+    void startLocationServices() {
+        Log.d(TAG, "startLocationServices");
+        // This IF block checks for permission and then builds the Google API client.
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
+            if (ContextCompat.checkSelfPermission(c,
+                    Manifest.permission.ACCESS_FINE_LOCATION)
+                    == PackageManager.PERMISSION_GRANTED) {
+                buildGoogleApiClient();
+            }
+        } else {
+            buildGoogleApiClient();
+        }
+    }
+
+    /**
+     * This method files for a location request. It specifies the priority as high accuracy and uses
+     * ACCESS_FINE_LOCATION for best results. It also sets the time interval after which another
+     * location request will be filed.
+     * @param listener the location listener.
+     * @param apiClient the client communicating with the Google API.
+     */
     private static void initLocation(LocationListener listener, GoogleApiClient apiClient) {
 
         Log.d(TAG, "initLocation");
@@ -59,20 +80,6 @@ class LocationHelper implements
                     listener);
         }
 
-    }
-
-    void startLocationServices() {
-         Log.d(TAG, "startLocationServices");
-        // This IF block checks for permission and then builds the Google API client.
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
-            if (ContextCompat.checkSelfPermission(c,
-                    Manifest.permission.ACCESS_FINE_LOCATION)
-                    == PackageManager.PERMISSION_GRANTED) {
-                buildGoogleApiClient();
-            }
-        } else {
-            buildGoogleApiClient();
-        }
     }
 
     /**
