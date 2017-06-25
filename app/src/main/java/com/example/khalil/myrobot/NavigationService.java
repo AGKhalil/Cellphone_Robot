@@ -66,7 +66,7 @@ public class NavigationService extends Service implements
     private DataParser dataParser = new DataParser(mMessage); // DataParser object
 
     /**
-     * This method sets up the Google API client, the sensors, and the intent that gets sent back
+     * This method sets up locationHelper, the sensors, and the intent that gets sent back
      * to TaskActivity.
     */
     @Override
@@ -109,18 +109,11 @@ public class NavigationService extends Service implements
     }
 
     /**
-     * This method is what gets everything going. It takes in the destination SMS message as an
-     * input parameter. It also has the current location which is stored as a global variable
-     * due to LocationHelper. startNavigation then constructs the url using getUrl().
-     * Afterwards, it uses FetchUrl which takes care of downloading the url and sending it to
-     * DataParser for parsing. What is returned is a List<List<HashMap<String, String>>> and
-     * stored as routesList by the use of get() from ParserTask. Then routesUrl is
-     * converted to an array using  positionArray(). The second point in this array is
-     * extracted and that is the point that the robot will move to. Afterwards, the compass code
-     * block is used to find the bearing to this point and passes it as an intent. Furthermore,
-     * since we know the final destination, calculateDistance() is used to find the
-     * distance between the robot and the final destination and it is then passed to TaskActivity
-     * as a broadcast intent.
+     * This method initiates LocationHelper, which keeps updating NavigationService with the robot's
+     * current location. This method then initiates DataParser, which returns the navigation route
+     * from Google Directions API. Afterwards, this method uses the compass methods and
+     * calculateDistance to obtain the robot's bearing to the next point in its path as well
+     * as the robot's distance to its final destination.
      */
     public void startNavigation(String destinationSms) {
         if (locationHelper.currentLocationLatLng != null) {
@@ -190,7 +183,7 @@ public class NavigationService extends Service implements
     }
 
     /**
-     * This method is called when the service stops. It disconnects the API client.
+     * This method is called when the service stops. It disconnects locationHelper.
      */
     @Override
     public void onDestroy() {
