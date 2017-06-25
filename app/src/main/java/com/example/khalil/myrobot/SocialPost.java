@@ -18,6 +18,7 @@ import twitter4j.conf.ConfigurationBuilder;
 class SocialPost {
     private static String message;
 
+    /** Constructor to create an instance of SocialPost and pass to it the text message. */
     SocialPost(String message){
         SocialPost.message = message;
     }
@@ -53,7 +54,5 @@ class SocialPost {
                 return null;
             }
         }.execute(filePath);
-
-
     }
 }
