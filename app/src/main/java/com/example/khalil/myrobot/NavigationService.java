@@ -62,8 +62,8 @@ public class NavigationService extends Service implements
     public double distance;  // This stores the distance between the robot and the final
             // destination.
 
-    private LocationHelper locationHelper = new LocationHelper(this);
-    private DataParser dataParser = new DataParser(mMessage);
+    private LocationHelper locationHelper = new LocationHelper(this); // LocationHelper object
+    private DataParser dataParser = new DataParser(mMessage); // DataParser object
 
     /**
      * This method sets up the Google API client, the sensors, and the intent that gets sent back
