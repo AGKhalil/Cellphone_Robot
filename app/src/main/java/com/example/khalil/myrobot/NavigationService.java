@@ -131,8 +131,8 @@ public class NavigationService extends Service implements
 
             finalDestination = pointsArray.get(pointsArray.size() - 1);
 
-            nextDestinationLat = nextDestinationObj.getLatitude();
-            nextDestinationLng = nextDestinationObj.getLongitude();
+//            nextDestinationLat = nextDestinationObj.getLatitude();
+//            nextDestinationLng = nextDestinationObj.getLongitude();
             destination = new LatLng(nextDestinationObj.getLatitude(),
                     nextDestinationObj.getLongitude());
             double finalDestinationLat = finalDestination.getLatitude();

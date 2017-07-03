@@ -59,10 +59,15 @@ public class TaskActivity extends AppCompatActivity implements CameraFragmentRes
      */
     public void mockSendSMS(View view){
         String msg = "Engineering Fountain";
+        Log.d(TAG, "mockSendSMS: "+msg);
+        Intent intent = new Intent(this, TextActivity.class);
+        intent.putExtra("message", msg);
+
         if (msg != null) {
             Toast.makeText(this,msg,Toast.LENGTH_SHORT).show();
             callNavigationService(msg);
         }
+        startActivity(intent);
     }
 
     /**
