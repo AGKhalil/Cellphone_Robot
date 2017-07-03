@@ -62,11 +62,10 @@ public class TaskActivity extends AppCompatActivity implements CameraFragmentRes
         Log.d(TAG, "mockSendSMS: "+msg);
         Intent intent = new Intent(this, TextActivity.class);
         intent.putExtra("message", msg);
-
-        if (msg != null) {
+        /*if (msg != null) {
             Toast.makeText(this,msg,Toast.LENGTH_SHORT).show();
             callNavigationService(msg);
-        }
+        }*/
         startActivity(intent);
     }
 
