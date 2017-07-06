@@ -5,9 +5,9 @@ package com.example.khalil.myrobot;
  * Here the request to Google Directions API is filed, the result is obtained and filed to
  * DataParser for parsing, the routes location array is built, the bearing to next point is found,
  * and the distance to the final destination is found. Both, the bearing to next point and the
- * destination to the final location, are broadcast back to TaskActivity as an intent.
+ * destination to the final location, are broadcast back to CentralHub as an intent.
  *
- * Once this service class starts, through a request from TaskActivity, it creates its own thread
+ * Once this service class starts, through a request from CentralHub, it creates its own thread
  * and keeps restarting every four seconds. Once the distance to the final destination is less than
  * 5m, the service stops itself completely.
  *
@@ -40,10 +40,10 @@ public class NavigationService extends Service implements
     public double nextDestinationLng;  // This is the next destination longitude.
     private static final String TAG = "NavigationService";  // The TAG used for the logcat for
             // debugging.
-    // This is the string used for broadcasting the results to TaskActivity.
+    // This is the string used for broadcasting the results to CentralHub.
     public static final String BROADCAST_ACTION = "com.websmithing.broadcasttest.displayevent";
-    Intent intent; // The intent filed back to TaskActivity.
-    public String mMessage;  // This stores the SMS message retrieved from TaskActivity.
+    Intent intent; // The intent filed back to CentralHub.
+    public String mMessage;  // This stores the SMS message retrieved from CentralHub.
     public Location nextDestinationObj;  // This stores the next destination point in the location
             // array.
     public LatLng destination;  // This stores the next destination point in the location
@@ -67,7 +67,7 @@ public class NavigationService extends Service implements
 
     /**
      * This method sets up locationHelper, the sensors, and the intent that gets sent back
-     * to TaskActivity.
+     * to CentralHub.
     */
     @Override
     public void onCreate() {
@@ -86,8 +86,8 @@ public class NavigationService extends Service implements
     }
 
     /**
-     * This method is called when the NavigationService is called from TaskActivity. It finds the
-     * intent TaskActivity has filed, obtains the SMS message, and calls the startNavigation method.
+     * This method is called when the NavigationService is called from CentralHub. It finds the
+     * intent CentralHub has filed, obtains the SMS message, and calls the startNavigation method.
     */
      public int onStartCommand(Intent intent, int flags, int startId) {
         mMessage = intent.getStringExtra("message");  // Obtains the SMS.

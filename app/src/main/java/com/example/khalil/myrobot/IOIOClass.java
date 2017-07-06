@@ -55,12 +55,12 @@ class IOIOClass extends BaseIOIOLooper implements IOIOLooperProvider {
     private static final String STOP = "stop";
 
     private IOIOAndroidApplicationHelper helper;  // This helper is necessary to start the IOIOClass
-            // loop from another class, TaskActivity.
+            // loop from another class, CentralHub.
 
     /**
      * This constructor is used to create the helper.
     */
-    IOIOClass(TaskActivity mTheGui) {
+    IOIOClass(RobotDriver mTheGui) {
         helper = new IOIOAndroidApplicationHelper(mTheGui, this);
     }
 
@@ -134,7 +134,7 @@ class IOIOClass extends BaseIOIOLooper implements IOIOLooperProvider {
 
     /**
      * This method is used to change the motors' directions and speeds based on a string command.
-     * This method is publicly accessible by other classes, such as TaskActivity.
+     * This method is publicly accessible by other classes, such as CentralHub.
      */
     void setMotion(String direction) {
         switch (direction) {
