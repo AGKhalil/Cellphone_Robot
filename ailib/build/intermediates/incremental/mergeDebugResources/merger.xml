@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="utf-8"?>
+<merger version="3"><dataSet config="output$Generated" generated="true"><source path="C:\Users\xiaohuzi\.android\build-cache\54ac2ff1f40fb1df442b4a79c2961d1dc2155779\output\res"/></dataSet><dataSet config="main$Generated" generated="true"><source path="C:\Cellphone_Robot\ailib\src\main\res"/><source path="C:\Cellphone_Robot\ailib\build\generated\res\rs\debug"/><source path="C:\Cellphone_Robot\ailib\build\generated\res\resValues\debug"/></dataSet><dataSet config="debug$Generated" generated="true"><source path="C:\Cellphone_Robot\ailib\src\debug\res"/></dataSet><dataSet config="output" from-dependency="true" generated-set="output$Generated"><source path="C:\Users\xiaohuzi\.android\build-cache\54ac2ff1f40fb1df442b4a79c2961d1dc2155779\output\res"/></dataSet><dataSet config="main" generated-set="main$Generated"><source path="C:\Cellphone_Robot\ailib\src\main\res"><file name="mic_colors" path="C:\Cellphone_Robot\ailib\src\main\res\color\mic_colors.xml" qualifiers="" type="color"/><file name="mic_control" path="C:\Cellphone_Robot\ailib\src\main\res\drawable\mic_control.xml" qualifiers="" type="drawable"/><file name="cube" path="C:\Cellphone_Robot\ailib\src\main\res\drawable-xxhdpi\cube.png" qualifiers="xxhdpi-v4" type="drawable"/><file name="microphone_control" path="C:\Cellphone_Robot\ailib\src\main\res\drawable-xxhdpi\microphone_control.png" qualifiers="xxhdpi-v4" type="drawable"/><file name="speaker" path="C:\Cellphone_Robot\ailib\src\main\res\drawable-xxhdpi\speaker.png" qualifiers="xxhdpi-v4" type="drawable"/><file name="speaker_silent" path="C:\Cellphone_Robot\ailib\src\main\res\drawable-xxhdpi\speaker_silent.png" qualifiers="xxhdpi-v4" type="drawable"/><file name="aidialog" path="C:\Cellphone_Robot\ailib\src\main\res\layout\aidialog.xml" qualifiers="" type="layout"/><file name="version_config" path="C:\Cellphone_Robot\ailib\src\main\res\raw\version_config.json" qualifiers="" type="raw"/><file path="C:\Cellphone_Robot\ailib\src\main\res\values\attrs.xml" qualifiers=""><declare-styleable name="SoundLevelButton">
+	    <attr format="dimension" name="minRadius"/>
+	    <attr format="dimension" name="maxRadius"/>
+	    <attr format="dimension" name="circleCenterX"/>
+	    <attr format="dimension" name="circleCenterY"/>
+	    <attr format="color" name="centerColor"/>
+	    <attr format="color" name="haloColor"/>
+	    <attr format="boolean" name="state_listening"/>
+	    <attr format="boolean" name="state_waiting"/>
+	    <attr format="boolean" name="state_speaking"/>
+		<attr format="boolean" name="state_initializing_tts"/>
+	</declare-styleable><declare-styleable name="MaskedColorView">
+		<attr format="color|reference" name="mainColor"/>
+	</declare-styleable></file><file path="C:\Cellphone_Robot\ailib\src\main\res\values\colors.xml" qualifiers=""><color name="icon_orange_color">#f26c29</color><color name="mic_button_halo">#20000000</color><color name="main_bg_color">#FF2a91be</color><color name="aidialog_background">#ffffffff</color></file><file path="C:\Cellphone_Robot\ailib\src\main\res\values\dimens.xml" qualifiers=""><dimen name="mic_button_size">152dp</dimen><dimen name="mic_button_halo_radius_min">35dp</dimen><dimen name="mic_button_halo_radius_max">76dp</dimen></file><file path="C:\Cellphone_Robot\ailib\src\main\res\values\strings.xml" qualifiers=""><string name="app_name">AILib</string><string name="default_aidialog_title">Speak</string></file><file path="C:\Cellphone_Robot\ailib\src\main\res\values\styles.xml" qualifiers=""><style name="ApiAi.Microphone">
+	    <item name="mainColor">@color/mic_colors</item>
+	    <item name="maxRadius">@dimen/mic_button_halo_radius_max</item>
+	    <item name="minRadius">@dimen/mic_button_halo_radius_min</item>
+	    <item name="centerColor">@color/icon_orange_color</item>
+	    <item name="haloColor">@color/mic_button_halo</item>
+	    <item name="android:src">@drawable/mic_control</item>
+	    <item name="android:paddingTop">0dp</item>
+	    <item name="android:paddingBottom">0dp</item>
+	    <item name="android:paddingLeft">0dp</item>
+	    <item name="android:paddingRight">0dp</item>
+	    <item name="android:layout_margin">0dp</item>
+	    <item name="android:layout_width">@dimen/mic_button_size</item>
+	    <item name="android:layout_height">@dimen/mic_button_size</item>
+	    <item name="android:scaleType">centerInside</item>
+	</style><style name="ApiAi"/><style name="ApiAi.FullScreenDialog">
+        <item name="android:windowFrame">@null</item>
+        <item name="android:windowIsFloating">true</item>
+        <item name="android:windowContentOverlay">@null</item>
+        <item name="android:windowAnimationStyle">@android:style/Animation.Dialog</item>
+        <item name="android:windowSoftInputMode">stateUnspecified|adjustPan</item>
+    </style></file></source><source path="C:\Cellphone_Robot\ailib\build\generated\res\rs\debug"/><source path="C:\Cellphone_Robot\ailib\build\generated\res\resValues\debug"/></dataSet><dataSet config="debug" generated-set="debug$Generated"><source path="C:\Cellphone_Robot\ailib\src\debug\res"/></dataSet><mergedItems><configuration qualifiers=""><declare-styleable name="SoundLevelButton"><attr format="dimension" name="minRadius"/><attr format="dimension" name="maxRadius"/><attr format="dimension" name="circleCenterX"/><attr format="dimension" name="circleCenterY"/><attr format="color" name="centerColor"/><attr format="color" name="haloColor"/><attr format="boolean" name="state_listening"/><attr format="boolean" name="state_waiting"/><attr format="boolean" name="state_speaking"/><attr format="boolean" name="state_initializing_tts"/></declare-styleable><declare-styleable name="MaskedColorView"><attr format="color|reference" name="mainColor"/></declare-styleable></configuration></mergedItems></merger>
