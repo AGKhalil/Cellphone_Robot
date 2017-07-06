@@ -1,6 +1,71 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:orientation="vertical" android:layout_width="match_parent"
-    android:layout_height="match_parent">
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    tools:context="com.example.khalil.myrobot.CentralHub"
+    android:orientation="vertical">
 
-</LinearLayout>
+    <TextView
+        android:layout_width="wrap_content"
+        android:id="@+id/usless"
+        android:layout_height="wrap_content"
+        android:layout_centerHorizontal="true"
+        android:text="@string/usless" />
+
+    <TextView
+        android:id="@+id/bearingToDis"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_centerHorizontal="true"
+        android:layout_below="@id/usless"
+        android:paddingTop="2dp"
+        android:text="@string/direction" />
+
+    <TextView
+        android:id="@+id/motion"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/bearingToDis"
+        android:layout_centerHorizontal="true"
+        android:text="@string/motion" />
+
+    <TextView
+        android:id="@+id/distanceToFinal"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/motion"
+        android:layout_centerHorizontal="true"
+        android:text="@string/distance" />
+
+    <FrameLayout
+        android:id="@+id/content"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/distanceToFinal">
+
+    </FrameLayout>
+
+    <Button
+        android:id="@+id/BTN_send"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/go"
+        android:onClick="mockStartNavigationService"
+        android:layout_above="@+id/distanceToFinal"
+        android:layout_toRightOf="@+id/bearingToDis"
+        android:layout_toEndOf="@+id/bearingToDis"
+        android:layout_marginLeft="21dp"
+        android:layout_marginStart="21dp" />
+
+    <Button
+        android:id="@+id/tweet"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/test_twitter"
+        android:onClick="mockTweet"
+        android:layout_above="@+id/distanceToFinal"
+        android:layout_marginLeft="21dp"
+        android:layout_marginStart="21dp" />
+
+</RelativeLayout>

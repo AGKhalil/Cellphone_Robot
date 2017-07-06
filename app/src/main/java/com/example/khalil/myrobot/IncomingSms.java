@@ -2,7 +2,7 @@ package com.example.khalil.myrobot;
 
 /**
  * Created by Khalil on 4/7/17.
- * This class receives an SMS and sends it to TaskActivity using an EventBus.
+ * This class receives an SMS and sends it to CentralHub using an EventBus.
  *
  * Although changes have been made to this code, the main bulk of it is due to courtesy of:
  * http://androidexample.com/Incomming_SMS_Broadcast_Receiver_-_Android_Example/index.php?view=article_discription&aid=62
@@ -29,7 +29,7 @@ public class IncomingSms extends BroadcastReceiver {
     }
 
     /**
-     * This method receives the SMS and sends it to TaskActivity as an EventBus.
+     * This method receives the SMS and sends it to CentralHub as an EventBus.
      */
     public void onReceive(Context context, Intent intent) {
         // Retrieves a map of extended data from the intent.
@@ -48,8 +48,8 @@ public class IncomingSms extends BroadcastReceiver {
 
                     Log.i("SmsReceiver", "senderNum: " + senderNum + "; message: " + message);
 
-                    // This block takes care of sending the SMS to TaskActivity.
-                    EventBus.getDefault().post(new TaskActivity.OnReceiverEvent(message));
+                    // This block takes care of sending the SMS to CentralHub.
+                    EventBus.getDefault().post(new CentralHub.OnReceiverEvent(message));
                     Toast toast = Toast.makeText(context, message, Toast.LENGTH_SHORT);
                     toast.show();
                 }

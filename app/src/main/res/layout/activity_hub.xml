@@ -6,65 +6,12 @@
     tools:context="com.example.khalil.myrobot.CentralHub"
     android:orientation="vertical">
 
-    <TextView
-        android:layout_width="wrap_content"
-        android:id="@+id/usless"
-        android:layout_height="wrap_content"
-        android:layout_centerHorizontal="true"
-        android:text="@string/usless" />
-
-    <TextView
-        android:id="@+id/bearingToDis"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_centerHorizontal="true"
-        android:layout_below="@id/usless"
-        android:paddingTop="2dp"
-        android:text="@string/direction" />
-
-    <TextView
-        android:id="@+id/motion"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_below="@id/bearingToDis"
-        android:layout_centerHorizontal="true"
-        android:text="@string/motion" />
-
-    <TextView
-        android:id="@+id/distanceToFinal"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_below="@id/motion"
-        android:layout_centerHorizontal="true"
-        android:text="@string/distance" />
-
-    <FrameLayout
-        android:id="@+id/content"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_below="@id/distanceToFinal">
-
-    </FrameLayout>
-
     <Button
         android:id="@+id/BTN_send"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="@string/send_sms"
-        android:onClick="mockSendSMS"
-        android:layout_above="@+id/distanceToFinal"
-        android:layout_toRightOf="@+id/bearingToDis"
-        android:layout_toEndOf="@+id/bearingToDis"
-        android:layout_marginLeft="21dp"
-        android:layout_marginStart="21dp" />
-
-    <Button
-        android:id="@+id/tweet"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="@string/test_twitter"
-        android:onClick="mockTweet"
-        android:layout_above="@+id/distanceToFinal"
+        android:text="@string/start_robotDriver"
+        android:onClick="mockStartRobotDriver"
         android:layout_marginLeft="21dp"
         android:layout_marginStart="21dp" />
 
