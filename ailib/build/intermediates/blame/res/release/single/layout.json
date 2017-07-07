@@ -2,9 +2,5 @@
     {
         "merged": "C:\\Cellphone_Robot\\ailib\\build\\intermediates\\res\\merged\\release\\layout\\aidialog.xml",
         "source": "C:\\Cellphone_Robot\\ailib\\src\\main\\res\\layout\\aidialog.xml"
-    },
-    {
-        "merged": "C:\\cell-robot-project-master\\ailib\\build\\intermediates\\res\\merged\\release\\layout\\aidialog.xml",
-        "source": "C:\\cell-robot-project-master\\ailib\\src\\main\\res\\layout\\aidialog.xml"
     }
 ]

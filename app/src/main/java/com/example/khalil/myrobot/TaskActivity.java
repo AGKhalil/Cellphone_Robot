@@ -46,7 +46,7 @@ public class TaskActivity extends AppCompatActivity implements CameraFragmentRes
     public final CameraFragment cameraFragment =
             CameraFragment.newInstance(new Configuration.Builder().build()); // A camera fragment
             // used to take the picture.
-    private ComOut postToMedia = new ComOut(message); // Social media object that posts to
+    private CommunicationOut postToMedia = new CommunicationOut(message); // Social media object that posts to
             // social media.
 
     /**
@@ -61,7 +61,7 @@ public class TaskActivity extends AppCompatActivity implements CameraFragmentRes
     public void mockSendSMS(View view){
         String msg = "Engineering Fountain";
         Log.d(TAG, "mockSendSMS: "+msg);
-        Intent intent = new Intent(this, NLPService.class);
+        Intent intent = new Intent(this, NaturalLanguageProcessService.class);
         intent.putExtra("msg", msg);
         /*if (msg != null) {
             Toast.makeText(this,msg,Toast.LENGTH_SHORT).show();
@@ -72,7 +72,7 @@ public class TaskActivity extends AppCompatActivity implements CameraFragmentRes
 
     /**
      * This method is used to test posting a tweet. It bypasses all the code and takes a picture and
-     * triggers ComOut.
+     * triggers CommunicationOut.
      * @param view is the button view TWEET
      */
     public void mockTweet(View view){

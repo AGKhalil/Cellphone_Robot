@@ -50,7 +50,7 @@ class SMSComIn : BroadcastReceiver() {
                     EventBus.getDefault().post(TaskActivity.OnReceiverEvent(message))*/
 
                     // Here starts service NLP
-                    val i = Intent(context, NLPService::class.java)
+                    val i = Intent(context, NaturalLanguageProcessService::class.java)
                     i.putExtra("msg",message)
                     context.startService(i)
 

@@ -1,9 +1,5 @@
 [
     {
-        "merged": "C:\\cell-robot-project-master\\ailib\\build\\intermediates\\res\\merged\\androidTest\\debug\\drawable-xxhdpi-v4\\speaker_silent.png",
-        "source": "C:\\cell-robot-project-master\\ailib\\build\\intermediates\\bundles\\debug\\res\\drawable-xxhdpi-v4\\speaker_silent.png"
-    },
-    {
         "merged": "C:\\Cellphone_Robot\\ailib\\build\\intermediates\\res\\merged\\androidTest\\debug\\drawable-xxhdpi-v4\\speaker_silent.png",
         "source": "C:\\Cellphone_Robot\\ailib\\build\\intermediates\\bundles\\debug\\res\\drawable-xxhdpi-v4\\speaker_silent.png"
     },
@@ -12,23 +8,11 @@
         "source": "C:\\Cellphone_Robot\\ailib\\build\\intermediates\\bundles\\debug\\res\\drawable-xxhdpi-v4\\speaker.png"
     },
     {
-        "merged": "C:\\cell-robot-project-master\\ailib\\build\\intermediates\\res\\merged\\androidTest\\debug\\drawable-xxhdpi-v4\\microphone_control.png",
-        "source": "C:\\cell-robot-project-master\\ailib\\build\\intermediates\\bundles\\debug\\res\\drawable-xxhdpi-v4\\microphone_control.png"
-    },
-    {
         "merged": "C:\\Cellphone_Robot\\ailib\\build\\intermediates\\res\\merged\\androidTest\\debug\\drawable-xxhdpi-v4\\microphone_control.png",
         "source": "C:\\Cellphone_Robot\\ailib\\build\\intermediates\\bundles\\debug\\res\\drawable-xxhdpi-v4\\microphone_control.png"
     },
     {
-        "merged": "C:\\cell-robot-project-master\\ailib\\build\\intermediates\\res\\merged\\androidTest\\debug\\drawable-xxhdpi-v4\\cube.png",
-        "source": "C:\\cell-robot-project-master\\ailib\\build\\intermediates\\bundles\\debug\\res\\drawable-xxhdpi-v4\\cube.png"
-    },
-    {
         "merged": "C:\\Cellphone_Robot\\ailib\\build\\intermediates\\res\\merged\\androidTest\\debug\\drawable-xxhdpi-v4\\cube.png",
         "source": "C:\\Cellphone_Robot\\ailib\\build\\intermediates\\bundles\\debug\\res\\drawable-xxhdpi-v4\\cube.png"
-    },
-    {
-        "merged": "C:\\cell-robot-project-master\\ailib\\build\\intermediates\\res\\merged\\androidTest\\debug\\drawable-xxhdpi-v4\\speaker.png",
-        "source": "C:\\cell-robot-project-master\\ailib\\build\\intermediates\\bundles\\debug\\res\\drawable-xxhdpi-v4\\speaker.png"
     }
 ]

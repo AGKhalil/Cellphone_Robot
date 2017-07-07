@@ -1,9 +1,5 @@
 [
     {
-        "merged": "C:\\cell-robot-project-master\\ailib\\build\\intermediates\\res\\merged\\androidTest\\debug\\drawable\\mic_control.xml",
-        "source": "C:\\cell-robot-project-master\\ailib\\build\\intermediates\\bundles\\debug\\res\\drawable\\mic_control.xml"
-    },
-    {
         "merged": "C:\\Cellphone_Robot\\ailib\\build\\intermediates\\res\\merged\\androidTest\\debug\\drawable\\mic_control.xml",
         "source": "C:\\Cellphone_Robot\\ailib\\build\\intermediates\\bundles\\debug\\res\\drawable\\mic_control.xml"
     }
