@@ -16,6 +16,7 @@ import android.content.pm.PackageManager;
 import android.os.Bundle;
 import android.os.Handler;
 import android.support.v4.app.ActivityCompat;
+import android.support.v4.content.LocalBroadcastManager;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 import android.view.View;
@@ -45,7 +46,7 @@ public class TaskActivity extends AppCompatActivity implements CameraFragmentRes
     public final CameraFragment cameraFragment =
             CameraFragment.newInstance(new Configuration.Builder().build()); // A camera fragment
             // used to take the picture.
-    private SocialPost postToMedia = new SocialPost(message); // Social media object that posts to
+    private ComOut postToMedia = new ComOut(message); // Social media object that posts to
             // social media.
 
     /**
@@ -60,18 +61,18 @@ public class TaskActivity extends AppCompatActivity implements CameraFragmentRes
     public void mockSendSMS(View view){
         String msg = "Engineering Fountain";
         Log.d(TAG, "mockSendSMS: "+msg);
-        Intent intent = new Intent(this, TextActivity.class);
-        intent.putExtra("message", msg);
+        Intent intent = new Intent(this, NLPService.class);
+        intent.putExtra("msg", msg);
         /*if (msg != null) {
             Toast.makeText(this,msg,Toast.LENGTH_SHORT).show();
             callNavigationService(msg);
         }*/
-        startActivity(intent);
+        startService(intent);
     }
 
     /**
      * This method is used to test posting a tweet. It bypasses all the code and takes a picture and
-     * triggers SocialPost.
+     * triggers ComOut.
      * @param view is the button view TWEET
      */
     public void mockTweet(View view){
@@ -142,7 +143,18 @@ public class TaskActivity extends AppCompatActivity implements CameraFragmentRes
         getSupportFragmentManager().beginTransaction()
                 .replace(R.id.content, cameraFragment, "TheCameraThing")
                 .commit();
+        LocalBroadcastManager.getInstance(this).registerReceiver(NLPReceiver,
+                new IntentFilter("NLP-event"));
     }
+
+    private BroadcastReceiver NLPReceiver = new BroadcastReceiver() {
+        @Override
+        public void onReceive(Context context, Intent intent) {
+            // Get extra data included in the Intent
+            String message = intent.getStringExtra("action");
+            Log.d("receiver", "Got message: " + message);
+        }
+    };
 
     /**
      * This BroadcastReceiver starts when an intent is sent from NavigationActivity to TaskActivity.
@@ -281,7 +293,7 @@ public class TaskActivity extends AppCompatActivity implements CameraFragmentRes
     }
 
     /**
-     * This class receives the SMS sent by the EventBus triggered by IncomingSms.
+     * This class receives the SMS sent by the EventBus triggered by SMSComIn.
     */
     static class OnReceiverEvent {
         private String smsMessage;
@@ -318,5 +330,7 @@ public class TaskActivity extends AppCompatActivity implements CameraFragmentRes
         Log.d(TAG,"callNavigationService");
         this.startService(mIntent);  // This line is what actually starts the NavigationService.
     }
+
+
 }
 

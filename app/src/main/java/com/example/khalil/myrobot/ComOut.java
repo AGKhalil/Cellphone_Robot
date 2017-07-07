@@ -12,15 +12,16 @@ import twitter4j.conf.ConfigurationBuilder;
 
 /**
  * Created by Khalil on 6/24/17.
- * This class is in charge of posting to social media.
+ * This class was in charge of posting to social media.
+ * Modified to serve as communication out class by Michael.
  */
 
-class SocialPost {
+class ComOut {
     private static String message;
 
-    /** Constructor to create an instance of SocialPost and pass to it the text message. */
-    SocialPost(String message){
-        SocialPost.message = message;
+    /** Constructor to create an instance of ComOut and pass to it the text message. */
+    ComOut(String message){
+        ComOut.message = message;
     }
 
     /**
