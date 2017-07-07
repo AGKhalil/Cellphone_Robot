@@ -227,6 +227,7 @@ class NaturalLanguageProcessService : Service() {//AppCompatActivity(), AdapterV
         Log.d("sender", "Broadcasting message")
         val intent = Intent("NLP-event")
         // include some extra data.
+        destination = destination.replace("^\"|\"$", "")
         intent.putExtra("action", action)
         intent.putExtra("destination", destination)
         LocalBroadcastManager.getInstance(this).sendBroadcast(intent)

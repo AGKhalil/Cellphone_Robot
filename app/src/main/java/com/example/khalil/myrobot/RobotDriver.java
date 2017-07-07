@@ -36,7 +36,7 @@ public class RobotDriver extends AppCompatActivity implements CameraFragmentResu
     // is moving in.
     public final CameraFragment cameraFragment =
             CameraFragment.newInstance(new Configuration.Builder().build()); // A camera fragment
-    private SocialPost postToMedia = new SocialPost(message); // Social media object that posts to
+    private CommunicationOut postToMedia = new CommunicationOut(message); // Social media object that posts to
     // social media.
 
     public void mockStartNavigationService(View view){

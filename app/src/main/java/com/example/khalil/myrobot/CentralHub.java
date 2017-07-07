@@ -8,10 +8,14 @@ package com.example.khalil.myrobot;
  */
 
 import android.Manifest;
+import android.content.BroadcastReceiver;
+import android.content.Context;
 import android.content.Intent;
+import android.content.IntentFilter;
 import android.content.pm.PackageManager;
 import android.os.Bundle;
 import android.support.v4.app.ActivityCompat;
+import android.support.v4.content.LocalBroadcastManager;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 import android.view.View;
@@ -34,10 +38,17 @@ public class CentralHub extends AppCompatActivity {
      * @param view is the button view SEND SMS
      */
     public void mockStartRobotDriver(View view){
+
+        // Start NLP service
         String msg = "Engineering Fountain";
-        if (msg != null) {
-            Toast.makeText(this,msg,Toast.LENGTH_SHORT).show();
-            startRobotDriver(msg);
+        Intent i = new Intent(this, NaturalLanguageProcessService.class);
+        i.putExtra("msg",msg);
+        startService(i);
+
+        // Start robot driver
+        if (message != null) {
+            Toast.makeText(this,message,Toast.LENGTH_SHORT).show();
+            startRobotDriver(message);
         }
     }
 
@@ -100,11 +111,24 @@ public class CentralHub extends AppCompatActivity {
             // to handle the case where the user grants the permission. See the documentation
             // for ActivityCompat#requestPermissions for more details.
 
+
             Toast.makeText(this, "Please grant all the permissions needed for this app to " +
                     "function fully.", Toast.LENGTH_LONG).show();
             return;
         }
+        LocalBroadcastManager.getInstance(this).registerReceiver(NLPReceiver,
+                new IntentFilter("NLP-event"));
+
     }
+
+    private BroadcastReceiver NLPReceiver = new BroadcastReceiver() {
+        @Override
+        public void onReceive(Context context, Intent intent) {
+            // Get extra data included in the Intent
+            message = intent.getStringExtra("destination");
+            Log.d("receiver", "Got message: " + message);
+        }
+    };
 
     /**
      * This class receives the SMS sent by the EventBus triggered by IncomingSms.
