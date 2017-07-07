@@ -38,46 +38,6 @@ class NaturalLanguageProcessService : Service() {//AppCompatActivity(), AdapterV
 
     }
 
-    /*fun onCreate(savedInstanceState: Bundle?) {
-        *//*super.onCreate(savedInstanceState)
-
-        setContentView(R.layout.activity_aitext_sample)
-
-        val eventAdapter = ArrayAdapter(this, android.R.layout.simple_spinner_dropdown_item, Config.events)
-        eventSpinner!!.adapter = eventAdapter
-
-        //eventCheckBox = findViewById(R.id.eventsCheckBox) as CheckBox?
-        checkBoxClicked()
-        eventCheckBox!!.setOnClickListener(this)
-
-        val languagesAdapter = ArrayAdapter(this, android.R.layout.simple_spinner_dropdown_item, Config.languages)
-        spinner.adapter = languagesAdapter
-        spinner.onItemSelectedListener = this
-
-        val msg:String = intent.getStringExtra("message")
-        queryEditText.setText(msg)*//*
-
-        //set onclick event
-        *//*buttonClear.setOnClickListener {clearEditText()}
-        buttonSend.setOnClickListener { sendRequest()}
-        eventCheckBox.setOnClickListener { checkBoxClicked()}
-        autocompletebutton.setOnClickListener { autocompleteactivity() }*//*
-
-
-    }
-*/
-    /*private fun autocompleteactivity(){
-
-       *//* if (action == "maps.search"){
-            val intent1 = Intent(this, autocomplete::class.java)
-            intent1.putExtra("placename",destination)
-            startActivity(intent1)
-        }
-        else {
-            Toast.makeText(this,"You did not mention a place",Toast.LENGTH_SHORT).show();
-        }*//*
-    }*/
-
     private fun initService() {
         val selectedLanguage = LanguageConfig("en", "b99aaea780704deb9b455dd830628a37")
         val lang = ai.api.AIConfiguration.SupportedLanguages.fromLanguageTag(selectedLanguage.languageCode)
@@ -103,21 +63,8 @@ class NaturalLanguageProcessService : Service() {//AppCompatActivity(), AdapterV
         t.start()  // The thread starts.
         return Service.START_STICKY
     }
-/*    private fun clearEditText() {
-        queryEditText!!.setText("")
-    }*/
 
     public fun sendRequest(queryString: String,eventString: String = "",contextString: String = "") {
-
-        //val queryString = if (!eventSpinner!!.isEnabled) queryEditText!!.text.toString() else null
-        //val eventString = if (eventSpinner!!.isEnabled) eventSpinner!!.selectedItem.toString() else null
-        //val contextString = contextEditText.text.toString()
-
-        if (TextUtils.isEmpty(queryString) && TextUtils.isEmpty(eventString)) {
-            //onError(AIError("String is empty!"))
-            //Toast.makeText(this,"Write something please!",0).show()
-            return
-        }
 
         Log.d(TAG,"send request")
         val task = object : AsyncTask<String, Void, AIResponse>() {
@@ -162,10 +109,6 @@ class NaturalLanguageProcessService : Service() {//AppCompatActivity(), AdapterV
         task.execute(queryString, eventString, contextString)
     }
 
-    /*fun checkBoxClicked() {
-        eventSpinner!!.isEnabled = eventCheckBox!!.isChecked
-        queryEditText!!.visibility = if (!eventCheckBox!!.isChecked) View.VISIBLE else View.GONE
-    }*/
 
     // process the messages from the server
     private fun onResult(response: AIResponse) {
@@ -216,10 +159,6 @@ class NaturalLanguageProcessService : Service() {//AppCompatActivity(), AdapterV
             //Localbroadcast
             sendMessage()
 
-
-            //parameterTextView.setText(param_String)
-
-        //}
     }
 
 
@@ -232,21 +171,7 @@ class NaturalLanguageProcessService : Service() {//AppCompatActivity(), AdapterV
         intent.putExtra("destination", destination)
         LocalBroadcastManager.getInstance(this).sendBroadcast(intent)
     }
-    /*private fun onError(error: AIError) {
-        runOnUiThread { resultTextView!!.text = error.toString() }
-    }*/
 
-
-    /*override fun onItemSelected(parent: AdapterView<*>, view: View, position: Int, id: Long) {
-        val selectedLanguage = parent.getItemAtPosition(position) as LanguageConfig
-        initService(selectedLanguage)
-    }*/
-
-    /*override fun onNothingSelected(parent: AdapterView<*>) {}
-
-    override fun onClick(p0: View?) {
-        TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
-    }*/
 
     companion object {
 
