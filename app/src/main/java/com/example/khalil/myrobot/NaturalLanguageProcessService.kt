@@ -64,7 +64,7 @@ class NaturalLanguageProcessService : Service() {//AppCompatActivity(), AdapterV
         return Service.START_STICKY
     }
 
-    public fun sendRequest(queryString: String,eventString: String = "",contextString: String = "") {
+     fun sendRequest(queryString: String,eventString: String = "",contextString: String = "") {
 
         Log.d(TAG,"send request")
         val task = object : AsyncTask<String, Void, AIResponse>() {
@@ -169,12 +169,13 @@ class NaturalLanguageProcessService : Service() {//AppCompatActivity(), AdapterV
         destination = destination.replace("^\"|\"$", "")
         intent.putExtra("action", action)
         intent.putExtra("destination", destination)
+
         LocalBroadcastManager.getInstance(this).sendBroadcast(intent)
     }
 
 
     companion object {
 
-        val TAG = NaturalLanguageProcessService::class.java!!.getName()
+        val TAG = NaturalLanguageProcessService::class.java.getName()
     }
 }

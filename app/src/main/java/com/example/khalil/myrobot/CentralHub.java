@@ -21,8 +21,6 @@ import android.util.Log;
 import android.view.View;
 import android.widget.Toast;
 
-import org.greenrobot.eventbus.Subscribe;
-
 public class CentralHub extends AppCompatActivity {
     public String TAG = "CentralHub";
     public String message;  // The SMS message passed in through the EventBus.
@@ -129,35 +127,6 @@ public class CentralHub extends AppCompatActivity {
             Log.d("receiver", "Got message: " + message);
         }
     };
-
-    /**
-     * This class receives the SMS sent by the EventBus triggered by IncomingSms.
-    */
-    static class OnReceiverEvent {
-        private String smsMessage;
-
-        OnReceiverEvent(String sms) {
-            this.smsMessage = sms;
-        }
-
-        String getSmsMessage() {
-            return smsMessage;
-        }
-    }
-
-    /**
-     * This method is triggered when CentralHub receives the SMS. Here the NavigationService
-     * is started.
-    */
-    @Subscribe
-    public void onSmsReceived(OnReceiverEvent event) {
-        message = event.getSmsMessage();
-
-        // This IF block ensures the SMS is not null. If not, the service starts.
-        if (message != null) {
-            startRobotDriver(message);
-        }
-    }
 
     /**
      * This is the method that starts the RobotDriver by filing the mIntent when called.
