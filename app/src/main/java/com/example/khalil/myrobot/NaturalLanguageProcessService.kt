@@ -25,6 +25,11 @@ class NaturalLanguageProcessService : Service() {//AppCompatActivity(), AdapterV
     //private val gson = GsonFactory.getGson()
     var destination = ""
     var action = ""
+    var speech = ""
+    var rotation_direction = ""
+    var socialmedia = ""
+
+
     private var aiDataService: AIDataService? = null
 
     override fun onBind(intent: Intent?): IBinder {
@@ -50,7 +55,6 @@ class NaturalLanguageProcessService : Service() {//AppCompatActivity(), AdapterV
 
 
     override fun onStartCommand(intent: Intent?, flags: Int, startId: Int): Int {
-        //return super.onStartCommand(intent, flags, startId)
         val msg = intent!!.getStringExtra("msg")  // Obtains the SMS.
         Log.d(TAG, "onStartCommand: " + msg)
         // Creates a new thread upon which NavigationService runs.
@@ -132,7 +136,7 @@ class NaturalLanguageProcessService : Service() {//AppCompatActivity(), AdapterV
             //actionTextView.setText("Action: "+ result.action)
             action =result.action
 
-            val speech = result.fulfillment.speech
+            speech = result.fulfillment.speech
             Log.i(TAG, "Speech: " + speech)
             //resultTextView.setText("Speech: "+speech)
 
@@ -154,9 +158,11 @@ class NaturalLanguageProcessService : Service() {//AppCompatActivity(), AdapterV
                     param_String= param_String + String.format("%s: %s\n", key, value.toString())
                     Log.i(TAG, String.format("%s: %s", key, value.toString()))
                     if (key == "destination"){destination = value.toString()}
+                    if (key == "rotation_direction"){rotation_direction = value.toString()}
+                    if (key == "socialmedia"){socialmedia = value.toString()}
                 }
             }
-            //Localbroadcast
+
             sendMessage()
 
     }
@@ -167,8 +173,35 @@ class NaturalLanguageProcessService : Service() {//AppCompatActivity(), AdapterV
         val intent = Intent("NLP-event")
         // include some extra data.
         destination = destination.replace("^\"|\"$", "")
+        socialmedia = socialmedia.replace("^\"|\"$", "")
+        rotation_direction = rotation_direction.replace("^\"|\"$", "")
+        //TODO: send back the speech to wherever the message comes from
+
+        Log.d(TAG,"Speech:"+speech)
+
         intent.putExtra("action", action)
-        intent.putExtra("destination", destination)
+        intent.putExtra("speech",speech)
+
+        // This is for checking variables
+        when (action){
+            "navigation"-> if (destination == "") {
+                Log.d(TAG,"navaigation requires destination")
+                return
+            }
+            else {intent.putExtra("destination", destination)}
+
+            "picturetaking" -> if (socialmedia ==""){
+                Log.d(TAG,"picture taking requires socialmedia")
+                return
+            }
+            else {intent.putExtra("socialmedia", socialmedia)}
+
+            "turnaround" -> if (rotation_direction ==""){
+                Log.d(TAG,"Turn around requires rotation_direction")
+                return
+            }
+            else {intent.putExtra("rotation_direction", rotation_direction)}
+        }
 
         LocalBroadcastManager.getInstance(this).sendBroadcast(intent)
     }

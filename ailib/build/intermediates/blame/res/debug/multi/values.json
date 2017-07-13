@@ -1,6 +1,6 @@
 [
     {
-        "outputFile": "/Users/Khalil/Desktop/Cell Phone Robot Research Project/Cell Phone Robot Report and Code/myRobot/ailib/build/intermediates/incremental/mergeDebugResources/merged.dir/values/values.xml",
+        "outputFile": "C:\\Cellphone_Robot\\ailib\\build\\intermediates\\incremental\\mergeDebugResources\\merged.dir\\values\\values.xml",
         "map": [
             {
                 "to": {
@@ -11,13 +11,13 @@
                     "endOffset": 106
                 },
                 "from": {
-                    "file": "/Users/Khalil/Desktop/Cell Phone Robot Research Project/Cell Phone Robot Report and Code/myRobot/ailib/src/main/res/values/colors.xml",
+                    "file": "C:\\Cellphone_Robot\\ailib\\src\\main\\res\\values\\colors.xml",
                     "position": {
                         "startLine": 6,
                         "startColumn": 4,
-                        "startOffset": 210,
+                        "startOffset": 216,
                         "endColumn": 55,
-                        "endOffset": 261
+                        "endOffset": 267
                     }
                 }
             },
@@ -30,13 +30,13 @@
                     "endOffset": 158
                 },
                 "from": {
-                    "file": "/Users/Khalil/Desktop/Cell Phone Robot Research Project/Cell Phone Robot Report and Code/myRobot/ailib/src/main/res/values/colors.xml",
+                    "file": "C:\\Cellphone_Robot\\ailib\\src\\main\\res\\values\\colors.xml",
                     "position": {
                         "startLine": 2,
                         "startColumn": 4,
-                        "startOffset": 55,
+                        "startOffset": 57,
                         "endColumn": 51,
-                        "endOffset": 102
+                        "endOffset": 104
                     }
                 }
             },
@@ -49,13 +49,13 @@
                     "endOffset": 208
                 },
                 "from": {
-                    "file": "/Users/Khalil/Desktop/Cell Phone Robot Research Project/Cell Phone Robot Report and Code/myRobot/ailib/src/main/res/values/colors.xml",
+                    "file": "C:\\Cellphone_Robot\\ailib\\src\\main\\res\\values\\colors.xml",
                     "position": {
                         "startLine": 4,
                         "startColumn": 4,
-                        "startOffset": 159,
+                        "startOffset": 163,
                         "endColumn": 49,
-                        "endOffset": 204
+                        "endOffset": 208
                     }
                 }
             },
@@ -68,13 +68,13 @@
                     "endOffset": 260
                 },
                 "from": {
-                    "file": "/Users/Khalil/Desktop/Cell Phone Robot Research Project/Cell Phone Robot Report and Code/myRobot/ailib/src/main/res/values/colors.xml",
+                    "file": "C:\\Cellphone_Robot\\ailib\\src\\main\\res\\values\\colors.xml",
                     "position": {
                         "startLine": 3,
                         "startColumn": 4,
-                        "startOffset": 107,
+                        "startOffset": 110,
                         "endColumn": 51,
-                        "endOffset": 154
+                        "endOffset": 157
                     }
                 }
             },
@@ -87,13 +87,13 @@
                     "endOffset": 954
                 },
                 "from": {
-                    "file": "/Users/Khalil/Desktop/Cell Phone Robot Research Project/Cell Phone Robot Report and Code/myRobot/ailib/src/main/res/values/dimens.xml",
+                    "file": "C:\\Cellphone_Robot\\ailib\\src\\main\\res\\values\\dimens.xml",
                     "position": {
                         "startLine": 4,
                         "startColumn": 4,
-                        "startOffset": 161,
+                        "startOffset": 165,
                         "endColumn": 57,
-                        "endOffset": 214
+                        "endOffset": 218
                     }
                 }
             },
@@ -106,13 +106,13 @@
                     "endOffset": 1012
                 },
                 "from": {
-                    "file": "/Users/Khalil/Desktop/Cell Phone Robot Research Project/Cell Phone Robot Report and Code/myRobot/ailib/src/main/res/values/dimens.xml",
+                    "file": "C:\\Cellphone_Robot\\ailib\\src\\main\\res\\values\\dimens.xml",
                     "position": {
                         "startLine": 3,
                         "startColumn": 4,
-                        "startOffset": 103,
+                        "startOffset": 106,
                         "endColumn": 57,
-                        "endOffset": 156
+                        "endOffset": 159
                     }
                 }
             },
@@ -125,13 +125,13 @@
                     "endOffset": 1060
                 },
                 "from": {
-                    "file": "/Users/Khalil/Desktop/Cell Phone Robot Research Project/Cell Phone Robot Report and Code/myRobot/ailib/src/main/res/values/dimens.xml",
+                    "file": "C:\\Cellphone_Robot\\ailib\\src\\main\\res\\values\\dimens.xml",
                     "position": {
                         "startLine": 2,
                         "startColumn": 4,
-                        "startOffset": 55,
+                        "startOffset": 57,
                         "endColumn": 47,
-                        "endOffset": 98
+                        "endOffset": 100
                     }
                 }
             },
@@ -144,13 +144,13 @@
                     "endOffset": 1103
                 },
                 "from": {
-                    "file": "/Users/Khalil/Desktop/Cell Phone Robot Research Project/Cell Phone Robot Report and Code/myRobot/ailib/src/main/res/values/strings.xml",
+                    "file": "C:\\Cellphone_Robot\\ailib\\src\\main\\res\\values\\strings.xml",
                     "position": {
                         "startLine": 1,
                         "startColumn": 4,
-                        "startOffset": 16,
+                        "startOffset": 17,
                         "endColumn": 42,
-                        "endOffset": 54
+                        "endOffset": 55
                     }
                 }
             },
@@ -163,13 +163,13 @@
                     "endOffset": 1160
                 },
                 "from": {
-                    "file": "/Users/Khalil/Desktop/Cell Phone Robot Research Project/Cell Phone Robot Report and Code/myRobot/ailib/src/main/res/values/strings.xml",
+                    "file": "C:\\Cellphone_Robot\\ailib\\src\\main\\res\\values\\strings.xml",
                     "position": {
                         "startLine": 3,
                         "startColumn": 4,
-                        "startOffset": 60,
+                        "startOffset": 63,
                         "endColumn": 56,
-                        "endOffset": 112
+                        "endOffset": 115
                     }
                 }
             },
@@ -182,13 +182,13 @@
                     "endOffset": 1186
                 },
                 "from": {
-                    "file": "/Users/Khalil/Desktop/Cell Phone Robot Research Project/Cell Phone Robot Report and Code/myRobot/ailib/src/main/res/values/styles.xml",
+                    "file": "C:\\Cellphone_Robot\\ailib\\src\\main\\res\\values\\styles.xml",
                     "position": {
                         "startLine": 4,
                         "startColumn": 4,
-                        "startOffset": 160,
+                        "startOffset": 164,
                         "endColumn": 26,
-                        "endOffset": 182
+                        "endOffset": 186
                     }
                 }
             },
@@ -202,14 +202,14 @@
                     "endOffset": 1588
                 },
                 "from": {
-                    "file": "/Users/Khalil/Desktop/Cell Phone Robot Research Project/Cell Phone Robot Report and Code/myRobot/ailib/src/main/res/values/styles.xml",
+                    "file": "C:\\Cellphone_Robot\\ailib\\src\\main\\res\\values\\styles.xml",
                     "position": {
                         "startLine": 25,
                         "startColumn": 4,
-                        "startOffset": 1164,
+                        "startOffset": 1189,
                         "endLine": 31,
                         "endColumn": 12,
-                        "endOffset": 1561
+                        "endOffset": 1592
                     }
                 }
             },
@@ -223,14 +223,14 @@
                     "endOffset": 2448
                 },
                 "from": {
-                    "file": "/Users/Khalil/Desktop/Cell Phone Robot Research Project/Cell Phone Robot Report and Code/myRobot/ailib/src/main/res/values/styles.xml",
+                    "file": "C:\\Cellphone_Robot\\ailib\\src\\main\\res\\values\\styles.xml",
                     "position": {
                         "startLine": 7,
                         "startColumn": 4,
-                        "startOffset": 263,
+                        "startOffset": 270,
                         "endLine": 22,
                         "endColumn": 9,
-                        "endOffset": 1118
+                        "endOffset": 1140
                     }
                 }
             }

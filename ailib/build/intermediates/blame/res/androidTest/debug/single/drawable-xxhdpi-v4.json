@@ -1,18 +1,18 @@
 [
     {
-        "merged": "/Users/Khalil/Desktop/Cell Phone Robot Research Project/Cell Phone Robot Report and Code/myRobot/ailib/build/intermediates/res/merged/androidTest/debug/drawable-xxhdpi-v4/speaker_silent.png",
-        "source": "/Users/Khalil/Desktop/Cell Phone Robot Research Project/Cell Phone Robot Report and Code/myRobot/ailib/build/intermediates/bundles/debug/res/drawable-xxhdpi-v4/speaker_silent.png"
+        "merged": "C:\\Cellphone_Robot\\ailib\\build\\intermediates\\res\\merged\\androidTest\\debug\\drawable-xxhdpi-v4\\speaker_silent.png",
+        "source": "C:\\Cellphone_Robot\\ailib\\build\\intermediates\\bundles\\debug\\res\\drawable-xxhdpi-v4\\speaker_silent.png"
     },
     {
-        "merged": "/Users/Khalil/Desktop/Cell Phone Robot Research Project/Cell Phone Robot Report and Code/myRobot/ailib/build/intermediates/res/merged/androidTest/debug/drawable-xxhdpi-v4/speaker.png",
-        "source": "/Users/Khalil/Desktop/Cell Phone Robot Research Project/Cell Phone Robot Report and Code/myRobot/ailib/build/intermediates/bundles/debug/res/drawable-xxhdpi-v4/speaker.png"
+        "merged": "C:\\Cellphone_Robot\\ailib\\build\\intermediates\\res\\merged\\androidTest\\debug\\drawable-xxhdpi-v4\\speaker.png",
+        "source": "C:\\Cellphone_Robot\\ailib\\build\\intermediates\\bundles\\debug\\res\\drawable-xxhdpi-v4\\speaker.png"
     },
     {
-        "merged": "/Users/Khalil/Desktop/Cell Phone Robot Research Project/Cell Phone Robot Report and Code/myRobot/ailib/build/intermediates/res/merged/androidTest/debug/drawable-xxhdpi-v4/microphone_control.png",
-        "source": "/Users/Khalil/Desktop/Cell Phone Robot Research Project/Cell Phone Robot Report and Code/myRobot/ailib/build/intermediates/bundles/debug/res/drawable-xxhdpi-v4/microphone_control.png"
+        "merged": "C:\\Cellphone_Robot\\ailib\\build\\intermediates\\res\\merged\\androidTest\\debug\\drawable-xxhdpi-v4\\microphone_control.png",
+        "source": "C:\\Cellphone_Robot\\ailib\\build\\intermediates\\bundles\\debug\\res\\drawable-xxhdpi-v4\\microphone_control.png"
     },
     {
-        "merged": "/Users/Khalil/Desktop/Cell Phone Robot Research Project/Cell Phone Robot Report and Code/myRobot/ailib/build/intermediates/res/merged/androidTest/debug/drawable-xxhdpi-v4/cube.png",
-        "source": "/Users/Khalil/Desktop/Cell Phone Robot Research Project/Cell Phone Robot Report and Code/myRobot/ailib/build/intermediates/bundles/debug/res/drawable-xxhdpi-v4/cube.png"
+        "merged": "C:\\Cellphone_Robot\\ailib\\build\\intermediates\\res\\merged\\androidTest\\debug\\drawable-xxhdpi-v4\\cube.png",
+        "source": "C:\\Cellphone_Robot\\ailib\\build\\intermediates\\bundles\\debug\\res\\drawable-xxhdpi-v4\\cube.png"
     }
 ]

@@ -57,15 +57,7 @@
 
 
         <service android:enabled="true" android:name=".NaturalLanguageProcessService" />
-       <!-- <activity
-            android:name=".NaturalLanguageProcessService"
-            android:label="Text talk"
-            android:parentActivityName="com.example.khalil.myrobot.TaskActivity">
-            <meta-data
-                android:name="android.support.PARENT_ACTIVITY"
-                android:value="com.example.khalil.myrobot.TaskActivity" />
-        </activity>
-        This is no longer a activity. Instead NaturalLanguageProcessService serves as a service-->
+
 
         <!--
              The API key for Google Maps-based APIs is defined as a string resource.
