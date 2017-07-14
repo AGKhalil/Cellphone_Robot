@@ -157,9 +157,15 @@ class NaturalLanguageProcessService : Service() {//AppCompatActivity(), AdapterV
                 for ((key, value) in params) {
                     param_String= param_String + String.format("%s: %s\n", key, value.toString())
                     Log.i(TAG, String.format("%s: %s", key, value.toString()))
-                    if (key == "destination"){destination = value.toString()}
-                    if (key == "rotation_direction"){rotation_direction = value.toString()}
-                    if (key == "socialmedia"){socialmedia = value.toString()}
+                    if (key == "destination") {
+                        destination = value.toString()
+                    }
+                    if (key == "rotation_direction") {
+                        rotation_direction = value.toString()
+                    }
+                    if (key == "socialmedia") {
+                        socialmedia = value.toString()
+                    }
                 }
             }
 
@@ -172,9 +178,18 @@ class NaturalLanguageProcessService : Service() {//AppCompatActivity(), AdapterV
         Log.d("sender", "Broadcasting message")
         val intent = Intent("NLP-event")
         // include some extra data.
-        destination = destination.replace("^\"|\"$", "")
-        socialmedia = socialmedia.replace("^\"|\"$", "")
-        rotation_direction = rotation_direction.replace("^\"|\"$", "")
+        if (destination !="") {
+            destination = destination.substring(1,destination.length-1)
+            Log.d(TAG,destination+"!!!")
+        }
+        if (socialmedia !="") {
+            socialmedia = socialmedia.substring(1, socialmedia.length - 1)
+            Log.d(TAG, socialmedia + "!!!")
+        }
+        if (rotation_direction != "") {
+            rotation_direction = rotation_direction.substring(1, rotation_direction.length - 1)
+            Log.d(TAG, rotation_direction + "!!!")
+        }
         //TODO: send back the speech to wherever the message comes from
 
         Log.d(TAG,"Speech:"+speech)

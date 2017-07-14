@@ -24,6 +24,7 @@ import kotlinx.android.synthetic.main.activity_hub.*
 
 class CentralHub : AppCompatActivity() {
     private var robotDriverIntent: Intent? = null
+    private var robotManipulatorIntent: Intent? = null
     var action = ""
     var speech = ""
     var rotation_direction = ""
@@ -55,16 +56,6 @@ class CentralHub : AppCompatActivity() {
         i.putExtra("msg", msg)
         startService(i)
     }
-    /**
-     * This method is used to test posting a tweet. It bypasses all the code and takes a picture and
-     * triggers SocialPost.
-     * @param view is the button view TWEET
-     */
-    //    public void mockTweet(View view){
-    //        stopService(mIntent);
-    //        cameraFragment.takePhotoOrCaptureVideo(CentralHub.this,
-    //                "/storage/self/primary", "thePicture001");
-    //    }
 
     /**
      * End of Testing Methods *******************************************
@@ -78,7 +69,8 @@ class CentralHub : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_hub) // Sets the XML view file that appears to the user.
         robotDriverIntent = Intent(this, RobotDriver::class.java) // Associates mIntent with
-        // RobotDriver.
+        robotManipulatorIntent = Intent(this, RobotManipulator::class.java) // Associates mIntent with
+        // RobotManipulator.
 
         // This IF block insures all permissions are granted.
         if (ActivityCompat.checkSelfPermission(this, Manifest.permission.CAMERA) != PackageManager.PERMISSION_GRANTED ||
@@ -128,12 +120,12 @@ class CentralHub : AppCompatActivity() {
 
                 "picturetaking" -> {
                     socialmedia = intent.getStringExtra("socialmedia")
-                    //TODO: ADD picture taking function
+                    startRobotManipulator(action, socialmedia)
                 }
 
                 "turnaround" -> {
                     rotation_direction = intent.getStringExtra("rotation_direction")
-                    //TODO: ADD turn around function
+                    startRobotManipulator(action, rotation_direction)
                 }
             }
         }
@@ -147,6 +139,16 @@ class CentralHub : AppCompatActivity() {
         // to RobotDriver, because it needs it to file the API request.
         Log.d(TAG, "startRobotDriver")
         this.startActivity(robotDriverIntent)  // This line is what actually starts the RobotDriver.
+    }
+
+    /**
+     * This is the method that handles RobotManipulator.
+     */
+    private fun startRobotManipulator(action: String, actionParameter: String) {
+        robotManipulatorIntent!!.putExtra("action", action)
+        robotManipulatorIntent!!.putExtra("actionParameter", actionParameter)
+        Log.d(TAG, "startRobotManipulator")
+        this.startActivity(robotManipulatorIntent)
     }
 
 

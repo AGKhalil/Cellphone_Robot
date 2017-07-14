@@ -17,6 +17,10 @@ import com.github.florent37.camerafragment.CameraFragment;
 import com.github.florent37.camerafragment.configuration.Configuration;
 import com.github.florent37.camerafragment.listeners.CameraFragmentResultListener;
 
+import static com.example.khalil.myrobot.CommandStrings.GO_FORWARDS;
+import static com.example.khalil.myrobot.CommandStrings.TURN_CLOCKWISE;
+import static com.example.khalil.myrobot.CommandStrings.TURN_COUNTERCLOCKWISE;
+
 /**
  * Created by Khalil on 7/5/17.
  */
@@ -27,12 +31,8 @@ public class RobotDriver extends AppCompatActivity implements CameraFragmentResu
     public float direction; // The robot's bearing to the next location point.
     public String message;  // The SMS message passed in through the EventBus.
     IOIOClass myRobot;  // An instance of the robot. A setter method will be used on this instance
-    // to move the robot.
-    public static final String FORWARDS = "forwards";   // A string command to move forwards.
-    public static final String RIGHT = "right"; // A string command to turn right.
-    public static final String LEFT = "left";   // A string command to turn left.
-    public static final String STOP = "stop";   // A string command to stop.
-    public String motionDirection = "not moving";  // An initialization of the direction the robot
+    static final String STOP = "stop";   // A string command to stop.
+    private String motionDirection = "not moving";  // An initialization of the direction the robot
     // is moving in.
     public final CameraFragment cameraFragment =
             CameraFragment.newInstance(new Configuration.Builder().build()); // A camera fragment
@@ -45,6 +45,11 @@ public class RobotDriver extends AppCompatActivity implements CameraFragmentResu
             Toast.makeText(this,msg,Toast.LENGTH_SHORT).show();
             callNavigationService(msg);
         }
+    }
+
+    public void mockTweet(View view){
+        cameraFragment.takePhotoOrCaptureVideo(RobotDriver.this,
+                "/storage/self/primary", "thePicture001");
     }
 
     @Override
@@ -142,10 +147,10 @@ public class RobotDriver extends AppCompatActivity implements CameraFragmentResu
         // stop and take a picture.
         if (!(distance < 5 && distance > 0)) {
             if (direction > 350 || direction < 10) {
-                myRobot.setMotion(FORWARDS); // A setter method that sets the robot's motion.
+                myRobot.setMotion(GO_FORWARDS); // A setter method that sets the robot's motion.
             } else if (direction < 350 && direction > 180) {
-                myRobot.setMotion(RIGHT);
-                motionDirection = RIGHT;
+                myRobot.setMotion(TURN_CLOCKWISE);
+                motionDirection = TURN_CLOCKWISE;
                 new Handler().postDelayed(new Runnable() {
                     @Override
                     public void run() {
@@ -153,8 +158,8 @@ public class RobotDriver extends AppCompatActivity implements CameraFragmentResu
                     }
                 }, 1000);
             } else if (direction < 180 && direction > 10) {
-                myRobot.setMotion(LEFT);
-                motionDirection = LEFT;
+                myRobot.setMotion(TURN_COUNTERCLOCKWISE);
+                motionDirection = TURN_COUNTERCLOCKWISE;
                 new Handler().postDelayed(new Runnable() {
                     @Override
                     public void run() {

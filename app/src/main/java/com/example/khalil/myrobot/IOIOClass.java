@@ -8,6 +8,8 @@ package com.example.khalil.myrobot;
  * sends commands to the pins. setMotion() is used to change the directions of the four motors.
  */
 
+import android.content.ContextWrapper;
+
 import ioio.lib.api.DigitalOutput;
 import ioio.lib.api.PwmOutput;
 import ioio.lib.api.exception.ConnectionLostException;
@@ -15,6 +17,11 @@ import ioio.lib.util.BaseIOIOLooper;
 import ioio.lib.util.IOIOLooper;
 import ioio.lib.util.IOIOLooperProvider;
 import ioio.lib.util.android.IOIOAndroidApplicationHelper;
+
+import static com.example.khalil.myrobot.CommandStrings.GO_FORWARDS;
+import static com.example.khalil.myrobot.CommandStrings.STOP;
+import static com.example.khalil.myrobot.CommandStrings.TURN_CLOCKWISE;
+import static com.example.khalil.myrobot.CommandStrings.TURN_COUNTERCLOCKWISE;
 
 class IOIOClass extends BaseIOIOLooper implements IOIOLooperProvider {
 
@@ -48,19 +55,13 @@ class IOIOClass extends BaseIOIOLooper implements IOIOLooperProvider {
     private float RRightSpeed = 0;
     private float RLeftSpeed = 0;
 
-    // These strings are used as commands.
-    private static final String FORWARDS = "forwards";
-    private static final String RIGHT = "right";
-    private static final String LEFT = "left";
-    private static final String STOP = "stop";
-
     private IOIOAndroidApplicationHelper helper;  // This helper is necessary to start the IOIOClass
             // loop from another class, CentralHub.
 
     /**
      * This constructor is used to create the helper.
     */
-    IOIOClass(RobotDriver mTheGui) {
+    IOIOClass(ContextWrapper mTheGui) {
         helper = new IOIOAndroidApplicationHelper(mTheGui, this);
     }
 
@@ -138,7 +139,7 @@ class IOIOClass extends BaseIOIOLooper implements IOIOLooperProvider {
      */
     void setMotion(String direction) {
         switch (direction) {
-            case FORWARDS:
+            case GO_FORWARDS:
                 FLeftSpeed = (float) 0.6;
                 FRightSpeed = (float) 0.6;
                 FMotorLeft = true;
@@ -149,7 +150,7 @@ class IOIOClass extends BaseIOIOLooper implements IOIOLooperProvider {
                 RMotorLeft = true;
                 RMotorRight = false;
                 break;
-            case RIGHT:
+            case TURN_CLOCKWISE:
                 FLeftSpeed = (float) 0.4;
                 FRightSpeed = (float) 0.4;
                 FMotorLeft = true;
@@ -160,7 +161,7 @@ class IOIOClass extends BaseIOIOLooper implements IOIOLooperProvider {
                 RMotorLeft = true;
                 RMotorRight = true;
                 break;
-            case LEFT:
+            case TURN_COUNTERCLOCKWISE:
                 FLeftSpeed = (float) 0.4;
                 FRightSpeed = (float) 0.4;
                 FMotorLeft = false;

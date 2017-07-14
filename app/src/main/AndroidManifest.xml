@@ -54,7 +54,8 @@
 
         <activity android:name=".RobotDriver">
         </activity>
-
+        <activity android:name=".RobotManipulator">
+        </activity>
 
         <service android:enabled="true" android:name=".NaturalLanguageProcessService" />
 
