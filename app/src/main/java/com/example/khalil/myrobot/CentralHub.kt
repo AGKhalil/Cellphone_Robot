@@ -105,26 +105,26 @@ class CentralHub : AppCompatActivity() {
     private val NLPReceiver = object : BroadcastReceiver() {
         override fun onReceive(context: Context, intent: Intent) {
             // Get extra data included in the Intent
-            action = intent.getStringExtra("action")
-            speech = intent.getStringExtra("speech")
+            action = intent.getStringExtra(Commands.NLP_ACTION)
+            speech = intent.getStringExtra(Commands.NLP_SPEECH)
 
 
-            speech = intent.getStringExtra("speech")
+            speech = intent.getStringExtra(Commands.NLP_SPEECH)
             Log.d("receiver", "Got intent: " + action)
             TEXT_Receive.setText(speech)
             when(action){
-                "navigation"-> {
-                    destination = intent.getStringExtra("destination")
+                Commands.NLP_ACTION_NAVIGATION -> {
+                    destination = intent.getStringExtra(Commands.NLP_NAVIGATION_DESTINATION)
                     startRobotDriver(destination)
                 }
 
-                "picturetaking" -> {
-                    socialmedia = intent.getStringExtra("socialmedia")
+                Commands.NLP_ACTION_PICTURE_TAKING -> {
+                    socialmedia = intent.getStringExtra(Commands.NLP_PICTURE_TAKING_SOCIAL_MEDIA)
                     startRobotManipulator(action, socialmedia)
                 }
 
-                "turnaround" -> {
-                    rotation_direction = intent.getStringExtra("rotation_direction")
+                Commands.NLP_ACTION_TURNAROUND -> {
+                    rotation_direction = intent.getStringExtra(Commands.NLP_TURNAROUND_ROTATION_DIRECTION)
                     startRobotManipulator(action, rotation_direction)
                 }
             }
@@ -135,7 +135,7 @@ class CentralHub : AppCompatActivity() {
      * This is the method that starts the RobotDriver by filing the mIntent when called.
      */
     private fun startRobotDriver(message: String) {
-        robotDriverIntent!!.putExtra("message", message) // The SMS, which is the destination name, is passed
+        robotDriverIntent!!.putExtra(Commands.HUB_TO_DRIVER_DESTINATION_MESSAGE, message) // The SMS, which is the destination name, is passed
         // to RobotDriver, because it needs it to file the API request.
         Log.d(TAG, "startRobotDriver")
         this.startActivity(robotDriverIntent)  // This line is what actually starts the RobotDriver.
@@ -145,8 +145,8 @@ class CentralHub : AppCompatActivity() {
      * This is the method that handles RobotManipulator.
      */
     private fun startRobotManipulator(action: String, actionParameter: String) {
-        robotManipulatorIntent!!.putExtra("action", action)
-        robotManipulatorIntent!!.putExtra("actionParameter", actionParameter)
+        robotManipulatorIntent!!.putExtra(Commands.HUB_TO_Manipulator_ACTION, action)
+        robotManipulatorIntent!!.putExtra(Commands.HUB_TO_Manipulator_ACTION_PAREMETER, actionParameter)
         Log.d(TAG, "startRobotManipulator")
         this.startActivity(robotManipulatorIntent)
     }

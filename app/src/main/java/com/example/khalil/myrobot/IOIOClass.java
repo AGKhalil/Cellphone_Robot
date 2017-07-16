@@ -18,10 +18,10 @@ import ioio.lib.util.IOIOLooper;
 import ioio.lib.util.IOIOLooperProvider;
 import ioio.lib.util.android.IOIOAndroidApplicationHelper;
 
-import static com.example.khalil.myrobot.CommandStrings.GO_FORWARDS;
-import static com.example.khalil.myrobot.CommandStrings.STOP;
-import static com.example.khalil.myrobot.CommandStrings.TURN_CLOCKWISE;
-import static com.example.khalil.myrobot.CommandStrings.TURN_COUNTERCLOCKWISE;
+import static com.example.khalil.myrobot.Commands.GO_FORWARDS;
+import static com.example.khalil.myrobot.Commands.STOP;
+import static com.example.khalil.myrobot.Commands.TURN_CLOCKWISE;
+import static com.example.khalil.myrobot.Commands.TURN_COUNTERCLOCKWISE;
 
 class IOIOClass extends BaseIOIOLooper implements IOIOLooperProvider {
 

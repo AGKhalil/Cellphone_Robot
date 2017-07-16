@@ -17,10 +17,6 @@ import com.github.florent37.camerafragment.CameraFragment;
 import com.github.florent37.camerafragment.configuration.Configuration;
 import com.github.florent37.camerafragment.listeners.CameraFragmentResultListener;
 
-import static com.example.khalil.myrobot.CommandStrings.GO_FORWARDS;
-import static com.example.khalil.myrobot.CommandStrings.TURN_CLOCKWISE;
-import static com.example.khalil.myrobot.CommandStrings.TURN_COUNTERCLOCKWISE;
-
 /**
  * Created by Khalil on 7/5/17.
  */
@@ -31,7 +27,6 @@ public class RobotDriver extends AppCompatActivity implements CameraFragmentResu
     public float direction; // The robot's bearing to the next location point.
     public String message;  // The SMS message passed in through the EventBus.
     IOIOClass myRobot;  // An instance of the robot. A setter method will be used on this instance
-    static final String STOP = "stop";   // A string command to stop.
     private String motionDirection = "not moving";  // An initialization of the direction the robot
     // is moving in.
     public final CameraFragment cameraFragment =
@@ -55,7 +50,7 @@ public class RobotDriver extends AppCompatActivity implements CameraFragmentResu
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        message = getIntent().getStringExtra("message");
+        message = getIntent().getStringExtra(Commands.HUB_TO_DRIVER_DESTINATION_MESSAGE);
         setContentView(R.layout.activity_driver); // Sets the XML view file that appears to the user.
         navigationServiceIntent = new Intent(this, NavigationService.class); // Associates navigationServiceIntent with
             // NavigationService.
@@ -137,9 +132,9 @@ public class RobotDriver extends AppCompatActivity implements CameraFragmentResu
      * stop the robot when it is 5m away from the target and take a picture.
      */
     private void updateRobotDriver(Intent intent) {
-        direction = intent.getFloatExtra("direction", 0.0f); // obtains the direction parameter from
+        direction = intent.getFloatExtra(Commands.NAVIGATION_TO_DRIVER_DIRECTION, 0.0f); // obtains the direction parameter from
         // the intent passed by NavigationService.
-        double distance = intent.getDoubleExtra("distance", 0.0f); // obtains the distance parameter
+        double distance = intent.getDoubleExtra(Commands.NAVIGATION_TO_DRIVER_DISTANCE, 0.0f); // obtains the distance parameter
         // from the intent passed by NavigationService.
 
         // This IF block sets the robot's motion based on the next location's bearing with respect
@@ -147,28 +142,28 @@ public class RobotDriver extends AppCompatActivity implements CameraFragmentResu
         // stop and take a picture.
         if (!(distance < 5 && distance > 0)) {
             if (direction > 350 || direction < 10) {
-                myRobot.setMotion(GO_FORWARDS); // A setter method that sets the robot's motion.
+                myRobot.setMotion(Commands.GO_FORWARDS); // A setter method that sets the robot's motion.
             } else if (direction < 350 && direction > 180) {
-                myRobot.setMotion(TURN_CLOCKWISE);
-                motionDirection = TURN_CLOCKWISE;
+                myRobot.setMotion(Commands.TURN_CLOCKWISE);
+                motionDirection = Commands.TURN_CLOCKWISE;
                 new Handler().postDelayed(new Runnable() {
                     @Override
                     public void run() {
-                        myRobot.setMotion(STOP);
+                        myRobot.setMotion(Commands.STOP);
                     }
                 }, 1000);
             } else if (direction < 180 && direction > 10) {
-                myRobot.setMotion(TURN_COUNTERCLOCKWISE);
-                motionDirection = TURN_COUNTERCLOCKWISE;
+                myRobot.setMotion(Commands.TURN_COUNTERCLOCKWISE);
+                motionDirection = Commands.TURN_COUNTERCLOCKWISE;
                 new Handler().postDelayed(new Runnable() {
                     @Override
                     public void run() {
-                        myRobot.setMotion(STOP);
+                        myRobot.setMotion(Commands.STOP);
                     }
                 }, 1000);
             }
         } else {
-            myRobot.setMotion(STOP);
+            myRobot.setMotion(Commands.STOP);
             motionDirection = "I have arrived to destination.";
             new Handler().postDelayed(new Runnable() {
                 @Override
@@ -212,11 +207,11 @@ public class RobotDriver extends AppCompatActivity implements CameraFragmentResu
     @Override
     public void onPhotoTaken(byte[] bytes, String filePath) {
         Toast.makeText(this, "Photo: " + bytes.length + filePath, Toast.LENGTH_SHORT).show();
-        postToMedia.postToTwitter(filePath);
+        postToMedia.postToSocialMedia(filePath, Commands.TWITTER);
     }
 
     private void callNavigationService(String message) {
-        navigationServiceIntent.putExtra("message", message); // The SMS, which is the destination name, is passed
+        navigationServiceIntent.putExtra(Commands.DRIVER_TO_NAVIGATION_MESSAGE, message); // The SMS, which is the destination name, is passed
             // to NavigationService, because it needs it to file the API request.
         Log.d(TAG,"callNavigationService");
         this.startService(navigationServiceIntent);  // This line is what actually starts the NavigationService.

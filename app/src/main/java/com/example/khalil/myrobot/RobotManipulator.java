@@ -10,9 +10,9 @@ import com.github.florent37.camerafragment.CameraFragment;
 import com.github.florent37.camerafragment.configuration.Configuration;
 import com.github.florent37.camerafragment.listeners.CameraFragmentResultListener;
 
-import static com.example.khalil.myrobot.CommandStrings.STOP;
-import static com.example.khalil.myrobot.CommandStrings.TURN_CLOCKWISE;
-import static com.example.khalil.myrobot.CommandStrings.TURN_COUNTERCLOCKWISE;
+import static com.example.khalil.myrobot.Commands.STOP;
+import static com.example.khalil.myrobot.Commands.TURN_CLOCKWISE;
+import static com.example.khalil.myrobot.Commands.TURN_COUNTERCLOCKWISE;
 
 /**
  * Created by Khalil on 7/5/17.
@@ -25,9 +25,6 @@ public class RobotManipulator extends AppCompatActivity implements CameraFragmen
             CameraFragment.newInstance(new Configuration.Builder().build()); // A camera fragment
     public String socialParameter = "";
     IOIOClass myRobot;  // An instance of the robot. A setter method will be used on this instance
-    // to move the robot.
-    private String action = "";
-    private String actionParameter = "";
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -41,11 +38,11 @@ public class RobotManipulator extends AppCompatActivity implements CameraFragmen
         myRobot = new IOIOClass(this);
         myRobot.getIOIOAndroidApplicationHelper().create(); // Retrieves the IOIO helper, which is
         Log.d(TAG, "onCreate: ");
-        action = getIntent().getStringExtra("action");
-        actionParameter = getIntent().getStringExtra("actionParameter");
+        String action = getIntent().getStringExtra(Commands.HUB_TO_Manipulator_ACTION);
+        String actionParameter = getIntent().getStringExtra(Commands.HUB_TO_Manipulator_ACTION_PAREMETER);
 
         switch (action) {
-            case "picturetaking":
+            case Commands.NLP_ACTION_PICTURE_TAKING:
                 socialParameter = actionParameter;
                 new Handler().postDelayed(new Runnable() {
                     @Override
@@ -54,7 +51,7 @@ public class RobotManipulator extends AppCompatActivity implements CameraFragmen
                     }
                 }, 3000);
                 break;
-            case "turnaround":
+            case Commands.NLP_ACTION_TURNAROUND:
                 turnRobot(actionParameter);
                 break;
         }
@@ -93,10 +90,7 @@ public class RobotManipulator extends AppCompatActivity implements CameraFragmen
 
     @Override
     public void onPhotoTaken(byte[] bytes, String filePath) {
-        Log.d(TAG, "onPhotoTaken: "+socialParameter);
-        if (socialParameter.equals("Twitter")){
-            postToMedia.postToTwitter(filePath);
-        }
+        postToMedia.postToSocialMedia(filePath, socialParameter);
     }
 
     /**

@@ -90,7 +90,7 @@ public class NavigationService extends Service implements
      * intent CentralHub has filed, obtains the SMS message, and calls the startNavigation method.
     */
      public int onStartCommand(Intent intent, int flags, int startId) {
-        mMessage = intent.getStringExtra("message");  // Obtains the SMS.
+        mMessage = intent.getStringExtra(Commands.DRIVER_TO_NAVIGATION_MESSAGE);  // Obtains the SMS.
          Log.d(TAG, "onStartCommand: "+mMessage);
         // Creates a new thread upon which NavigationService runs.
         Thread t = new Thread(new Runnable() {
@@ -130,9 +130,6 @@ public class NavigationService extends Service implements
             }
 
             finalDestination = pointsArray.get(pointsArray.size() - 1);
-
-//            nextDestinationLat = nextDestinationObj.getLatitude();
-//            nextDestinationLng = nextDestinationObj.getLongitude();
             destination = new LatLng(nextDestinationObj.getLatitude(),
                     nextDestinationObj.getLongitude());
             double finalDestinationLat = finalDestination.getLatitude();
@@ -141,7 +138,7 @@ public class NavigationService extends Service implements
                     locationHelper.currentLocationLng,
                     finalDestinationLat, finalDestinationLng);
 
-            intent.putExtra("distance", distance);
+            intent.putExtra(Commands.NAVIGATION_TO_DRIVER_DISTANCE, distance);
             sendBroadcast(intent);  // Intent is broadcast.
         }
         // This IF block puts the thread to sleep for four seconds when it is done. However, if
@@ -251,7 +248,7 @@ public class NavigationService extends Service implements
                     if (azimuth < 0) {
                         azimuth = azimuth + 360;
                     }
-                    intent.putExtra("direction", azimuth);
+                    intent.putExtra(Commands.NAVIGATION_TO_DRIVER_DIRECTION, azimuth);
                     Log.d(TAG, "azimuth (deg): " + azimuth);
                 }
             }

@@ -24,6 +24,14 @@ class CommunicationOut {
         CommunicationOut.message = message;
     }
 
+    void postToSocialMedia(String filePath, String socialParamter) {
+        switch (socialParamter) {
+            case Commands.TWITTER:
+                postToTwitter(filePath);
+                break;
+        }
+    }
+
     /**
      * This method posts a picture and caption to Twitter.
      */
