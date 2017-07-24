@@ -1,6 +1,10 @@
 [
     {
-        "merged": "C:\\Cellphone_Robot\\ailib\\build\\intermediates\\res\\merged\\androidTest\\debug\\color\\mic_colors.xml",
-        "source": "C:\\Cellphone_Robot\\ailib\\build\\intermediates\\bundles\\debug\\res\\color\\mic_colors.xml"
+        "merged": "/Users/Khalil/Desktop/Cell Phone Robot Research Project/Cell Phone Robot Report and Code/myRobot/ailib/build/intermediates/res/merged/androidTest/debug/color/mic_colors.xml",
+        "source": "/Users/Khalil/Desktop/Cell Phone Robot Research Project/Cell Phone Robot Report and Code/myRobot/ailib/build/intermediates/bundles/debug/res/color/mic_colors.xml"
+    },
+    {
+        "merged": "/Users/Khalil/Desktop/Cell Phone Robot Research Project/Cell Phone Robot Report and Code/myRobot/C:\\Cellphone_Robot\\ailib\\build\\intermediates\\res\\merged\\androidTest\\debug\\color\\mic_colors.xml",
+        "source": "/Users/Khalil/Desktop/Cell Phone Robot Research Project/Cell Phone Robot Report and Code/myRobot/C:\\Cellphone_Robot\\ailib\\build\\intermediates\\bundles\\debug\\res\\color\\mic_colors.xml"
     }
 ]
