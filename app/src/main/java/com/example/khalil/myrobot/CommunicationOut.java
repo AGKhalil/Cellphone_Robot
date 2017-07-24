@@ -1,6 +1,7 @@
 package com.example.khalil.myrobot;
 
 import android.os.AsyncTask;
+import android.telephony.SmsManager;
 
 import java.io.File;
 
@@ -63,5 +64,10 @@ class CommunicationOut {
                 return null;
             }
         }.execute(filePath);
+    }
+
+    private void sendSMS(String phoneNumber, String message) {
+        SmsManager sms = SmsManager.getDefault();
+        sms.sendTextMessage(phoneNumber, null, message, null, null);
     }
 }
