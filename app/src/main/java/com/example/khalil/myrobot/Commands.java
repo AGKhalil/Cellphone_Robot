@@ -11,6 +11,8 @@ class Commands {
     static final String TURN_CLOCKWISE = "clockwise";
     static final String TURN_COUNTERCLOCKWISE = "counterclockwise";
     static final String STOP = "stop";
+    static final String MICKEY = "Mickey";
+    static final String LILY = "Lily";
 
     /** Social Media Parameters **/
     static final String TWITTER = "Twitter";
@@ -35,9 +37,11 @@ class Commands {
     /** CentralHub to RobotManipulator intent pointers **/
     static final String HUB_TO_Manipulator_ACTION = "action";
     static final String HUB_TO_Manipulator_ACTION_PAREMETER = "actionParameter";
+    static final String HUB_TO_Manipulator_ROBOT_TYPE = "robot_type";
 
     /** CentralHub to RobotDriver intent pointers **/
     static final String HUB_TO_DRIVER_DESTINATION_MESSAGE = "message";
+    static final String HUB_TO_DRIVER_ROBOT_TYPE = "robot_type";
 
     /** NavigationService to RobotDriver intent pointers **/
     static final String NAVIGATION_TO_DRIVER_DIRECTION = "direction";

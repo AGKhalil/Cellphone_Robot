@@ -26,6 +26,8 @@ public class RobotManipulator extends AppCompatActivity implements CameraFragmen
     public String socialParameter = "";
     IOIOClass myRobot;  // An instance of the robot. A setter method will be used on this instance
 
+    private String robotType; // Robot type.
+
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -35,7 +37,8 @@ public class RobotManipulator extends AppCompatActivity implements CameraFragmen
                 .replace(R.id.manipulatorCameraFragment, cameraFragment, "TheCameraThing")
                 .commit();
 
-        myRobot = new IOIOClass(this);
+        robotType = getIntent().getStringExtra(Commands.HUB_TO_Manipulator_ROBOT_TYPE);
+        myRobot = new IOIOClass(this, robotType);
         myRobot.getIOIOAndroidApplicationHelper().create(); // Retrieves the IOIO helper, which is
         Log.d(TAG, "onCreate: ");
         String action = getIntent().getStringExtra(Commands.HUB_TO_Manipulator_ACTION);

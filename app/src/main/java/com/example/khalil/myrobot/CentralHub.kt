@@ -30,6 +30,7 @@ class CentralHub : AppCompatActivity() {
     var rotation_direction = ""
     var socialmedia = ""
     var destination =""
+    var robot = Commands.LILY
     /**
      * Start of Testing Methods *****************************************
      */
@@ -137,6 +138,7 @@ class CentralHub : AppCompatActivity() {
     private fun startRobotDriver(message: String) {
         robotDriverIntent!!.putExtra(Commands.HUB_TO_DRIVER_DESTINATION_MESSAGE, message) // The SMS, which is the destination name, is passed
         // to RobotDriver, because it needs it to file the API request.
+        robotDriverIntent!!.putExtra(Commands.HUB_TO_DRIVER_ROBOT_TYPE, robot) // Lily or Mickey
         Log.d(TAG, "startRobotDriver")
         this.startActivity(robotDriverIntent)  // This line is what actually starts the RobotDriver.
     }
@@ -147,6 +149,7 @@ class CentralHub : AppCompatActivity() {
     private fun startRobotManipulator(action: String, actionParameter: String) {
         robotManipulatorIntent!!.putExtra(Commands.HUB_TO_Manipulator_ACTION, action)
         robotManipulatorIntent!!.putExtra(Commands.HUB_TO_Manipulator_ACTION_PAREMETER, actionParameter)
+        robotManipulatorIntent!!.putExtra(Commands.HUB_TO_Manipulator_ROBOT_TYPE, robot) // Lily or Mickey
         Log.d(TAG, "startRobotManipulator")
         this.startActivity(robotManipulatorIntent)
     }
@@ -154,6 +157,10 @@ class CentralHub : AppCompatActivity() {
 
     companion object {
         val TAG = CentralHub::class.java.getName()
+    }
+
+    fun useMickey(view: View){
+        robot = Commands.MICKEY
     }
 }
 
