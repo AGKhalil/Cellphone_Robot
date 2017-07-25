@@ -66,7 +66,7 @@ class CommunicationOut {
         }.execute(filePath);
     }
 
-    private void sendSMS(String phoneNumber, String message) {
+    void sendSMS(String phoneNumber) {
         SmsManager sms = SmsManager.getDefault();
         sms.sendTextMessage(phoneNumber, null, message, null, null);
     }

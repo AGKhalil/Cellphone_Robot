@@ -28,8 +28,8 @@ class NaturalLanguageProcessService : Service() {//AppCompatActivity(), AdapterV
     var speech = ""
     var rotation_direction = ""
     var socialmedia = ""
-
-
+    var phonenumber = ""
+    var shape = ""
     private var aiDataService: AIDataService? = null
 
     override fun onBind(intent: Intent?): IBinder {
@@ -56,7 +56,8 @@ class NaturalLanguageProcessService : Service() {//AppCompatActivity(), AdapterV
 
     override fun onStartCommand(intent: Intent?, flags: Int, startId: Int): Int {
         val msg = intent!!.getStringExtra("msg")  // Obtains the SMS.
-        Log.d(TAG, "onStartCommand: " + msg)
+        phonenumber = intent!!.getStringExtra("phonenumber")
+        Log.d(TAG, "onStartCommand: " + phonenumber+msg)
         // Creates a new thread upon which NavigationService runs.
         val t = Thread(Runnable // Checks if the message is null, if not the service starts.
         {
@@ -157,14 +158,17 @@ class NaturalLanguageProcessService : Service() {//AppCompatActivity(), AdapterV
                 for ((key, value) in params) {
                     param_String= param_String + String.format("%s: %s\n", key, value.toString())
                     Log.i(TAG, String.format("%s: %s", key, value.toString()))
-                    if (key == "destination") {
+                    if (key == Commands.NLP_NAVIGATION_DESTINATION) {
                         destination = value.toString()
                     }
-                    if (key == "rotation_direction") {
+                    if (key == Commands.NLP_TURNAROUND_ROTATION_DIRECTION) {
                         rotation_direction = value.toString()
                     }
-                    if (key == "socialmedia") {
+                    if (key == Commands.NLP_PICTURE_TAKING_SOCIAL_MEDIA) {
                         socialmedia = value.toString()
+                    }
+                    if (key == Commands.NLP_WALK_SHAPE) {
+                        shape = value.toString()
                     }
                 }
             }
@@ -173,6 +177,15 @@ class NaturalLanguageProcessService : Service() {//AppCompatActivity(), AdapterV
 
     }
 
+    private fun clear(){
+        destination = ""
+        action = ""
+        speech = ""
+        rotation_direction = ""
+        socialmedia = ""
+        phonenumber = ""
+        shape = ""
+    }
 
     private fun sendMessage() {
         Log.d("sender", "Broadcasting message")
@@ -190,35 +203,51 @@ class NaturalLanguageProcessService : Service() {//AppCompatActivity(), AdapterV
             rotation_direction = rotation_direction.substring(1, rotation_direction.length - 1)
             Log.d(TAG, rotation_direction + "!!!")
         }
-        //TODO: send back the speech to wherever the message comes from
+        if (shape != "") {
+            shape = shape.substring(1, shape.length - 1)
+            Log.d(TAG, shape + "!!!")
+        }
 
-        Log.d(TAG,"Speech:"+speech)
+        //send back the speech to wherever the message comes from
+//TODO uncomment this when doing demo
+//        val sendsms: CommunicationOut = CommunicationOut(speech)
+//        sendsms.sendSMS(phonenumber)
 
-        intent.putExtra("action", action)
-        intent.putExtra("speech",speech)
+        Log.d(TAG, "Speech:" + speech)
+
+        intent.putExtra(Commands.NLP_ACTION, action)
+        intent.putExtra(Commands.NLP_SPEECH,speech)
 
         // This is for checking variables
         when (action){
-            "navigation"-> if (destination == "") {
+            Commands.NLP_ACTION_NAVIGATION-> if (destination == "") {
                 Log.d(TAG,"navaigation requires destination")
                 return
             }
-            else {intent.putExtra("destination", destination)}
+            else {intent.putExtra(Commands.NLP_NAVIGATION_DESTINATION, destination)}
 
-            "picturetaking" -> if (socialmedia ==""){
+            Commands.NLP_ACTION_PICTURE_TAKING -> if (socialmedia ==""){
                 Log.d(TAG,"picture taking requires socialmedia")
                 return
             }
-            else {intent.putExtra("socialmedia", socialmedia)}
+            else {intent.putExtra(Commands.NLP_PICTURE_TAKING_SOCIAL_MEDIA, socialmedia)}
 
-            "turnaround" -> if (rotation_direction ==""){
+            Commands.NLP_ACTION_TURNAROUND -> if (rotation_direction ==""){
                 Log.d(TAG,"Turn around requires rotation_direction")
                 return
             }
-            else {intent.putExtra("rotation_direction", rotation_direction)}
+            else {intent.putExtra(Commands.NLP_TURNAROUND_ROTATION_DIRECTION, rotation_direction)}
+
+            Commands.NLP_ACTION_WALK ->if (shape ==""){
+                Log.d(TAG,"Walk requires shape")
+                return
+            }
+            else {intent.putExtra(Commands.NLP_WALK_SHAPE, shape)}
+
         }
 
         LocalBroadcastManager.getInstance(this).sendBroadcast(intent)
+        clear()
     }
 
 

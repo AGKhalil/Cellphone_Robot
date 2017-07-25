@@ -32,6 +32,15 @@ class Commands {
     // NLP_ACTION_TURNAROUND actionParameters
     static final String NLP_TURNAROUND_ROTATION_DIRECTION = "rotation_direction";
 
+    static final String NLP_ACTION_WALK = "walk";
+
+    static final String NLP_WALK_SHAPE = "shape";
+    static final String NLP_WALK_FREE = "freestyle";
+    static final String NLP_WALK_SQUARE = "square";
+    static final String NLP_WALK_CIRCLE = "circle";
+    static final String NLP_WALK_TRI = "triangle";
+
+
     /** CentralHub to RobotManipulator intent pointers **/
     static final String HUB_TO_Manipulator_ACTION = "action";
     static final String HUB_TO_Manipulator_ACTION_PAREMETER = "actionParameter";

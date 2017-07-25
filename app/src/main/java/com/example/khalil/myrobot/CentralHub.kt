@@ -19,6 +19,7 @@ import android.support.v4.content.LocalBroadcastManager
 import android.support.v7.app.AppCompatActivity
 import android.util.Log
 import android.view.View
+import android.widget.RadioButton
 import android.widget.Toast
 import kotlinx.android.synthetic.main.activity_hub.*
 
@@ -30,6 +31,7 @@ class CentralHub : AppCompatActivity() {
     var rotation_direction = ""
     var socialmedia = ""
     var destination =""
+    var shape = ""
     /**
      * Start of Testing Methods *****************************************
      */
@@ -54,6 +56,12 @@ class CentralHub : AppCompatActivity() {
         Toast.makeText(this,msg,0).show()
         val i = Intent(this, NaturalLanguageProcessService::class.java)
         i.putExtra("msg", msg)
+        val selectid = radioRobot.checkedRadioButtonId
+        val radioButton = findViewById(selectid) as RadioButton
+        val platform = radioButton.text
+        i.putExtra("platform", platform)
+        i.putExtra("phonenumber","317914")
+        Log.d(TAG,"platform"+platform)
         startService(i)
     }
 
@@ -108,8 +116,6 @@ class CentralHub : AppCompatActivity() {
             action = intent.getStringExtra(Commands.NLP_ACTION)
             speech = intent.getStringExtra(Commands.NLP_SPEECH)
 
-
-            speech = intent.getStringExtra(Commands.NLP_SPEECH)
             Log.d("receiver", "Got intent: " + action)
             TEXT_Receive.setText(speech)
             when(action){
@@ -126,6 +132,11 @@ class CentralHub : AppCompatActivity() {
                 Commands.NLP_ACTION_TURNAROUND -> {
                     rotation_direction = intent.getStringExtra(Commands.NLP_TURNAROUND_ROTATION_DIRECTION)
                     startRobotManipulator(action, rotation_direction)
+                }
+
+                Commands.NLP_ACTION_WALK ->{
+                    shape = intent.getStringExtra(Commands.NLP_WALK_SHAPE)
+                    startRobotManipulator(action, shape)
                 }
             }
         }

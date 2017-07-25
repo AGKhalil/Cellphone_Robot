@@ -40,5 +40,24 @@
         android:inputType="textPersonName"
         android:hint="Speech" />
 
+    <RadioGroup
+        android:id="@+id/radioRobot"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content" >
+
+        <RadioButton
+            android:id="@+id/radioLily"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Lily"
+            android:checked="true" />
+
+        <RadioButton
+            android:id="@+id/radioMickey"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Mickey" />
+
+    </RadioGroup>
 
 </LinearLayout>

@@ -54,6 +54,31 @@ public class RobotManipulator extends AppCompatActivity implements CameraFragmen
             case Commands.NLP_ACTION_TURNAROUND:
                 turnRobot(actionParameter);
                 break;
+            case Commands.NLP_ACTION_WALK:
+                walk(actionParameter);
+                break;
+
+        }
+    }
+
+    private void walk(String actionParameter) {
+        switch (actionParameter){
+            case Commands.NLP_WALK_CIRCLE:
+                // TODO circle
+                Log.d(TAG, "walk:"+actionParameter);
+                break;
+            case Commands.NLP_WALK_FREE:
+                Log.d(TAG, "walk:"+actionParameter);
+                //TODO wander around
+                break;
+            case Commands.NLP_WALK_TRI:
+                Log.d(TAG, "walk:"+actionParameter);
+                // TODO triangle
+                break;
+            case Commands.NLP_WALK_SQUARE:
+                Log.d(TAG, "walk:"+actionParameter);
+                // TODO square
+                break;
         }
     }
 
@@ -72,6 +97,7 @@ public class RobotManipulator extends AppCompatActivity implements CameraFragmen
             Log.d(TAG, "turnRobot: clockwise!!!");
             myRobot.setMotion(TURN_CLOCKWISE);
         } else if (myActionParameter.equals(TURN_COUNTERCLOCKWISE)) {
+            Log.d(TAG, "turnRobot: "+TURN_COUNTERCLOCKWISE);
             myRobot.setMotion(TURN_COUNTERCLOCKWISE);
         }
 
