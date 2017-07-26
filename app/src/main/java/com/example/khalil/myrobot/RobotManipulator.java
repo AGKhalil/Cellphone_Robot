@@ -12,6 +12,8 @@ import com.github.florent37.camerafragment.listeners.CameraFragmentResultListene
 
 import static com.example.khalil.myrobot.Commands.NLP_WALK_CIRCLE;
 import static com.example.khalil.myrobot.Commands.STOP;
+import static com.example.khalil.myrobot.Commands.TURN_CLOCKWISE;
+import static com.example.khalil.myrobot.Commands.TURN_COUNTERCLOCKWISE;
 
 /**
  * Created by Khalil on 7/5/17.
@@ -95,14 +97,15 @@ public class RobotManipulator extends AppCompatActivity implements CameraFragmen
         Log.d(TAG, "turnRobot: Turn"+ myActionParameter);
         // responsible for starting the IOIO loop from another class, and creates it.
         // This allows RobotDriver to access the IOIOClass instance.
-        if(myActionParameter.equals(Commands.TURN_CLOCKWISE)) {
-            Log.d(TAG, "turnRobot: clockwise!!!");
-            myRobot.declareMotion(Commands.TURN_CLOCKWISE, Commands.STOP, 5);
-        } else {
-            if (myActionParameter.equals(Commands.TURN_COUNTERCLOCKWISE)) {
+        switch (myActionParameter) {
+            case TURN_CLOCKWISE:
+                Log.d(TAG, "turnRobot: clockwise!!!");
+                myRobot.declareMotion(Commands.TURN_CLOCKWISE, Commands.STOP, 5);
+                break;
+            case TURN_COUNTERCLOCKWISE:
                 Log.d(TAG, "turnRobot: " + Commands.TURN_COUNTERCLOCKWISE);
                 myRobot.declareMotion(Commands.TURN_CLOCKWISE, Commands.STOP, 12);
-            }
+                break;
         }
     }
 
