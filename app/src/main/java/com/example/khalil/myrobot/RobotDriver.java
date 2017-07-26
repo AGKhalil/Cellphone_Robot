@@ -5,7 +5,6 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.IntentFilter;
 import android.os.Bundle;
-import android.os.Handler;
 import android.support.annotation.Nullable;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
@@ -16,6 +15,11 @@ import android.widget.Toast;
 import com.github.florent37.camerafragment.CameraFragment;
 import com.github.florent37.camerafragment.configuration.Configuration;
 import com.github.florent37.camerafragment.listeners.CameraFragmentResultListener;
+
+import static com.example.khalil.myrobot.Commands.GO_FORWARDS;
+import static com.example.khalil.myrobot.Commands.STOP;
+import static com.example.khalil.myrobot.Commands.TURN_CLOCKWISE;
+import static com.example.khalil.myrobot.Commands.TURN_COUNTERCLOCKWISE;
 
 /**
  * Created by Khalil on 7/5/17.
@@ -142,36 +146,19 @@ public class RobotDriver extends AppCompatActivity implements CameraFragmentResu
         // stop and take a picture.
         if (!(distance < 5 && distance > 0)) {
             if (direction > 350 || direction < 10) {
-                myRobot.setMotion(Commands.GO_FORWARDS); // A setter method that sets the robot's motion.
+                myRobot.declareMotion(GO_FORWARDS, STOP, 3); // A setter method that sets the robot's motion.
             } else if (direction < 350 && direction > 180) {
-                myRobot.setMotion(Commands.TURN_CLOCKWISE);
+                myRobot.declareMotion(TURN_CLOCKWISE, STOP, (int) 0.65);
                 motionDirection = Commands.TURN_CLOCKWISE;
-                new Handler().postDelayed(new Runnable() {
-                    @Override
-                    public void run() {
-                        myRobot.setMotion(Commands.STOP);
-                    }
-                }, 1000);
             } else if (direction < 180 && direction > 10) {
-                myRobot.setMotion(Commands.TURN_COUNTERCLOCKWISE);
+                myRobot.declareMotion(TURN_COUNTERCLOCKWISE, STOP, (int) 0.65);
                 motionDirection = Commands.TURN_COUNTERCLOCKWISE;
-                new Handler().postDelayed(new Runnable() {
-                    @Override
-                    public void run() {
-                        myRobot.setMotion(Commands.STOP);
-                    }
-                }, 1000);
             }
         } else {
-            myRobot.setMotion(Commands.STOP);
+            myRobot.declareMotion(STOP, STOP, 0);
             motionDirection = "I have arrived to destination.";
-            new Handler().postDelayed(new Runnable() {
-                @Override
-                public void run() {
-                    cameraFragment.takePhotoOrCaptureVideo(RobotDriver.this,
-                            "/storage/self/primary", "thePicture001");
-                }
-            }, 5000);
+            cameraFragment.takePhotoOrCaptureVideo(RobotDriver.this,
+                    "/storage/self/primary", "thePicture001");
         }
 
         Log.d("OUTSIDE", String.valueOf(direction));  // Used for debugging.

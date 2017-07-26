@@ -9,6 +9,7 @@ package com.example.khalil.myrobot;
  */
 
 import android.content.ContextWrapper;
+import android.os.Handler;
 
 import ioio.lib.api.DigitalOutput;
 import ioio.lib.api.PwmOutput;
@@ -17,6 +18,8 @@ import ioio.lib.util.BaseIOIOLooper;
 import ioio.lib.util.IOIOLooper;
 import ioio.lib.util.IOIOLooperProvider;
 import ioio.lib.util.android.IOIOAndroidApplicationHelper;
+
+import static com.example.khalil.myrobot.Commands.STOP;
 
 class IOIOClass extends BaseIOIOLooper implements IOIOLooperProvider {
 
@@ -132,7 +135,7 @@ class IOIOClass extends BaseIOIOLooper implements IOIOLooperProvider {
      * This method is used to change the motors' directions and speeds based on a string command.
      * This method is publicly accessible by other classes, such as CentralHub.
      */
-    void setMotion(String direction) {
+    private void setMotion(String direction) {
         switch (direction) {
             case Commands.GO_FORWARDS:
                 FLeftSpeed = (float) 0.6;
@@ -178,7 +181,7 @@ class IOIOClass extends BaseIOIOLooper implements IOIOLooperProvider {
                 RMotorRight = false;
                 RMotorLeft = true;
                 break;
-            case Commands.STOP:
+            case STOP:
                 FLeftSpeed = 0;
                 FRightSpeed = 0;
 
@@ -186,6 +189,17 @@ class IOIOClass extends BaseIOIOLooper implements IOIOLooperProvider {
                 RRightSpeed = 0;
                 break;
         }
+    }
+
+    void declareMotion(final String motion, final String newMotion, int duration) {
+        setMotion(motion);
+        new Handler().postDelayed(new Runnable() {
+            @Override
+            public void run() {
+                setMotion(newMotion);
+            }
+        }, duration * 1000);
+
     }
 
     /**

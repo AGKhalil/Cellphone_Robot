@@ -11,6 +11,7 @@ class Commands {
     static final String TURN_CLOCKWISE = "clockwise";
     static final String TURN_COUNTERCLOCKWISE = "counterclockwise";
     static final String STOP = "stop";
+    static final byte INDEFENITE = -1;
 
     /** Social Media Parameters **/
     static final String TWITTER = "Twitter";

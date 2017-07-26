@@ -12,8 +12,6 @@ import com.github.florent37.camerafragment.listeners.CameraFragmentResultListene
 
 import static com.example.khalil.myrobot.Commands.NLP_WALK_CIRCLE;
 import static com.example.khalil.myrobot.Commands.STOP;
-import static com.example.khalil.myrobot.Commands.TURN_CLOCKWISE;
-import static com.example.khalil.myrobot.Commands.TURN_COUNTERCLOCKWISE;
 
 /**
  * Created by Khalil on 7/5/17.
@@ -65,17 +63,10 @@ public class RobotManipulator extends AppCompatActivity implements CameraFragmen
     private void walk(String actionParameter) {
         switch (actionParameter){
             case Commands.NLP_WALK_CIRCLE:
-                // TODO circle
                 if(actionParameter.equals(NLP_WALK_CIRCLE)) {
                     Log.d(TAG, "turnRobot: turn in a circle!!!");
-                    myRobot.setMotion(NLP_WALK_CIRCLE);
+                    myRobot.declareMotion(NLP_WALK_CIRCLE, STOP, 12);
                 }
-                new Handler().postDelayed(new Runnable() {
-                    @Override
-                    public void run() {
-                        myRobot.setMotion(STOP);
-                    }
-                }, 12000);
                 Log.d(TAG, "walk:"+actionParameter);
                 break;
             case Commands.NLP_WALK_FREE:
@@ -104,19 +95,15 @@ public class RobotManipulator extends AppCompatActivity implements CameraFragmen
         Log.d(TAG, "turnRobot: Turn"+ myActionParameter);
         // responsible for starting the IOIO loop from another class, and creates it.
         // This allows RobotDriver to access the IOIOClass instance.
-        if(myActionParameter.equals(TURN_CLOCKWISE)) {
+        if(myActionParameter.equals(Commands.TURN_CLOCKWISE)) {
             Log.d(TAG, "turnRobot: clockwise!!!");
-            myRobot.setMotion(TURN_CLOCKWISE);
-        } else if (myActionParameter.equals(TURN_COUNTERCLOCKWISE)) {
-            Log.d(TAG, "turnRobot: "+TURN_COUNTERCLOCKWISE);
-            myRobot.setMotion(TURN_COUNTERCLOCKWISE);
-        }
-        new Handler().postDelayed(new Runnable() {
-            @Override
-            public void run() {
-                myRobot.setMotion(STOP);
+            myRobot.declareMotion(Commands.TURN_CLOCKWISE, Commands.STOP, 5);
+        } else {
+            if (myActionParameter.equals(Commands.TURN_COUNTERCLOCKWISE)) {
+                Log.d(TAG, "turnRobot: " + Commands.TURN_COUNTERCLOCKWISE);
+                myRobot.declareMotion(Commands.TURN_CLOCKWISE, Commands.STOP, 12);
             }
-        }, 5000);
+        }
     }
 
     @Override
