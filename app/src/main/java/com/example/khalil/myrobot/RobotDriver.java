@@ -146,12 +146,12 @@ public class RobotDriver extends AppCompatActivity implements CameraFragmentResu
         // stop and take a picture.
         if (!(distance < 5 && distance > 0)) {
             if (direction > 350 || direction < 10) {
-                myRobot.declareMotion(GO_FORWARDS, STOP, 3); // A setter method that sets the robot's motion.
+                myRobot.declareMotion(GO_FORWARDS, STOP, 3000); // A setter method that sets the robot's motion.
             } else if (direction < 350 && direction > 180) {
-                myRobot.declareMotion(TURN_CLOCKWISE, STOP, (int) 0.65);
+                myRobot.declareMotion(TURN_CLOCKWISE, STOP, 650);
                 motionDirection = Commands.TURN_CLOCKWISE;
             } else if (direction < 180 && direction > 10) {
-                myRobot.declareMotion(TURN_COUNTERCLOCKWISE, STOP, (int) 0.65);
+                myRobot.declareMotion(TURN_COUNTERCLOCKWISE, STOP, 650);
                 motionDirection = Commands.TURN_COUNTERCLOCKWISE;
             }
         } else {

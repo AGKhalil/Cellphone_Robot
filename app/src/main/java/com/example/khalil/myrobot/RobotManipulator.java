@@ -11,6 +11,7 @@ import com.github.florent37.camerafragment.configuration.Configuration;
 import com.github.florent37.camerafragment.listeners.CameraFragmentResultListener;
 
 import static com.example.khalil.myrobot.Commands.NLP_WALK_CIRCLE;
+import static com.example.khalil.myrobot.Commands.NLP_WALK_SQUARE;
 import static com.example.khalil.myrobot.Commands.STOP;
 import static com.example.khalil.myrobot.Commands.TURN_CLOCKWISE;
 import static com.example.khalil.myrobot.Commands.TURN_COUNTERCLOCKWISE;
@@ -64,12 +65,9 @@ public class RobotManipulator extends AppCompatActivity implements CameraFragmen
 
     private void walk(String actionParameter) {
         switch (actionParameter){
-            case Commands.NLP_WALK_CIRCLE:
-                if(actionParameter.equals(NLP_WALK_CIRCLE)) {
-                    Log.d(TAG, "turnRobot: turn in a circle!!!");
-                    myRobot.declareMotion(NLP_WALK_CIRCLE, STOP, 12);
-                }
+            case NLP_WALK_CIRCLE:
                 Log.d(TAG, "walk:"+actionParameter);
+                myRobot.declareMotion(NLP_WALK_CIRCLE, STOP, 12);
                 break;
             case Commands.NLP_WALK_FREE:
                 Log.d(TAG, "walk:"+actionParameter);
@@ -82,6 +80,7 @@ public class RobotManipulator extends AppCompatActivity implements CameraFragmen
             case Commands.NLP_WALK_SQUARE:
                 Log.d(TAG, "walk:"+actionParameter);
                 // TODO square
+                myRobot.declareMotion(NLP_WALK_SQUARE, STOP, 8);
                 break;
         }
     }
@@ -100,11 +99,11 @@ public class RobotManipulator extends AppCompatActivity implements CameraFragmen
         switch (myActionParameter) {
             case TURN_CLOCKWISE:
                 Log.d(TAG, "turnRobot: clockwise!!!");
-                myRobot.declareMotion(Commands.TURN_CLOCKWISE, Commands.STOP, 5);
+                myRobot.declareMotion(Commands.TURN_CLOCKWISE, STOP, 5);
                 break;
             case TURN_COUNTERCLOCKWISE:
                 Log.d(TAG, "turnRobot: " + Commands.TURN_COUNTERCLOCKWISE);
-                myRobot.declareMotion(Commands.TURN_CLOCKWISE, Commands.STOP, 12);
+                myRobot.declareMotion(Commands.TURN_CLOCKWISE, STOP, 5);
                 break;
         }
     }
