@@ -10,6 +10,7 @@ import com.github.florent37.camerafragment.CameraFragment;
 import com.github.florent37.camerafragment.configuration.Configuration;
 import com.github.florent37.camerafragment.listeners.CameraFragmentResultListener;
 
+import static com.example.khalil.myrobot.Commands.NLP_WALK_CIRCLE;
 import static com.example.khalil.myrobot.Commands.STOP;
 import static com.example.khalil.myrobot.Commands.TURN_CLOCKWISE;
 import static com.example.khalil.myrobot.Commands.TURN_COUNTERCLOCKWISE;
@@ -65,6 +66,16 @@ public class RobotManipulator extends AppCompatActivity implements CameraFragmen
         switch (actionParameter){
             case Commands.NLP_WALK_CIRCLE:
                 // TODO circle
+                if(actionParameter.equals(NLP_WALK_CIRCLE)) {
+                    Log.d(TAG, "turnRobot: turn in a circle!!!");
+                    myRobot.setMotion(NLP_WALK_CIRCLE);
+                }
+                new Handler().postDelayed(new Runnable() {
+                    @Override
+                    public void run() {
+                        myRobot.setMotion(STOP);
+                    }
+                }, 12000);
                 Log.d(TAG, "walk:"+actionParameter);
                 break;
             case Commands.NLP_WALK_FREE:
@@ -100,7 +111,6 @@ public class RobotManipulator extends AppCompatActivity implements CameraFragmen
             Log.d(TAG, "turnRobot: "+TURN_COUNTERCLOCKWISE);
             myRobot.setMotion(TURN_COUNTERCLOCKWISE);
         }
-
         new Handler().postDelayed(new Runnable() {
             @Override
             public void run() {

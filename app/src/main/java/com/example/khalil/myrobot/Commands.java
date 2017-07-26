@@ -33,7 +33,7 @@ class Commands {
     static final String NLP_TURNAROUND_ROTATION_DIRECTION = "rotation_direction";
 
     static final String NLP_ACTION_WALK = "walk";
-
+    // NLP_ACTION_WALK actionParameters
     static final String NLP_WALK_SHAPE = "shape";
     static final String NLP_WALK_FREE = "freestyle";
     static final String NLP_WALK_SQUARE = "square";

@@ -18,11 +18,6 @@ import ioio.lib.util.IOIOLooper;
 import ioio.lib.util.IOIOLooperProvider;
 import ioio.lib.util.android.IOIOAndroidApplicationHelper;
 
-import static com.example.khalil.myrobot.Commands.GO_FORWARDS;
-import static com.example.khalil.myrobot.Commands.STOP;
-import static com.example.khalil.myrobot.Commands.TURN_CLOCKWISE;
-import static com.example.khalil.myrobot.Commands.TURN_COUNTERCLOCKWISE;
-
 class IOIOClass extends BaseIOIOLooper implements IOIOLooperProvider {
 
     // Motor DC : Right Forward.
@@ -139,7 +134,7 @@ class IOIOClass extends BaseIOIOLooper implements IOIOLooperProvider {
      */
     void setMotion(String direction) {
         switch (direction) {
-            case GO_FORWARDS:
+            case Commands.GO_FORWARDS:
                 FLeftSpeed = (float) 0.6;
                 FRightSpeed = (float) 0.6;
                 FMotorLeft = true;
@@ -150,7 +145,7 @@ class IOIOClass extends BaseIOIOLooper implements IOIOLooperProvider {
                 RMotorLeft = true;
                 RMotorRight = false;
                 break;
-            case TURN_CLOCKWISE:
+            case Commands.TURN_CLOCKWISE:
                 FLeftSpeed = (float) 0.4;
                 FRightSpeed = (float) 0.4;
                 FMotorLeft = true;
@@ -161,7 +156,7 @@ class IOIOClass extends BaseIOIOLooper implements IOIOLooperProvider {
                 RMotorLeft = true;
                 RMotorRight = true;
                 break;
-            case TURN_COUNTERCLOCKWISE:
+            case Commands.TURN_COUNTERCLOCKWISE:
                 FLeftSpeed = (float) 0.4;
                 FRightSpeed = (float) 0.4;
                 FMotorLeft = false;
@@ -172,7 +167,18 @@ class IOIOClass extends BaseIOIOLooper implements IOIOLooperProvider {
                 RMotorRight = false;
                 RMotorLeft = false;
                 break;
-            case STOP:
+            case Commands.NLP_WALK_CIRCLE:
+                FLeftSpeed = (float) 0.1;
+                FRightSpeed = (float) 0.6;
+                FMotorLeft = true;
+                FMotorRight = false;
+
+                RLeftSpeed = (float) 0.1;
+                RRightSpeed = (float) 0.6;
+                RMotorRight = false;
+                RMotorLeft = true;
+                break;
+            case Commands.STOP:
                 FLeftSpeed = 0;
                 FRightSpeed = 0;
 
