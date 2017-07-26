@@ -12,6 +12,7 @@ import com.github.florent37.camerafragment.listeners.CameraFragmentResultListene
 
 import static com.example.khalil.myrobot.Commands.NLP_WALK_CIRCLE;
 import static com.example.khalil.myrobot.Commands.NLP_WALK_SQUARE;
+import static com.example.khalil.myrobot.Commands.NLP_WALK_TRI;
 import static com.example.khalil.myrobot.Commands.STOP;
 import static com.example.khalil.myrobot.Commands.TURN_CLOCKWISE;
 import static com.example.khalil.myrobot.Commands.TURN_COUNTERCLOCKWISE;
@@ -76,11 +77,11 @@ public class RobotManipulator extends AppCompatActivity implements CameraFragmen
             case Commands.NLP_WALK_TRI:
                 Log.d(TAG, "walk:"+actionParameter);
                 // TODO triangle
+                myRobot.setMotion(NLP_WALK_TRI);
                 break;
             case Commands.NLP_WALK_SQUARE:
                 Log.d(TAG, "walk:"+actionParameter);
-                // TODO square
-                myRobot.declareMotion(NLP_WALK_SQUARE, STOP, 8);
+                myRobot.setMotion(NLP_WALK_SQUARE);
                 break;
         }
     }

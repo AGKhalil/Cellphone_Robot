@@ -21,6 +21,7 @@ import ioio.lib.util.android.IOIOAndroidApplicationHelper;
 
 import static com.example.khalil.myrobot.Commands.GO_FORWARDS;
 import static com.example.khalil.myrobot.Commands.NLP_WALK_SQUARE;
+import static com.example.khalil.myrobot.Commands.NLP_WALK_TRI;
 import static com.example.khalil.myrobot.Commands.STOP;
 import static com.example.khalil.myrobot.Commands.TURN_COUNTERCLOCKWISE;
 
@@ -189,8 +190,14 @@ class IOIOClass extends BaseIOIOLooper implements IOIOLooperProvider {
             case NLP_WALK_SQUARE:
                 motionSequence = new String[]{GO_FORWARDS, TURN_COUNTERCLOCKWISE,
                     GO_FORWARDS, TURN_COUNTERCLOCKWISE, GO_FORWARDS, TURN_COUNTERCLOCKWISE,
-                    GO_FORWARDS, TURN_COUNTERCLOCKWISE, STOP};
-                durationSequence = new int[] {600, 1000, 600, 1000, 600, 1000, 600, 1000, 600};
+                    GO_FORWARDS, STOP};
+                durationSequence = new int[] {600, 1000, 600, 1000, 600, 1000, 600, 1000};
+                sequenceMotion(motionSequence, durationSequence);
+                break;
+            case NLP_WALK_TRI:
+                motionSequence = new String[]{GO_FORWARDS, TURN_COUNTERCLOCKWISE,
+                        GO_FORWARDS, TURN_COUNTERCLOCKWISE, GO_FORWARDS, STOP};
+                durationSequence = new int[] {850, 1000, 850, 1000, 850, 1000, 1000};
                 sequenceMotion(motionSequence, durationSequence);
                 break;
             case STOP:
