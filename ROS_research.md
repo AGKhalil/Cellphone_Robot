@@ -1,19 +1,21 @@
 # ROS research
 
-## Script permission
+## ROS and android
 
-Chmod a+x file.py
+### Method1: [rosjava](http://wiki.ros.org/rosjava) & [android_ndk](http://wiki.ros.org/android_ndk)
 
-* u - Owner
+#### cons: 
+* Troublesome to compile 
 
-* g - Group
+* does not support jade and lunar
 
-* o - Others
+* cumbersome for smart phone
 
-* a - All users
+#### pros:
+* full functionality
 
-* r - Read
+### Method2: [rosbridge_suite](http://wiki.ros.org/rosbridge_suite)
 
-* w - Write
+* Rosbridge provides a JSON API to ROS functionality for non-ROS programs. There are a variety of front ends that interface with rosbridge, including a WebSocket server for web browsers to interact with.
 
-* x - Execute
+[This](https://github.com/djilk/ROSBridgeClient) is an android rosbridgeclient sample.
