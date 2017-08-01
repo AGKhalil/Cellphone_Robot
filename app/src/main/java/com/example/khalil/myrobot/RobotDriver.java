@@ -38,6 +38,8 @@ public class RobotDriver extends AppCompatActivity implements CameraFragmentResu
     private CommunicationOut postToMedia = new CommunicationOut(message); // Social media object that posts to
     // social media.
 
+    private String robotType; // Robot type.
+
     public void mockStartNavigationService(View view){
         String msg = "Engineering Fountain";
         if (msg != null) {
@@ -55,10 +57,11 @@ public class RobotDriver extends AppCompatActivity implements CameraFragmentResu
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         message = getIntent().getStringExtra(Commands.HUB_TO_DRIVER_DESTINATION_MESSAGE);
+        robotType = getIntent().getStringExtra(Commands.HUB_TO_DRIVER_ROBOT_TYPE);
         setContentView(R.layout.activity_driver); // Sets the XML view file that appears to the user.
         navigationServiceIntent = new Intent(this, NavigationService.class); // Associates navigationServiceIntent with
             // NavigationService.
-        myRobot = new IOIOClass(this); // Creates the robot instance from IOIOClass.
+        myRobot = new IOIOClass(this, robotType); // Creates the robot instance from IOIOClass.
         myRobot.getIOIOAndroidApplicationHelper().create(); // Retrieves the IOIO helper, which is
             // responsible for starting the IOIO loop from another class, and creates it.
             // This allows RobotDriver to access the IOIOClass instance.

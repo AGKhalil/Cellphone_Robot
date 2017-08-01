@@ -9,7 +9,6 @@ package com.example.khalil.myrobot;
  */
 
 import android.content.ContextWrapper;
-import android.os.Handler;
 
 import ioio.lib.api.DigitalOutput;
 import ioio.lib.api.PwmOutput;
@@ -47,6 +46,16 @@ class IOIOClass extends BaseIOIOLooper implements IOIOLooperProvider {
     private DigitalOutput INA4R; // L298n In 4
     private PwmOutput ENBR; // L298n Enable 2
 
+    // Motor DC : Mickey motor.
+    private DigitalOutput INAM1_MICKEY; // L298n In 3
+    private DigitalOutput INAM2_MICKEY; // L298n In 4
+    private PwmOutput ENBM_MICKEY; // L298n Enable 2
+
+    // Motor DC : Mickey servo.
+    private DigitalOutput INAS1_MICKEY; // L298n In 3
+    private DigitalOutput INAS2_MICKEY; // L298n In 4
+    private PwmOutput ENBS_MICKEY; // L298n Enable 2
+
     // All motors are initialized to stop.
     private boolean FMotorLeft = false;
     private boolean FMotorRight = false;
@@ -57,14 +66,22 @@ class IOIOClass extends BaseIOIOLooper implements IOIOLooperProvider {
     private float RRightSpeed = 0;
     private float RLeftSpeed = 0;
 
+    private boolean MickeyMotorDirection = false;
+    private float MickeyMotorSpeed = 0;
+    private boolean MickeyServoDirection = false;
+    private float MickeyServoSpeed = 0;
+
+    private String robotType;
+
     private IOIOAndroidApplicationHelper helper;  // This helper is necessary to start the IOIOClass
             // loop from another class, CentralHub.
 
     /**
      * This constructor is used to create the helper.
     */
-    IOIOClass(ContextWrapper mTheGui) {
+    IOIOClass(ContextWrapper mTheGui, String mRobotType) {
         helper = new IOIOAndroidApplicationHelper(mTheGui, this);
+        this.robotType = mRobotType;
     }
 
     /**
@@ -73,25 +90,39 @@ class IOIOClass extends BaseIOIOLooper implements IOIOLooperProvider {
     @Override
     protected void setup() throws ConnectionLostException, InterruptedException {
         try {
-            // Motor DC : Right Forward.
-            INA1F = ioio_.openDigitalOutput(1);
-            INA2F = ioio_.openDigitalOutput(2);
-            ENAF = ioio_.openPwmOutput(3, 100);
 
-            // Motor DC : Right Rear.
-            INA1R = ioio_.openDigitalOutput(11);
-            INA2R = ioio_.openDigitalOutput(12);
-            ENAR = ioio_.openPwmOutput(7, 100);
+            if (robotType.equals(Commands.LILY)) {
+                // Motor DC : Right Forward.
+                INA1F = ioio_.openDigitalOutput(1);
+                INA2F = ioio_.openDigitalOutput(2);
+                ENAF = ioio_.openPwmOutput(3, 100);
 
-            // Motor DC : Left Forward.
-            INA3F = ioio_.openDigitalOutput(4);
-            INA4F = ioio_.openDigitalOutput(5);
-            ENBF = ioio_.openPwmOutput(6, 100);
+                // Motor DC : Right Rear.
+                INA1R = ioio_.openDigitalOutput(11);
+                INA2R = ioio_.openDigitalOutput(12);
+                ENAR = ioio_.openPwmOutput(7, 100);
 
-            // Motor DC : Left Rear.
-            INA3R = ioio_.openDigitalOutput(13);
-            INA4R = ioio_.openDigitalOutput(14);
-            ENBR = ioio_.openPwmOutput(10, 100);
+                // Motor DC : Left Forward.
+                INA3F = ioio_.openDigitalOutput(4);
+                INA4F = ioio_.openDigitalOutput(5);
+                ENBF = ioio_.openPwmOutput(6, 100);
+
+                // Motor DC : Left Rear.
+                INA3R = ioio_.openDigitalOutput(13);
+                INA4R = ioio_.openDigitalOutput(14);
+                ENBR = ioio_.openPwmOutput(10, 100);
+            } else if (robotType.equals(Commands.MICKEY)){
+                // TODO: Set pin definitions.
+                // Motor DC : Mickey motor.
+                INAM1_MICKEY = ioio_.openDigitalOutput(13);
+                INAM2_MICKEY = ioio_.openDigitalOutput(14);
+                ENBM_MICKEY = ioio_.openPwmOutput(10, 100);
+
+                // Motor DC : Mickey servo.
+                INAS1_MICKEY = ioio_.openDigitalOutput(13);
+                INAS2_MICKEY = ioio_.openDigitalOutput(14);
+                ENBS_MICKEY = ioio_.openPwmOutput(10, 100);
+            }
         } catch (ConnectionLostException e) {
             throw e;
         }
@@ -104,26 +135,38 @@ class IOIOClass extends BaseIOIOLooper implements IOIOLooperProvider {
     public void loop() throws ConnectionLostException, InterruptedException {
         ioio_.beginBatch();  // Used when multiple pins are commanded at once.
         try {
-            // Right motor forward.
-            ENBF.setDutyCycle(FRightSpeed);
-            INA4F.write(FMotorRight);
-            INA3F.write(!FMotorRight);
+            if (robotType.equals(Commands.LILY)) {
+                // Right motor forward.
+                ENBF.setDutyCycle(FRightSpeed);
+                INA4F.write(FMotorRight);
+                INA3F.write(!FMotorRight);
 
-            // Left motor rear.
-            ENBR.setDutyCycle(RLeftSpeed);
-            INA4R.write(RMotorLeft);
-            INA3R.write(!RMotorLeft);
+                // Left motor rear.
+                ENBR.setDutyCycle(RLeftSpeed);
+                INA4R.write(RMotorLeft);
+                INA3R.write(!RMotorLeft);
 
-            // Left motor forward.
-            ENAF.setDutyCycle(FLeftSpeed);
-            INA2F.write(FMotorLeft);
-            INA1F.write(!FMotorLeft);
+                // Left motor forward.
+                ENAF.setDutyCycle(FLeftSpeed);
+                INA2F.write(FMotorLeft);
+                INA1F.write(!FMotorLeft);
 
-            // Right motor rear.
-            ENAR.setDutyCycle(RRightSpeed);
-            INA2R.write(RMotorRight);
-            INA1R.write(!RMotorRight);
+                // Right motor rear.
+                ENAR.setDutyCycle(RRightSpeed);
+                INA2R.write(RMotorRight);
+                INA1R.write(!RMotorRight);
+            } else if (robotType.equals(Commands.MICKEY)) {
+                // TODO: Set pin directions and speeds.
+                // Motor DC : Mickey motor.
+                ENBM_MICKEY.setDutyCycle(MickeyMotorSpeed);
+                INAM2_MICKEY.write(MickeyMotorDirection);
+                INAM1_MICKEY.write(!MickeyMotorDirection);
 
+                // Motor DC : Mickey servo.
+                ENBS_MICKEY.setDutyCycle(MickeyServoSpeed);
+                INAS2_MICKEY.write(MickeyServoDirection);
+                INAS1_MICKEY.write(!MickeyServoDirection);
+            }
             Thread.sleep(10);
         } catch (InterruptedException e) {
             ioio_.disconnect();
@@ -143,6 +186,7 @@ class IOIOClass extends BaseIOIOLooper implements IOIOLooperProvider {
         String[] motionSequence;
         int[] durationSequence;
         switch (direction) {
+            if (robotType.equals(Commands.LILY)) {
             case GO_FORWARDS:
                 FLeftSpeed = (float) 0.6;
                 FRightSpeed = (float) 0.6;
@@ -154,7 +198,7 @@ class IOIOClass extends BaseIOIOLooper implements IOIOLooperProvider {
                 RMotorLeft = true;
                 RMotorRight = false;
                 break;
-            case Commands.TURN_CLOCKWISE:
+            case TURN_CLOCKWISE:
                 FLeftSpeed = (float) 0.4;
                 FRightSpeed = (float) 0.4;
                 FMotorLeft = true;
@@ -165,7 +209,7 @@ class IOIOClass extends BaseIOIOLooper implements IOIOLooperProvider {
                 RMotorLeft = true;
                 RMotorRight = true;
                 break;
-            case TURN_COUNTERCLOCKWISE:
+            case Commands.TURN_COUNTERCLOCKWISE:
                 FLeftSpeed = (float) 0.4;
                 FRightSpeed = (float) 0.4;
                 FMotorLeft = false;
@@ -206,7 +250,23 @@ class IOIOClass extends BaseIOIOLooper implements IOIOLooperProvider {
 
                 RLeftSpeed = 0;
                 RRightSpeed = 0;
-                break;
+                break
+            }
+        } else if (robotType.equals(Commands.MICKEY)) {
+            switch (direction) {
+                case Commands.GO_FORWARDS:
+                    // TODO: Set pin directions and speeds.
+                    break;
+                case Commands.TURN_CLOCKWISE:
+                    // TODO: Set pin directions and speeds.
+                    break;
+                case Commands.TURN_COUNTERCLOCKWISE:
+                    // TODO: Set pin directions and speeds.
+                    break;
+                case Commands.STOP:
+                    // TODO: Set pin directions and speeds.
+                    break;
+            }
         }
     }
 
