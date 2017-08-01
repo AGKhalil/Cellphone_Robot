@@ -65,6 +65,9 @@ public class RobotManipulator extends AppCompatActivity implements CameraFragmen
                 break;
 
         }
+
+
+
     }
 
     private void walk(String actionParameter) {
@@ -79,7 +82,6 @@ public class RobotManipulator extends AppCompatActivity implements CameraFragmen
                 break;
             case Commands.NLP_WALK_TRI:
                 Log.d(TAG, "walk:"+actionParameter);
-                // TODO triangle
                 myRobot.setMotion(NLP_WALK_TRI);
                 break;
             case Commands.NLP_WALK_SQUARE:
@@ -107,7 +109,7 @@ public class RobotManipulator extends AppCompatActivity implements CameraFragmen
                 break;
             case TURN_COUNTERCLOCKWISE:
                 Log.d(TAG, "turnRobot: " + Commands.TURN_COUNTERCLOCKWISE);
-                myRobot.declareMotion(Commands.TURN_CLOCKWISE, STOP, 5);
+                myRobot.declareMotion(Commands.TURN_COUNTERCLOCKWISE, STOP, 5);
                 break;
         }
     }

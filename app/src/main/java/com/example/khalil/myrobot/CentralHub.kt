@@ -32,7 +32,9 @@ class CentralHub : AppCompatActivity() {
     var socialmedia = ""
     var destination =""
     var shape = ""
-    var robot = Commands.LILY
+    var platform = Commands.LILY
+    var selectid:Int = 0
+    var radioButton:RadioButton ?= null
     /**
      * Start of Testing Methods *****************************************
      */
@@ -46,7 +48,7 @@ class CentralHub : AppCompatActivity() {
         // Start robot driver
         if (destination != null) {
             Toast.makeText(this, destination, Toast.LENGTH_SHORT).show()
-            startRobotDriver(destination)
+            startRobotDriver(destination,platform)
         }
     }
 
@@ -57,9 +59,6 @@ class CentralHub : AppCompatActivity() {
         Toast.makeText(this,msg,0).show()
         val i = Intent(this, NaturalLanguageProcessService::class.java)
         i.putExtra("msg", msg)
-        val selectid = radioRobot.checkedRadioButtonId
-        val radioButton = findViewById(selectid) as RadioButton
-        val platform = radioButton.text
         i.putExtra("platform", platform)
         i.putExtra("phonenumber","317914")
         Log.d(TAG,"platform"+platform)
@@ -100,7 +99,8 @@ class CentralHub : AppCompatActivity() {
         }
         LocalBroadcastManager.getInstance(this).registerReceiver(NLPReceiver,
                 IntentFilter("NLP-event"))
-
+        selectid = radioRobot.checkedRadioButtonId
+        radioButton = findViewById(selectid) as RadioButton
     }
 
     private val NLPReceiver = object : BroadcastReceiver() {
@@ -108,28 +108,31 @@ class CentralHub : AppCompatActivity() {
             // Get extra data included in the Intent
             action = intent.getStringExtra(Commands.NLP_ACTION)
             speech = intent.getStringExtra(Commands.NLP_SPEECH)
+            selectid = radioRobot.checkedRadioButtonId
+            radioButton = findViewById(selectid) as RadioButton
+            platform = radioButton!!.text.toString()
 
             Log.d("receiver", "Got intent: " + action)
             TEXT_Receive.setText(speech)
             when(action){
                 Commands.NLP_ACTION_NAVIGATION -> {
                     destination = intent.getStringExtra(Commands.NLP_NAVIGATION_DESTINATION)
-                    startRobotDriver(destination)
+                    startRobotDriver(destination, platform)
                 }
 
                 Commands.NLP_ACTION_PICTURE_TAKING -> {
                     socialmedia = intent.getStringExtra(Commands.NLP_PICTURE_TAKING_SOCIAL_MEDIA)
-                    startRobotManipulator(action, socialmedia)
+                    startRobotManipulator(action, socialmedia, platform)
                 }
 
                 Commands.NLP_ACTION_TURNAROUND -> {
                     rotation_direction = intent.getStringExtra(Commands.NLP_TURNAROUND_ROTATION_DIRECTION)
-                    startRobotManipulator(action, rotation_direction)
+                    startRobotManipulator(action, rotation_direction, platform)
                 }
 
                 Commands.NLP_ACTION_WALK ->{
                     shape = intent.getStringExtra(Commands.NLP_WALK_SHAPE)
-                    startRobotManipulator(action, shape)
+                    startRobotManipulator(action, shape, platform)
                 }
             }
         }
@@ -138,22 +141,22 @@ class CentralHub : AppCompatActivity() {
     /**
      * This is the method that starts the RobotDriver by filing the mIntent when called.
      */
-    private fun startRobotDriver(message: String) {
+    private fun startRobotDriver(message: String,platform: String) {
         robotDriverIntent!!.putExtra(Commands.HUB_TO_DRIVER_DESTINATION_MESSAGE, message) // The SMS, which is the destination name, is passed
         // to RobotDriver, because it needs it to file the API request.
-        robotDriverIntent!!.putExtra(Commands.HUB_TO_DRIVER_ROBOT_TYPE, robot) // Lily or Mickey
-        Log.d(TAG, "startRobotDriver")
+        robotDriverIntent!!.putExtra(Commands.HUB_TO_DRIVER_ROBOT_TYPE, platform) // Lily or Mickey
+        Log.d(TAG, "startRobotDriver: "+platform)
         this.startActivity(robotDriverIntent)  // This line is what actually starts the RobotDriver.
     }
 
     /**
      * This is the method that handles RobotManipulator.
      */
-    private fun startRobotManipulator(action: String, actionParameter: String) {
+    private fun startRobotManipulator(action: String, actionParameter: String,platform: String) {
         robotManipulatorIntent!!.putExtra(Commands.HUB_TO_Manipulator_ACTION, action)
         robotManipulatorIntent!!.putExtra(Commands.HUB_TO_Manipulator_ACTION_PAREMETER, actionParameter)
-        robotManipulatorIntent!!.putExtra(Commands.HUB_TO_Manipulator_ROBOT_TYPE, robot) // Lily or Mickey
-        Log.d(TAG, "startRobotManipulator")
+        robotManipulatorIntent!!.putExtra(Commands.HUB_TO_Manipulator_ROBOT_TYPE, platform) // Lily or Mickey
+        Log.d(TAG, "startRobotManipulator: "+platform)
         this.startActivity(robotManipulatorIntent)
     }
 
@@ -162,8 +165,5 @@ class CentralHub : AppCompatActivity() {
         val TAG = CentralHub::class.java.getName()
     }
 
-    fun useMickey(view: View){
-        robot = Commands.MICKEY
-    }
 }
 

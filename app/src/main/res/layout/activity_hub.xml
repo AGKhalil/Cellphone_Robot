@@ -40,14 +40,6 @@
         android:inputType="textPersonName"
         android:hint="Speech" />
 
-    <Button
-        android:id="@+id/Mickey_IOIO"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginLeft="21dp"
-        android:layout_marginStart="21dp"
-        android:onClick="useMickey"
-        android:text="Mickey" />
 
     <RadioGroup
         android:id="@+id/radioRobot"

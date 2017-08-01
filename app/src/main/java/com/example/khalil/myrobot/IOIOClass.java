@@ -9,6 +9,8 @@ package com.example.khalil.myrobot;
  */
 
 import android.content.ContextWrapper;
+import android.os.Handler;
+import android.util.Log;
 
 import ioio.lib.api.DigitalOutput;
 import ioio.lib.api.PwmOutput;
@@ -22,10 +24,12 @@ import static com.example.khalil.myrobot.Commands.GO_FORWARDS;
 import static com.example.khalil.myrobot.Commands.NLP_WALK_SQUARE;
 import static com.example.khalil.myrobot.Commands.NLP_WALK_TRI;
 import static com.example.khalil.myrobot.Commands.STOP;
+import static com.example.khalil.myrobot.Commands.TURN_CLOCKWISE;
 import static com.example.khalil.myrobot.Commands.TURN_COUNTERCLOCKWISE;
 
 class IOIOClass extends BaseIOIOLooper implements IOIOLooperProvider {
 
+    private String TAG = "IOIOClass";
     // Motor DC : Right Forward.
     private DigitalOutput INA1F; // L298n In 1
     private DigitalOutput INA2F; // L298n In 2
@@ -112,6 +116,7 @@ class IOIOClass extends BaseIOIOLooper implements IOIOLooperProvider {
                 INA4R = ioio_.openDigitalOutput(14);
                 ENBR = ioio_.openPwmOutput(10, 100);
             } else if (robotType.equals(Commands.MICKEY)){
+
                 // TODO: Set pin definitions.
                 // Motor DC : Mickey motor.
                 INAM1_MICKEY = ioio_.openDigitalOutput(13);
@@ -185,8 +190,9 @@ class IOIOClass extends BaseIOIOLooper implements IOIOLooperProvider {
     void setMotion(String direction) {
         String[] motionSequence;
         int[] durationSequence;
-        switch (direction) {
-            if (robotType.equals(Commands.LILY)) {
+        if (robotType.equals(Commands.LILY)) {
+            Log.d(TAG, "setMotion: "+Commands.LILY+" "+direction);
+            switch (direction) {
             case GO_FORWARDS:
                 FLeftSpeed = (float) 0.6;
                 FRightSpeed = (float) 0.6;
@@ -209,7 +215,7 @@ class IOIOClass extends BaseIOIOLooper implements IOIOLooperProvider {
                 RMotorLeft = true;
                 RMotorRight = true;
                 break;
-            case Commands.TURN_COUNTERCLOCKWISE:
+            case TURN_COUNTERCLOCKWISE:
                 FLeftSpeed = (float) 0.4;
                 FRightSpeed = (float) 0.4;
                 FMotorLeft = false;
@@ -250,9 +256,10 @@ class IOIOClass extends BaseIOIOLooper implements IOIOLooperProvider {
 
                 RLeftSpeed = 0;
                 RRightSpeed = 0;
-                break
+                break;
             }
         } else if (robotType.equals(Commands.MICKEY)) {
+            Log.d(TAG, "setMotion: "+Commands.MICKEY+" "+direction);
             switch (direction) {
                 case Commands.GO_FORWARDS:
                     // TODO: Set pin directions and speeds.
@@ -262,6 +269,30 @@ class IOIOClass extends BaseIOIOLooper implements IOIOLooperProvider {
                     break;
                 case Commands.TURN_COUNTERCLOCKWISE:
                     // TODO: Set pin directions and speeds.
+                    break;
+                case Commands.NLP_WALK_CIRCLE:
+                    FLeftSpeed = (float) 0.1;
+                    FRightSpeed = (float) 0.6;
+                    FMotorLeft = true;
+                    FMotorRight = false;
+
+                    RLeftSpeed = (float) 0.1;
+                    RRightSpeed = (float) 0.6;
+                    RMotorRight = false;
+                    RMotorLeft = true;
+                    break;
+                case NLP_WALK_SQUARE:
+                    motionSequence = new String[]{GO_FORWARDS, TURN_COUNTERCLOCKWISE,
+                            GO_FORWARDS, TURN_COUNTERCLOCKWISE, GO_FORWARDS, TURN_COUNTERCLOCKWISE,
+                            GO_FORWARDS, STOP};
+                    durationSequence = new int[] {600, 1000, 600, 1000, 600, 1000, 600, 1000};
+                    sequenceMotion(motionSequence, durationSequence);
+                    break;
+                case NLP_WALK_TRI:
+                    motionSequence = new String[]{GO_FORWARDS, TURN_COUNTERCLOCKWISE,
+                            GO_FORWARDS, TURN_COUNTERCLOCKWISE, GO_FORWARDS, STOP};
+                    durationSequence = new int[] {850, 1000, 850, 1000, 850, 1000, 1000};
+                    sequenceMotion(motionSequence, durationSequence);
                     break;
                 case Commands.STOP:
                     // TODO: Set pin directions and speeds.
