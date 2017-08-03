@@ -119,9 +119,9 @@ class IOIOClass extends BaseIOIOLooper implements IOIOLooperProvider {
 
                 // TODO: Set pin definitions.
                 // Motor DC : Mickey motor.
-                INAM1_MICKEY = ioio_.openDigitalOutput(13);
-                INAM2_MICKEY = ioio_.openDigitalOutput(14);
-                ENBM_MICKEY = ioio_.openPwmOutput(10, 100);
+                INAM1_MICKEY = ioio_.openDigitalOutput(1);
+                INAM2_MICKEY = ioio_.openDigitalOutput(2);
+                ENBM_MICKEY = ioio_.openPwmOutput(3, 100);
 
                 // Motor DC : Mickey servo.
                 INAS1_MICKEY = ioio_.openDigitalOutput(13);
@@ -262,24 +262,22 @@ class IOIOClass extends BaseIOIOLooper implements IOIOLooperProvider {
             Log.d(TAG, "setMotion: "+Commands.MICKEY+" "+direction);
             switch (direction) {
                 case Commands.GO_FORWARDS:
-                    // TODO: Set pin directions and speeds.
+                    Log.d(TAG, "setMotion: Mickey!!!"+ Commands.GO_FORWARDS);
+                    MickeyMotorSpeed = (float) 0.8;
+                    MickeyMotorDirection = true;
+
                     break;
                 case Commands.TURN_CLOCKWISE:
                     // TODO: Set pin directions and speeds.
                     break;
                 case Commands.TURN_COUNTERCLOCKWISE:
+                    Log.d(TAG, "setMotion: !!!"+Commands.TURN_COUNTERCLOCKWISE);
                     // TODO: Set pin directions and speeds.
+                    MickeyMotorSpeed = (float) 0.8;
+                    MickeyMotorDirection = true;
                     break;
                 case Commands.NLP_WALK_CIRCLE:
-                    FLeftSpeed = (float) 0.1;
-                    FRightSpeed = (float) 0.6;
-                    FMotorLeft = true;
-                    FMotorRight = false;
 
-                    RLeftSpeed = (float) 0.1;
-                    RRightSpeed = (float) 0.6;
-                    RMotorRight = false;
-                    RMotorLeft = true;
                     break;
                 case NLP_WALK_SQUARE:
                     motionSequence = new String[]{GO_FORWARDS, TURN_COUNTERCLOCKWISE,
@@ -296,6 +294,7 @@ class IOIOClass extends BaseIOIOLooper implements IOIOLooperProvider {
                     break;
                 case Commands.STOP:
                     // TODO: Set pin directions and speeds.
+                    MickeyMotorSpeed = (float)0;
                     break;
             }
         }

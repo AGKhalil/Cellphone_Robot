@@ -45,6 +45,9 @@ class CentralHub : AppCompatActivity() {
      * @param view is the button view SEND SMS
      */
     fun mockStartRobotDriver(view: View) {
+        selectid = radioRobot.checkedRadioButtonId
+        radioButton = findViewById(selectid) as RadioButton
+        platform = radioButton!!.text.toString()
         // Start robot driver
         if (destination != null) {
             Toast.makeText(this, destination, Toast.LENGTH_SHORT).show()
