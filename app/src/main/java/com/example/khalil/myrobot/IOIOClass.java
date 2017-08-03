@@ -72,8 +72,13 @@ class IOIOClass extends BaseIOIOLooper implements IOIOLooperProvider {
 
     private boolean MickeyMotorDirection = false;
     private float MickeyMotorSpeed = 0;
-    private boolean MickeyServoDirection = false;
-    private float MickeyServoSpeed = 0;
+
+    // TODO: Change these Servo values
+    private float MickeyServoCenter = 90;
+    private float MickeyServoLeft = 80;
+    private float MickeyServoRight = 100;
+
+    private float MickeyServoPosition = MickeyServoCenter;
 
     private String robotType;
 
@@ -117,16 +122,13 @@ class IOIOClass extends BaseIOIOLooper implements IOIOLooperProvider {
                 ENBR = ioio_.openPwmOutput(10, 100);
             } else if (robotType.equals(Commands.MICKEY)){
 
-                // TODO: Set pin definitions.
                 // Motor DC : Mickey motor.
                 INAM1_MICKEY = ioio_.openDigitalOutput(1);
                 INAM2_MICKEY = ioio_.openDigitalOutput(2);
                 ENBM_MICKEY = ioio_.openPwmOutput(3, 100);
 
                 // Motor DC : Mickey servo.
-                INAS1_MICKEY = ioio_.openDigitalOutput(13);
-                INAS2_MICKEY = ioio_.openDigitalOutput(14);
-                ENBS_MICKEY = ioio_.openPwmOutput(10, 100);
+                ENBS_MICKEY = ioio_.openPwmOutput(4, 100);
             }
         } catch (ConnectionLostException e) {
             throw e;
@@ -168,9 +170,7 @@ class IOIOClass extends BaseIOIOLooper implements IOIOLooperProvider {
                 INAM1_MICKEY.write(!MickeyMotorDirection);
 
                 // Motor DC : Mickey servo.
-                ENBS_MICKEY.setDutyCycle(MickeyServoSpeed);
-                INAS2_MICKEY.write(MickeyServoDirection);
-                INAS1_MICKEY.write(!MickeyServoDirection);
+                ENBS_MICKEY.setDutyCycle(MickeyServoPosition);
             }
             Thread.sleep(10);
         } catch (InterruptedException e) {
@@ -262,39 +262,44 @@ class IOIOClass extends BaseIOIOLooper implements IOIOLooperProvider {
             Log.d(TAG, "setMotion: "+Commands.MICKEY+" "+direction);
             switch (direction) {
                 case Commands.GO_FORWARDS:
-                    Log.d(TAG, "setMotion: Mickey!!!"+ Commands.GO_FORWARDS);
                     MickeyMotorSpeed = (float) 0.8;
                     MickeyMotorDirection = true;
-
+                    MickeyServoPosition = MickeyServoCenter;
                     break;
                 case Commands.TURN_CLOCKWISE:
-                    // TODO: Set pin directions and speeds.
+                    MickeyMotorSpeed = (float) 0.7;
+                    MickeyMotorDirection = true;
+                    MickeyServoPosition = MickeyServoRight;
                     break;
                 case Commands.TURN_COUNTERCLOCKWISE:
-                    Log.d(TAG, "setMotion: !!!"+Commands.TURN_COUNTERCLOCKWISE);
-                    // TODO: Set pin directions and speeds.
-                    MickeyMotorSpeed = (float) 0.8;
+                    MickeyMotorSpeed = (float) 0.7;
                     MickeyMotorDirection = true;
+                    MickeyServoPosition = MickeyServoLeft;
                     break;
                 case Commands.NLP_WALK_CIRCLE:
-
+                    MickeyMotorSpeed = (float) 0.7;
+                    MickeyMotorDirection = true;
+                    MickeyServoPosition = MickeyServoLeft;
                     break;
                 case NLP_WALK_SQUARE:
                     motionSequence = new String[]{GO_FORWARDS, TURN_COUNTERCLOCKWISE,
                             GO_FORWARDS, TURN_COUNTERCLOCKWISE, GO_FORWARDS, TURN_COUNTERCLOCKWISE,
                             GO_FORWARDS, STOP};
+                    // TODO: Test the duration values
                     durationSequence = new int[] {600, 1000, 600, 1000, 600, 1000, 600, 1000};
                     sequenceMotion(motionSequence, durationSequence);
                     break;
                 case NLP_WALK_TRI:
                     motionSequence = new String[]{GO_FORWARDS, TURN_COUNTERCLOCKWISE,
                             GO_FORWARDS, TURN_COUNTERCLOCKWISE, GO_FORWARDS, STOP};
+                    // TODO: Test the duration values
                     durationSequence = new int[] {850, 1000, 850, 1000, 850, 1000, 1000};
                     sequenceMotion(motionSequence, durationSequence);
                     break;
                 case Commands.STOP:
-                    // TODO: Set pin directions and speeds.
                     MickeyMotorSpeed = (float)0;
+                    MickeyMotorDirection = true;
+                    MickeyServoPosition = MickeyServoCenter;
                     break;
             }
         }
