@@ -30,55 +30,45 @@ import static com.example.khalil.myrobot.Commands.TURN_COUNTERCLOCKWISE;
 class IOIOClass extends BaseIOIOLooper implements IOIOLooperProvider {
 
     private String TAG = "IOIOClass";
-    // Motor DC : Right Forward.
-    private DigitalOutput INA1F; // L298n In 1
-    private DigitalOutput INA2F; // L298n In 2
-    private PwmOutput ENAF; // L298n Enable 1
 
-    // Motor DC : Right Rear.
-    private DigitalOutput INA1R; // L298n In 1
-    private DigitalOutput INA2R; // L298n In 2
-    private PwmOutput ENAR; // L298n Enable 1
+    /**
+     * Lily
+     */
+    // Motor DC : Right Forward.
+    private DigitalOutput L_INA1; // L298n In 1
+    private DigitalOutput L_INA2; // L298n In 2
+    private PwmOutput L_ENA; // L298n Enable 1
 
     // Motor DC : Left Forward.
-    private DigitalOutput INA3F; // L298n In 3
-    private DigitalOutput INA4F; // L298n In 4
-    private PwmOutput ENBF; // L298n Enable 2
+    private DigitalOutput L_INA3; // L298n In 3
+    private DigitalOutput L_INA4; // L298n In 4
+    private PwmOutput L_ENB; // L298n Enable 2
 
-    // Motor DC : Left Rear.
-    private DigitalOutput INA3R; // L298n In 3
-    private DigitalOutput INA4R; // L298n In 4
-    private PwmOutput ENBR; // L298n Enable 2
+    /**
+     * Mickey
+     */
+    // Motor DC : Right Rear.
+    private DigitalOutput M_INA1; // L298n In 1
+    private DigitalOutput M_INA2; // L298n In 2
+    private PwmOutput M_ENA; // L298n Enable 1
 
-    // Motor DC : Mickey motor.
-    private DigitalOutput INAM1_MICKEY; // L298n In 3
-    private DigitalOutput INAM2_MICKEY; // L298n In 4
-    private PwmOutput ENBM_MICKEY; // L298n Enable 2
+    // Motor DC : Left Forward.
+    private DigitalOutput M_INA3; // L298n In 3
+    private DigitalOutput M_INA4; // L298n In 4
+    private PwmOutput M_ENB; // L298n Enable 2
 
-    // Motor DC : Mickey servo.
-    private DigitalOutput INAS1_MICKEY; // L298n In 3
-    private DigitalOutput INAS2_MICKEY; // L298n In 4
-    private PwmOutput ENBS_MICKEY; // L298n Enable 2
-
+    /**
+     * Both robots
+     */
     // All motors are initialized to stop.
-    private boolean FMotorLeft = false;
-    private boolean FMotorRight = false;
-    private float FRightSpeed = 0;
-    private float FLeftSpeed = 0;
-    private boolean RMotorLeft = false;
-    private boolean RMotorRight = false;
-    private float RRightSpeed = 0;
-    private float RLeftSpeed = 0;
-
-    private boolean MickeyMotorDirection = false;
-    private float MickeyMotorSpeed = 0;
-
-    // TODO: Change these Servo values
-    private float MickeyServoCenter = 90;
-    private float MickeyServoLeft = 80;
-    private float MickeyServoRight = 100;
-
-    private float MickeyServoPosition = MickeyServoCenter;
+    private boolean L_MotorLeft = false;
+    private boolean L_MotorRight = false;
+    private float L_RightSpeed = 0;
+    private float L_LeftSpeed = 0;
+    private boolean M_MotorLeft = false;
+    private boolean M_MotorRight = false;
+    private float M_LeftSpeed = 0;
+    private float M_RightSpeed = 0;
 
     private String robotType;
 
@@ -101,34 +91,28 @@ class IOIOClass extends BaseIOIOLooper implements IOIOLooperProvider {
         try {
 
             if (robotType.equals(Commands.LILY)) {
-                // Motor DC : Right Forward.
-                INA1F = ioio_.openDigitalOutput(1);
-                INA2F = ioio_.openDigitalOutput(2);
-                ENAF = ioio_.openPwmOutput(3, 100);
+                // Lily Motor DC : Right Forward.
+                L_INA1 = ioio_.openDigitalOutput(1);
+                L_INA2 = ioio_.openDigitalOutput(2);
+                L_ENA = ioio_.openPwmOutput(3, 100);
 
-                // Motor DC : Right Rear.
-                INA1R = ioio_.openDigitalOutput(11);
-                INA2R = ioio_.openDigitalOutput(12);
-                ENAR = ioio_.openPwmOutput(7, 100);
+                // Lily Motor DC : Left Forward.
+                L_INA3 = ioio_.openDigitalOutput(4);
+                L_INA4 = ioio_.openDigitalOutput(5);
+                L_ENB = ioio_.openPwmOutput(6, 100);
 
-                // Motor DC : Left Forward.
-                INA3F = ioio_.openDigitalOutput(4);
-                INA4F = ioio_.openDigitalOutput(5);
-                ENBF = ioio_.openPwmOutput(6, 100);
 
-                // Motor DC : Left Rear.
-                INA3R = ioio_.openDigitalOutput(13);
-                INA4R = ioio_.openDigitalOutput(14);
-                ENBR = ioio_.openPwmOutput(10, 100);
             } else if (robotType.equals(Commands.MICKEY)){
 
-                // Motor DC : Mickey motor.
-                INAM1_MICKEY = ioio_.openDigitalOutput(1);
-                INAM2_MICKEY = ioio_.openDigitalOutput(2);
-                ENBM_MICKEY = ioio_.openPwmOutput(3, 100);
+                // Mickey Motor DC : Right Rear.
+                M_INA1 = ioio_.openDigitalOutput(1);
+                M_INA2 = ioio_.openDigitalOutput(2);
+                M_ENA = ioio_.openPwmOutput(3, 100);
 
-                // Motor DC : Mickey servo.
-                ENBS_MICKEY = ioio_.openPwmOutput(4, 100);
+                // Mickey Motor DC : Left Forward.
+                M_INA3 = ioio_.openDigitalOutput(4);
+                M_INA4 = ioio_.openDigitalOutput(5);
+                M_ENB = ioio_.openPwmOutput(6, 100);
             }
         } catch (ConnectionLostException e) {
             throw e;
@@ -143,34 +127,25 @@ class IOIOClass extends BaseIOIOLooper implements IOIOLooperProvider {
         ioio_.beginBatch();  // Used when multiple pins are commanded at once.
         try {
             if (robotType.equals(Commands.LILY)) {
-                // Right motor forward.
-                ENBF.setDutyCycle(FRightSpeed);
-                INA4F.write(FMotorRight);
-                INA3F.write(!FMotorRight);
+                // Lily Right motor forward.
+                L_ENB.setDutyCycle(L_RightSpeed);
+                L_INA4.write(L_MotorRight);
+                L_INA3.write(!L_MotorRight);
 
-                // Left motor rear.
-                ENBR.setDutyCycle(RLeftSpeed);
-                INA4R.write(RMotorLeft);
-                INA3R.write(!RMotorLeft);
-
-                // Left motor forward.
-                ENAF.setDutyCycle(FLeftSpeed);
-                INA2F.write(FMotorLeft);
-                INA1F.write(!FMotorLeft);
-
-                // Right motor rear.
-                ENAR.setDutyCycle(RRightSpeed);
-                INA2R.write(RMotorRight);
-                INA1R.write(!RMotorRight);
+                // Lily Left motor forward.
+                L_ENA.setDutyCycle(L_LeftSpeed);
+                L_INA2.write(L_MotorLeft);
+                L_INA1.write(!L_MotorLeft);
             } else if (robotType.equals(Commands.MICKEY)) {
-                // TODO: Set pin directions and speeds.
-                // Motor DC : Mickey motor.
-                ENBM_MICKEY.setDutyCycle(MickeyMotorSpeed);
-                INAM2_MICKEY.write(MickeyMotorDirection);
-                INAM1_MICKEY.write(!MickeyMotorDirection);
+                // Mickey Left motor forward.
+                M_ENB.setDutyCycle(M_RightSpeed);
+                M_INA4.write(M_MotorLeft);
+                M_INA3.write(!M_MotorLeft);
 
-                // Motor DC : Mickey servo.
-                ENBS_MICKEY.setDutyCycle(MickeyServoPosition);
+                // Mickey Right motor rear.
+                M_ENA.setDutyCycle(M_LeftSpeed);
+                M_INA2.write(M_MotorRight);
+                M_INA1.write(!M_MotorRight);
             }
             Thread.sleep(10);
         } catch (InterruptedException e) {
@@ -193,113 +168,91 @@ class IOIOClass extends BaseIOIOLooper implements IOIOLooperProvider {
         if (robotType.equals(Commands.LILY)) {
             Log.d(TAG, "setMotion: "+Commands.LILY+" "+direction);
             switch (direction) {
-            case GO_FORWARDS:
-                FLeftSpeed = (float) 0.6;
-                FRightSpeed = (float) 0.6;
-                FMotorLeft = true;
-                FMotorRight = false;
-
-                RLeftSpeed = (float) 0.6;
-                RRightSpeed = (float) 0.6;
-                RMotorLeft = true;
-                RMotorRight = false;
-                break;
-            case TURN_CLOCKWISE:
-                FLeftSpeed = (float) 0.4;
-                FRightSpeed = (float) 0.4;
-                FMotorLeft = true;
-                FMotorRight = true;
-
-                RLeftSpeed = (float) 0.4;
-                RRightSpeed = (float) 0.4;
-                RMotorLeft = true;
-                RMotorRight = true;
-                break;
-            case TURN_COUNTERCLOCKWISE:
-                FLeftSpeed = (float) 0.4;
-                FRightSpeed = (float) 0.4;
-                FMotorLeft = false;
-                FMotorRight = false;
-
-                RLeftSpeed = (float) 0.4;
-                RRightSpeed = (float) 0.4;
-                RMotorRight = false;
-                RMotorLeft = false;
-                break;
-            case Commands.NLP_WALK_CIRCLE:
-                FLeftSpeed = (float) 0.1;
-                FRightSpeed = (float) 0.6;
-                FMotorLeft = true;
-                FMotorRight = false;
-
-                RLeftSpeed = (float) 0.1;
-                RRightSpeed = (float) 0.6;
-                RMotorRight = false;
-                RMotorLeft = true;
-                break;
-            case NLP_WALK_SQUARE:
-                motionSequence = new String[]{GO_FORWARDS, TURN_COUNTERCLOCKWISE,
-                    GO_FORWARDS, TURN_COUNTERCLOCKWISE, GO_FORWARDS, TURN_COUNTERCLOCKWISE,
-                    GO_FORWARDS, STOP};
-                durationSequence = new int[] {600, 1000, 600, 1000, 600, 1000, 600, 1000};
-                sequenceMotion(motionSequence, durationSequence);
-                break;
-            case NLP_WALK_TRI:
-                motionSequence = new String[]{GO_FORWARDS, TURN_COUNTERCLOCKWISE,
-                        GO_FORWARDS, TURN_COUNTERCLOCKWISE, GO_FORWARDS, STOP};
-                durationSequence = new int[] {850, 1000, 850, 1000, 850, 1000, 1000};
-                sequenceMotion(motionSequence, durationSequence);
-                break;
-            case STOP:
-                FLeftSpeed = 0;
-                FRightSpeed = 0;
-
-                RLeftSpeed = 0;
-                RRightSpeed = 0;
-                break;
-            }
-        } else if (robotType.equals(Commands.MICKEY)) {
-            Log.d(TAG, "setMotion: "+Commands.MICKEY+" "+direction);
-            switch (direction) {
-                case Commands.GO_FORWARDS:
-                    MickeyMotorSpeed = (float) 0.8;
-                    MickeyMotorDirection = true;
-                    MickeyServoPosition = MickeyServoCenter;
+                case GO_FORWARDS:
+                    L_LeftSpeed = (float) 0.3;
+                    L_RightSpeed = (float) 0.3;
+                    L_MotorLeft = true;
+                    L_MotorRight = false;
                     break;
-                case Commands.TURN_CLOCKWISE:
-                    MickeyMotorSpeed = (float) 0.7;
-                    MickeyMotorDirection = true;
-                    MickeyServoPosition = MickeyServoRight;
+                case TURN_CLOCKWISE:
+                    L_LeftSpeed = (float) 0.3;
+                    L_RightSpeed = (float) 0.3;
+                    L_MotorLeft = true;
+                    L_MotorRight = true;
                     break;
-                case Commands.TURN_COUNTERCLOCKWISE:
-                    MickeyMotorSpeed = (float) 0.7;
-                    MickeyMotorDirection = true;
-                    MickeyServoPosition = MickeyServoLeft;
+                case TURN_COUNTERCLOCKWISE:
+                    L_LeftSpeed = (float) 0.3;
+                    L_RightSpeed = (float) 0.3;
+                    L_MotorLeft = false;
+                    L_MotorRight = false;
                     break;
                 case Commands.NLP_WALK_CIRCLE:
-                    MickeyMotorSpeed = (float) 0.7;
-                    MickeyMotorDirection = true;
-                    MickeyServoPosition = MickeyServoLeft;
+                    L_LeftSpeed = (float) 0.1;
+                    L_RightSpeed = (float) 0.6;
+                    L_MotorLeft = true;
+                    L_MotorRight = false;
                     break;
                 case NLP_WALK_SQUARE:
                     motionSequence = new String[]{GO_FORWARDS, TURN_COUNTERCLOCKWISE,
-                            GO_FORWARDS, TURN_COUNTERCLOCKWISE, GO_FORWARDS, TURN_COUNTERCLOCKWISE,
-                            GO_FORWARDS, STOP};
-                    // TODO: Test the duration values
-                    durationSequence = new int[] {600, 1000, 600, 1000, 600, 1000, 600, 1000};
+                        GO_FORWARDS, TURN_COUNTERCLOCKWISE, GO_FORWARDS, TURN_COUNTERCLOCKWISE,
+                        GO_FORWARDS, STOP};
+                    durationSequence = new int[] {200, 1000, 200, 1000, 200, 1000, 200, 1000};
                     sequenceMotion(motionSequence, durationSequence);
                     break;
                 case NLP_WALK_TRI:
                     motionSequence = new String[]{GO_FORWARDS, TURN_COUNTERCLOCKWISE,
                             GO_FORWARDS, TURN_COUNTERCLOCKWISE, GO_FORWARDS, STOP};
-                    // TODO: Test the duration values
+                    durationSequence = new int[] {250, 1000, 250, 1000, 250, 1000, 1000};
+                    sequenceMotion(motionSequence, durationSequence);
+                    break;
+                case STOP:
+                    L_LeftSpeed = 0;
+                    L_RightSpeed = 0;
+                    break;
+            }
+        } else if (robotType.equals(Commands.MICKEY)) {
+            Log.d(TAG, "setMotion: "+Commands.MICKEY+" "+direction);
+            switch (direction) {
+                case Commands.GO_FORWARDS:
+                    M_RightSpeed = (float) 0.6;
+                    M_LeftSpeed = (float) 0.6;
+                    M_MotorLeft = true;
+                    M_MotorRight = true;
+                    break;
+                case Commands.TURN_CLOCKWISE:
+                    M_RightSpeed = (float) 0.6;
+                    M_LeftSpeed = (float) 0.6;
+                    M_MotorLeft = true;
+                    M_MotorRight = false;
+                    break;
+                case Commands.TURN_COUNTERCLOCKWISE:
+                    M_RightSpeed = (float) 0.6;
+                    M_LeftSpeed = (float) 0.6;
+                    M_MotorLeft = false;
+                    M_MotorRight = true;
+                    break;
+                case Commands.NLP_WALK_CIRCLE:
+                    M_RightSpeed = (float) 0.6;
+                    M_LeftSpeed = (float) 0.1;
+                    M_MotorLeft = true;
+                    M_MotorRight = true;
+                    break;
+                case NLP_WALK_SQUARE:
+                    motionSequence = new String[]{GO_FORWARDS, TURN_COUNTERCLOCKWISE,
+                            GO_FORWARDS, TURN_COUNTERCLOCKWISE, GO_FORWARDS, TURN_COUNTERCLOCKWISE,
+                            GO_FORWARDS, STOP};
+                    durationSequence = new int[] {625, 1000, 625, 1000, 625, 1000, 625, 1000};
+                    sequenceMotion(motionSequence, durationSequence);
+                    break;
+                case NLP_WALK_TRI:
+                    motionSequence = new String[]{GO_FORWARDS, TURN_COUNTERCLOCKWISE,
+                            GO_FORWARDS, TURN_COUNTERCLOCKWISE, GO_FORWARDS, STOP};
                     durationSequence = new int[] {850, 1000, 850, 1000, 850, 1000, 1000};
                     sequenceMotion(motionSequence, durationSequence);
                     break;
                 case Commands.STOP:
-                    MickeyMotorSpeed = (float)0;
-                    MickeyMotorDirection = true;
-                    MickeyServoPosition = MickeyServoCenter;
+                    M_RightSpeed = 0;
+                    M_LeftSpeed = 0;
                     break;
             }
         }

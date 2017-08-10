@@ -74,7 +74,7 @@ public class RobotManipulator extends AppCompatActivity implements CameraFragmen
         switch (actionParameter){
             case NLP_WALK_CIRCLE:
                 Log.d(TAG, "walk:"+actionParameter);
-                myRobot.declareMotion(NLP_WALK_CIRCLE, STOP, 12);
+                myRobot.declareMotion(NLP_WALK_CIRCLE, STOP, 5);
                 break;
             case Commands.NLP_WALK_FREE:
                 Log.d(TAG, "walk:"+actionParameter);
