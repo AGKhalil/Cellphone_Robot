@@ -11,7 +11,6 @@ class Commands {
     static final String TURN_CLOCKWISE = "clockwise";
     static final String TURN_COUNTERCLOCKWISE = "counterclockwise";
     static final String STOP = "stop";
-    static final byte INDEFENITE = -1;
     static final String MICKEY = "Mickey";
     static final String LILY = "Lily";
 
@@ -23,6 +22,8 @@ class Commands {
     static final String NLP_SPEECH = "speech";
 
     /** NLP action cases **/
+    static final String ORIGINAL_MESSAGE = "message";
+
     static final String NLP_ACTION_NAVIGATION = "navigation";
     // NLP_ACTION_NAVIGATION actionParameters
     static final String NLP_NAVIGATION_DESTINATION = "destination";
@@ -35,6 +36,8 @@ class Commands {
     // NLP_ACTION_TURNAROUND actionParameters
     static final String NLP_TURNAROUND_ROTATION_DIRECTION = "rotation_direction";
 
+    static final String NLP_ACTION_ROBOT = "robot";
+
     static final String NLP_ACTION_WALK = "walk";
     // NLP_ACTION_WALK actionParameters
     static final String NLP_WALK_SHAPE = "shape";
@@ -42,7 +45,6 @@ class Commands {
     static final String NLP_WALK_SQUARE = "square";
     static final String NLP_WALK_CIRCLE = "circle";
     static final String NLP_WALK_TRI = "triangle";
-
 
     /** CentralHub to RobotManipulator intent pointers **/
     static final String HUB_TO_Manipulator_ACTION = "action";

@@ -30,6 +30,8 @@ class NaturalLanguageProcessService : Service() {//AppCompatActivity(), AdapterV
     var socialmedia = ""
     var phonenumber = ""
     var shape = ""
+    var platform = ""
+    var message = ""
     private var aiDataService: AIDataService? = null
 
     override fun onBind(intent: Intent?): IBinder {
@@ -56,8 +58,9 @@ class NaturalLanguageProcessService : Service() {//AppCompatActivity(), AdapterV
 
     override fun onStartCommand(intent: Intent?, flags: Int, startId: Int): Int {
         val msg = intent!!.getStringExtra("msg")  // Obtains the SMS.
+        message = msg
         phonenumber = intent!!.getStringExtra("phonenumber")
-        Log.d(TAG, "onStartCommand: " + phonenumber+msg)
+        Log.d(TAG, "onStartCommand: " + phonenumber+ msg)
         // Creates a new thread upon which NavigationService runs.
         val t = Thread(Runnable // Checks if the message is null, if not the service starts.
         {
@@ -118,63 +121,64 @@ class NaturalLanguageProcessService : Service() {//AppCompatActivity(), AdapterV
     // process the messages from the server
     private fun onResult(response: AIResponse) {
         //runOnUiThread {
-            Log.d(TAG, "onResult")
+        Log.d(TAG, "onResult")
 
-            //resultTextView!!.text = gson.toJson(response)
+        //resultTextView!!.text = gson.toJson(response)
 
-            Log.i(TAG, "Received success response")
+        Log.i(TAG, "Received success response")
 
-            // this is example how to get different parts of result object
-            val status = response.status
-            Log.i(TAG, "Status code: " + status.code!!)
-            Log.i(TAG, "Status type: " + status.errorType)
-            //errorTextView.setText("Status type:"+status.errorType)
+        // this is example how to get different parts of result object
+        val status = response.status
+        Log.i(TAG, "Status code: " + status.code!!)
+        Log.i(TAG, "Status type: " + status.errorType)
+        //errorTextView.setText("Status type:"+status.errorType)
 
-            val result = response.result
-            Log.i(TAG, "Resolved query: " + result.resolvedQuery)
+        val result = response.result
+        Log.i(TAG, "Resolved query: " + result.resolvedQuery)
 
-            Log.i(TAG, "Action: " + result.action)
-            //actionTextView.setText("Action: "+ result.action)
-            action =result.action
+        Log.i(TAG, "Action: " + result.action)
+        //actionTextView.setText("Action: "+ result.action)
+        action =result.action
 
-            speech = result.fulfillment.speech
-            Log.i(TAG, "Speech: " + speech)
-            //resultTextView.setText("Speech: "+speech)
+        speech = result.fulfillment.speech
+        Log.i(TAG, "Speech: " + speech)
+        //resultTextView.setText("Speech: "+speech)
 
-            //Speak out
-            //TextToSpeechClass.speak(speech)
+        //Speak out
+        //TextToSpeechClass.speak(speech)
 
-            val metadata = result.metadata
-            if (metadata != null) {
-                Log.i(TAG, "Intent id: " + metadata.intentId)
-                Log.i(TAG, "Intent name: " + metadata.intentName)
-            }
+        val metadata = result.metadata
+        if (metadata != null) {
+            Log.i(TAG, "Intent id: " + metadata.intentId)
+            Log.i(TAG, "Intent name: " + metadata.intentName)
+        }
 
-            val params = result.parameters
-            var param_String = ""
+        val params = result.parameters
+        var param_String = ""
 
-            if (params != null && !params.isEmpty()) {
-                Log.i(TAG, "Parameters: ")
-                for ((key, value) in params) {
-                    param_String= param_String + String.format("%s: %s\n", key, value.toString())
-                    Log.i(TAG, String.format("%s: %s", key, value.toString()))
-                    if (key == Commands.NLP_NAVIGATION_DESTINATION) {
-                        destination = value.toString()
-                    }
-                    if (key == Commands.NLP_TURNAROUND_ROTATION_DIRECTION) {
-                        rotation_direction = value.toString()
-                    }
-                    if (key == Commands.NLP_PICTURE_TAKING_SOCIAL_MEDIA) {
-                        socialmedia = value.toString()
-                    }
-                    if (key == Commands.NLP_WALK_SHAPE) {
-                        shape = value.toString()
-                    }
+        if (params != null && !params.isEmpty()) {
+            Log.i(TAG, "Parameters: ")
+            for ((key, value) in params) {
+                param_String= param_String + String.format("%s: %s\n", key, value.toString())
+                Log.i(TAG, String.format("%s: %s", key, value.toString()))
+                if (key == Commands.NLP_NAVIGATION_DESTINATION) {
+                    destination = value.toString()
+                }
+                if (key == Commands.NLP_TURNAROUND_ROTATION_DIRECTION) {
+                    rotation_direction = value.toString()
+                }
+                if (key == Commands.NLP_PICTURE_TAKING_SOCIAL_MEDIA) {
+                    socialmedia = value.toString()
+                }
+                if (key == Commands.NLP_WALK_SHAPE) {
+                    shape = value.toString()
+                }
+                if (key == Commands.NLP_ACTION_ROBOT) {
+                    platform = value.toString()
                 }
             }
-
-            sendMessage()
-
+        }
+        sendMessage()
     }
 
     private fun clear(){
@@ -185,11 +189,12 @@ class NaturalLanguageProcessService : Service() {//AppCompatActivity(), AdapterV
         socialmedia = ""
         phonenumber = ""
         shape = ""
+        platform = ""
     }
 
     private fun sendMessage() {
-        Log.d("sender", "Broadcasting message")
         val intent = Intent("NLP-event")
+        Log.d("sender", "Broadcasting message")
         // include some extra data.
         if (destination !="") {
             destination = destination.substring(1,destination.length-1)
@@ -207,44 +212,56 @@ class NaturalLanguageProcessService : Service() {//AppCompatActivity(), AdapterV
             shape = shape.substring(1, shape.length - 1)
             Log.d(TAG, shape + "!!!")
         }
-
-        //send back the speech to wherever the message comes from
-//TODO uncomment this when doing demo
-//        val sendsms: CommunicationOut = CommunicationOut(speech)
-//        sendsms.sendSMS(phonenumber)
+        // this is for removing the quotation mark
+        if (platform != "") {
+            platform = platform.substring(1, platform.length - 1)
+            Log.d(TAG, platform + "!!!")
+        }
 
         Log.d(TAG, "Speech:" + speech)
 
         intent.putExtra(Commands.NLP_ACTION, action)
         intent.putExtra(Commands.NLP_SPEECH,speech)
+        intent.putExtra(Commands.ORIGINAL_MESSAGE, message)
+        intent.putExtra(Commands.NLP_ACTION_ROBOT, platform)
 
         // This is for checking variables
         when (action){
-            Commands.NLP_ACTION_NAVIGATION-> if (destination == "") {
-                Log.d(TAG,"navaigation requires destination")
+            Commands.NLP_ACTION_NAVIGATION -> if (destination == "") {
+                Log.d(TAG,"navigation requires destination")
                 return
             }
             else {intent.putExtra(Commands.NLP_NAVIGATION_DESTINATION, destination)}
 
-            Commands.NLP_ACTION_PICTURE_TAKING -> if (socialmedia ==""){
+            Commands.NLP_ACTION_PICTURE_TAKING -> if (socialmedia == ""){
                 Log.d(TAG,"picture taking requires socialmedia")
                 return
             }
             else {intent.putExtra(Commands.NLP_PICTURE_TAKING_SOCIAL_MEDIA, socialmedia)}
 
-            Commands.NLP_ACTION_TURNAROUND -> if (rotation_direction ==""){
+            Commands.NLP_ACTION_TURNAROUND -> if (rotation_direction == ""){
                 Log.d(TAG,"Turn around requires rotation_direction")
                 return
             }
             else {intent.putExtra(Commands.NLP_TURNAROUND_ROTATION_DIRECTION, rotation_direction)}
 
-            Commands.NLP_ACTION_WALK ->if (shape ==""){
+            Commands.NLP_ACTION_WALK -> if (shape ==""){
                 Log.d(TAG,"Walk requires shape")
                 return
             }
             else {intent.putExtra(Commands.NLP_WALK_SHAPE, shape)}
-
         }
+
+//        if (platform == "") {
+//
+//        } else if (platform == Commands.MICKEY && CentralHub.myIdentifier == Commands.LILY){
+//            //send back the speech to wherever the message comes from
+//            sendsms.sendSMS("7654095215")
+//            Log.d(TAG, "Fuck ME")
+//        } else if (platform == Commands.LILY && CentralHub.myIdentifier == Commands.MICKEY){
+//            //send back the speech to wherever the message comes from
+//            sendsms.sendSMS("7654096743")
+//        }
 
         LocalBroadcastManager.getInstance(this).sendBroadcast(intent)
         clear()
@@ -252,7 +269,6 @@ class NaturalLanguageProcessService : Service() {//AppCompatActivity(), AdapterV
 
 
     companion object {
-
         val TAG = NaturalLanguageProcessService::class.java.getName()
     }
 }
