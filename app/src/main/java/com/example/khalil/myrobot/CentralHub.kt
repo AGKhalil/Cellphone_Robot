@@ -13,17 +13,25 @@ import android.content.Context
 import android.content.Intent
 import android.content.IntentFilter
 import android.content.pm.PackageManager
+import android.os.AsyncTask
 import android.os.Bundle
 import android.support.v4.app.ActivityCompat
 import android.support.v4.content.LocalBroadcastManager
-import android.support.v7.app.AppCompatActivity
 import android.util.Log
 import android.view.View
 import android.widget.RadioButton
 import android.widget.Toast
 import kotlinx.android.synthetic.main.activity_hub.*
+import org.ros.address.InetAddressFactory
+import org.ros.android.RosActivity
+import org.ros.exception.RosRuntimeException
+import org.ros.node.NodeConfiguration
+import org.ros.node.NodeMainExecutor
+import java.net.URI
+import java.net.URISyntaxException
 
-class CentralHub : AppCompatActivity() {
+class CentralHub : RosActivity("Phone", "Phone") {
+    internal var talkernode = Talker(this)
     private var robotDriverIntent: Intent? = null
     private var robotManipulatorIntent: Intent? = null
     var action = ""
@@ -37,6 +45,34 @@ class CentralHub : AppCompatActivity() {
     var myIdentifier = Commands.LILY
     var selectid:Int = 0
     var radioButton:RadioButton ?= null
+
+    override fun startMasterChooser() {
+        val uri: URI
+        try {
+            uri = URI("http://192.168.1.101:11311/")
+        } catch (e: URISyntaxException) {
+            throw RosRuntimeException(e)
+        }
+
+        nodeMainExecutorService.masterUri = uri
+        object : AsyncTask<Void, Void, Void>() {
+            override fun doInBackground(vararg params: Void): Void? {
+                this@CentralHub.init(nodeMainExecutorService)
+                return null
+            }
+        }.execute()
+    }
+    override fun init(p0: NodeMainExecutor) {
+        val lisnode = Listener(this, this)
+
+        val nodeConfiguration = NodeConfiguration.newPublic(
+                InetAddressFactory.newNonLoopback().hostAddress)
+        nodeConfiguration.masterUri = masterUri
+
+        p0.execute(talkernode, nodeConfiguration)
+        p0.execute(lisnode, nodeConfiguration)
+    }
+
     /**
      * Start of Testing Methods *****************************************
      */
@@ -60,14 +96,16 @@ class CentralHub : AppCompatActivity() {
 
     fun mockSend(view: View){
         // Start NLP service
-        val msg = TEXT_Send.text.toString()
-        Toast.makeText(this,msg,0).show()
-        val i = Intent(this, NaturalLanguageProcessService::class.java)
-        i.putExtra("msg", msg)
-        i.putExtra("myIdentifier", myIdentifier)
-        i.putExtra("phonenumber","317914")
-        Log.d(TAG,"myIdentifier"+ myIdentifier)
-        startService(i)
+//        val msg = TEXT_Send.text.toString()
+//        Toast.makeText(this,msg,0).show()
+//        val i = Intent(this, NaturalLanguageProcessService::class.java)
+//        i.putExtra("msg", msg)
+//        i.putExtra("myIdentifier", myIdentifier)
+//        i.putExtra("phonenumber","317914")
+//        Log.d(TAG,"myIdentifier"+ myIdentifier)
+//        startService(i)
+        talkernode.publish("w")
+        Log.d("ALAASASAK", "I WOOORKKKKKKK")
     }
 
     /**
