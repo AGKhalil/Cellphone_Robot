@@ -61,4 +61,5 @@ class Commands {
 
     /** RobotDriver to NavigationService intent pointers **/
     static final String DRIVER_TO_NAVIGATION_MESSAGE = "message";
+
 }

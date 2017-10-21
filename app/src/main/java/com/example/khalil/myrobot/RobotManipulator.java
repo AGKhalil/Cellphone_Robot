@@ -1,5 +1,6 @@
 package com.example.khalil.myrobot;
 
+import android.os.AsyncTask;
 import android.os.Bundle;
 import android.os.Handler;
 import android.support.annotation.Nullable;
@@ -30,7 +31,7 @@ public class RobotManipulator extends AppCompatActivity implements CameraFragmen
     IOIOClass myRobot;  // An instance of the robot. A setter method will be used on this instance
 
     private String robotType; // Robot type.
-
+    String actionParameter;
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -45,7 +46,7 @@ public class RobotManipulator extends AppCompatActivity implements CameraFragmen
         myRobot.getIOIOAndroidApplicationHelper().create(); // Retrieves the IOIO helper, which is
         Log.d(TAG, "onCreate: ");
         String action = getIntent().getStringExtra(Commands.HUB_TO_Manipulator_ACTION);
-        String actionParameter = getIntent().getStringExtra(Commands.HUB_TO_Manipulator_ACTION_PAREMETER);
+        actionParameter = getIntent().getStringExtra(Commands.HUB_TO_Manipulator_ACTION_PAREMETER);
 
         switch (action) {
             case Commands.NLP_ACTION_PICTURE_TAKING:
@@ -61,13 +62,18 @@ public class RobotManipulator extends AppCompatActivity implements CameraFragmen
                 turnRobot(actionParameter);
                 break;
             case Commands.NLP_ACTION_WALK:
-                walk(actionParameter);
+                AsyncTask.execute(new Runnable() {
+                    @Override
+                    public void run() {
+                        //TODO your background code
+                        walk(actionParameter);
+                    }
+                });
+
                 break;
 
         }
-
-
-
+        
     }
 
     private void walk(String actionParameter) {
@@ -89,6 +95,7 @@ public class RobotManipulator extends AppCompatActivity implements CameraFragmen
                 myRobot.setMotion(NLP_WALK_SQUARE);
                 break;
         }
+
     }
 
     public void takeAPicture() {

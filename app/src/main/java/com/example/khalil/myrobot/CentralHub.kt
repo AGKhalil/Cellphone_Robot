@@ -13,6 +13,7 @@ import android.content.Context
 import android.content.Intent
 import android.content.IntentFilter
 import android.content.pm.PackageManager
+import android.os.AsyncTask
 import android.os.Bundle
 import android.support.v4.app.ActivityCompat
 import android.support.v4.content.LocalBroadcastManager
@@ -21,6 +22,7 @@ import android.util.Log
 import android.view.View
 import android.widget.RadioButton
 import android.widget.Toast
+import io.github.firemaples.language.Language
 import kotlinx.android.synthetic.main.activity_hub.*
 
 class CentralHub : AppCompatActivity() {
@@ -37,6 +39,8 @@ class CentralHub : AppCompatActivity() {
     var myIdentifier = Commands.LILY
     var selectid:Int = 0
     var radioButton:RadioButton ?= null
+    var translate_key = ""
+    var textprocess: TextProcess? = null
     /**
      * Start of Testing Methods *****************************************
      */
@@ -70,6 +74,18 @@ class CentralHub : AppCompatActivity() {
         startService(i)
     }
 
+    fun mocktranslate(view: View){
+
+        AsyncTask.execute {
+            val test_string = "Here, parameters fName and personAge inside the parenthesis accepts values Joe and 25 respectively when person1 object is created. However, fName and personAge are used without using var or val, and are not properties of the Person class."
+            val response = textprocess!!.translate(test_string,Language.ENGLISH,Language.CHINESE_SIMPLIFIED)
+//            val language = textprocess.speak(test_string,SpokenDialect.ENGLISH_UNITED_STATES)
+//            val language = textprocess.break_sentence(test_string, Language.ENGLISH)
+//            Log.d("Translate",language.name)
+        }
+
+    }
+
     /**
      * End of Testing Methods *******************************************
      */
@@ -83,6 +99,11 @@ class CentralHub : AppCompatActivity() {
         setContentView(R.layout.activity_hub) // Sets the XML view file that appears to the user.
         robotDriverIntent = Intent(this, RobotDriver::class.java) // Associates mIntent with
         robotManipulatorIntent = Intent(this, RobotManipulator::class.java) // Associates mIntent with
+        val ai = packageManager.getApplicationInfo(packageName, PackageManager.GET_META_DATA)
+        val bundle = ai.metaData
+        translate_key = bundle.getString("microsoft_translate_key")
+//        Log.d(TAG,"Get microsoftkey"+translate_key)
+        textprocess = TextProcess(translate_key)
         // RobotManipulator.
 
         // This IF block insures all permissions are granted.
@@ -192,6 +213,8 @@ class CentralHub : AppCompatActivity() {
         Log.d(TAG, "startRobotManipulator: "+platform)
         this.startActivity(robotManipulatorIntent)
     }
+
+
 
 
     companion object {

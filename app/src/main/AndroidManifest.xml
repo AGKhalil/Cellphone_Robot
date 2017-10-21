@@ -72,6 +72,10 @@
             android:name="com.google.android.geo.API_KEY"
             android:value="@string/google_maps_key" />
 
+        <meta-data
+            android:name="microsoft_translate_key"
+            android:value="@string/microsoft_translate_key" />
+
         <receiver
             android:name=".SMSComIn"
             android:enabled="true"

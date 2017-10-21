@@ -61,4 +61,12 @@
 
     </RadioGroup>
 
+    <Button
+        android:id="@+id/BTN_translate"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="21dp"
+        android:layout_marginStart="21dp"
+        android:onClick="mocktranslate"
+        android:text="translate" />
 </LinearLayout>

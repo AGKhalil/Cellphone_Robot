@@ -297,5 +297,7 @@ class IOIOClass extends BaseIOIOLooper implements IOIOLooperProvider {
     IOIOAndroidApplicationHelper getIOIOAndroidApplicationHelper() {
         return helper;
     }
+
+
 }
 
