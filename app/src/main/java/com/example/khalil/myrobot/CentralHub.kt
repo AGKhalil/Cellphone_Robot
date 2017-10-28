@@ -25,6 +25,7 @@ import android.widget.Toast
 import io.github.firemaples.language.Language
 import kotlinx.android.synthetic.main.activity_hub.*
 
+
 class CentralHub : AppCompatActivity() {
     private var robotDriverIntent: Intent? = null
     private var robotManipulatorIntent: Intent? = null
@@ -36,7 +37,8 @@ class CentralHub : AppCompatActivity() {
     var shape = ""
     var platform = ""
     var message = ""
-    var myIdentifier = Commands.LILY
+    var contact = ""
+    var myIdentifier = Commands.MICKEY
     var selectid:Int = 0
     var radioButton:RadioButton ?= null
     var translate_key = ""
@@ -50,6 +52,7 @@ class CentralHub : AppCompatActivity() {
      * a mock SMS destination.
      * @param view is the button view SEND SMS
      */
+
     fun mockStartRobotDriver(view: View) {
         selectid = radioRobot.checkedRadioButtonId
         radioButton = findViewById(selectid) as RadioButton
@@ -69,19 +72,37 @@ class CentralHub : AppCompatActivity() {
         val i = Intent(this, NaturalLanguageProcessService::class.java)
         i.putExtra("msg", msg)
         i.putExtra("myIdentifier", myIdentifier)
-        i.putExtra("phonenumber","317914")
+        i.putExtra("phonenumber","D7Q7NDWVB")
         Log.d(TAG,"myIdentifier"+ myIdentifier)
         startService(i)
     }
 
-    fun mocktranslate(view: View){
+    fun sendtoNLP(msg:String, myIdentifier:String, channel:String){
+        val i = Intent(this, NaturalLanguageProcessService::class.java)
+        i.putExtra("msg", msg)
+        i.putExtra("myIdentifier", myIdentifier)
+        i.putExtra("phonenumber",channel)
+        Log.d(TAG,"myIdentifier"+ myIdentifier)
+        startService(i)
+    }
 
+    fun sendtoSlack(msg:String, channel:String){
+        val i = Intent(this, SlackService::class.java)
+        i.putExtra("msg", msg)
+        i.putExtra("channelID", channel)
+        Log.d(TAG,"Send to slack"+ msg)
+        startService(i)
+    }
+
+    fun mocktranslate(view: View){
         AsyncTask.execute {
             val test_string = "Here, parameters fName and personAge inside the parenthesis accepts values Joe and 25 respectively when person1 object is created. However, fName and personAge are used without using var or val, and are not properties of the Person class."
-            val response = textprocess!!.translate(test_string,Language.ENGLISH,Language.CHINESE_SIMPLIFIED)
-//            val language = textprocess.speak(test_string,SpokenDialect.ENGLISH_UNITED_STATES)
-//            val language = textprocess.break_sentence(test_string, Language.ENGLISH)
-//            Log.d("Translate",language.name)
+            val response = textprocess!!.translate("Wählen Sie die Sprache, in der Sie bevorzugt stöbern, einkaufen und Mitteilungen von uns erhalten möchten.",Language.GERMAN,Language.ENGLISH)
+            Log.d("Translate",response)
+//            val language = textprocess!!.detect_language(test_string)
+//            val language2 = textprocess!!.break_sentence(test_string, Language.ENGLISH)
+//            Log.d("Translate",language.)
+//            Log.d("Translate",language2.toString())
         }
 
     }
@@ -99,11 +120,12 @@ class CentralHub : AppCompatActivity() {
         setContentView(R.layout.activity_hub) // Sets the XML view file that appears to the user.
         robotDriverIntent = Intent(this, RobotDriver::class.java) // Associates mIntent with
         robotManipulatorIntent = Intent(this, RobotManipulator::class.java) // Associates mIntent with
-        val ai = packageManager.getApplicationInfo(packageName, PackageManager.GET_META_DATA)
-        val bundle = ai.metaData
-        translate_key = bundle.getString("microsoft_translate_key")
-//        Log.d(TAG,"Get microsoftkey"+translate_key)
+
+        translate_key = resources.getString(R.string.microsoft_translate_key)
         textprocess = TextProcess(translate_key)
+        //init service
+        sendtoSlack("init","")
+
         // RobotManipulator.
 
         // This IF block insures all permissions are granted.
@@ -135,10 +157,13 @@ class CentralHub : AppCompatActivity() {
             action = intent.getStringExtra(Commands.NLP_ACTION)
             speech = intent.getStringExtra(Commands.NLP_SPEECH)
             platform = intent.getStringExtra(Commands.NLP_ACTION_ROBOT)
+            contact = intent.getStringExtra(Commands.NLP_ACTION_CONTACT)
             selectid = radioRobot.checkedRadioButtonId
             radioButton = findViewById(selectid) as RadioButton
             myIdentifier = radioButton!!.text.toString()
             message = intent.getStringExtra(Commands.ORIGINAL_MESSAGE)
+
+
             val sendsms = CommunicationOut(message)
 
             Log.d("receiver", "Got intent: " + action)

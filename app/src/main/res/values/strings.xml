@@ -9,4 +9,11 @@
     <string name="go">Go</string>
     <string name="test_twitter">Tweet</string>
     <string name="non_empty_query">Query should not be empty</string>
+    <string name="facebook_app_id">1536393749786978</string>
+    <string name="microsoft_translate_key" templateMergeStrategy="preserve" translatable="false">
+        6fef20f930e64204b2aafca02e800548
+    </string>
+    <string name="slack_key" templateMergeStrategy="preserve" translatable="false">
+        xoxb-261603682465-QyB6BLreiew6tGQESKIK4rux
+    </string>
 </resources>

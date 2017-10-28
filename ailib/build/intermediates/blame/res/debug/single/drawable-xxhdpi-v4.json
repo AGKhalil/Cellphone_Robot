@@ -1,35 +1,7 @@
 [
     {
-        "merged": "C:\\Users\\Khalil\\Desktop\\Cell Phone Robot Research Project\\Cell Phone Robot Report and Code\\myRobot\\ailib\\build\\intermediates\\res\\merged\\debug\\drawable-xxhdpi-v4\\cube.png",
-        "source": "C:\\Users\\Khalil\\Desktop\\Cell Phone Robot Research Project\\Cell Phone Robot Report and Code\\myRobot\\ailib\\src\\main\\res\\drawable-xxhdpi\\cube.png"
-    },
-    {
-        "merged": "C:\\Users\\Khalil\\Desktop\\Cell Phone Robot Research Project\\Cell Phone Robot Report and Code\\myRobot\\C:\\Users\\Khalil\\Desktop\\Cell Phone Robot Research Project\\Cell Phone Robot Report and Code\\myRobot\\ailib\\build\\intermediates\\res\\merged\\debug\\drawable-xxhdpi-v4\\cube.png",
-        "source": "C:\\Users\\Khalil\\Desktop\\Cell Phone Robot Research Project\\Cell Phone Robot Report and Code\\myRobot\\C:\\Users\\Khalil\\Desktop\\Cell Phone Robot Research Project\\Cell Phone Robot Report and Code\\myRobot\\ailib\\src\\main\\res\\drawable-xxhdpi\\cube.png"
-    },
-    {
-        "merged": "C:\\Users\\Khalil\\Desktop\\Cell Phone Robot Research Project\\Cell Phone Robot Report and Code\\myRobot\\C:\\Users\\Khalil\\Desktop\\Cell Phone Robot Research Project\\Cell Phone Robot Report and Code\\myRobot\\ailib\\build\\intermediates\\res\\merged\\debug\\drawable-xxhdpi-v4\\speaker.png",
-        "source": "C:\\Users\\Khalil\\Desktop\\Cell Phone Robot Research Project\\Cell Phone Robot Report and Code\\myRobot\\C:\\Users\\Khalil\\Desktop\\Cell Phone Robot Research Project\\Cell Phone Robot Report and Code\\myRobot\\ailib\\src\\main\\res\\drawable-xxhdpi\\speaker.png"
-    },
-    {
-        "merged": "C:\\Users\\Khalil\\Desktop\\Cell Phone Robot Research Project\\Cell Phone Robot Report and Code\\myRobot\\ailib\\build\\intermediates\\res\\merged\\debug\\drawable-xxhdpi-v4\\speaker_silent.png",
-        "source": "C:\\Users\\Khalil\\Desktop\\Cell Phone Robot Research Project\\Cell Phone Robot Report and Code\\myRobot\\ailib\\src\\main\\res\\drawable-xxhdpi\\speaker_silent.png"
-    },
-    {
-        "merged": "C:\\Users\\Khalil\\Desktop\\Cell Phone Robot Research Project\\Cell Phone Robot Report and Code\\myRobot\\C:\\Users\\Khalil\\Desktop\\Cell Phone Robot Research Project\\Cell Phone Robot Report and Code\\myRobot\\ailib\\build\\intermediates\\res\\merged\\debug\\drawable-xxhdpi-v4\\microphone_control.png",
-        "source": "C:\\Users\\Khalil\\Desktop\\Cell Phone Robot Research Project\\Cell Phone Robot Report and Code\\myRobot\\C:\\Users\\Khalil\\Desktop\\Cell Phone Robot Research Project\\Cell Phone Robot Report and Code\\myRobot\\ailib\\src\\main\\res\\drawable-xxhdpi\\microphone_control.png"
-    },
-    {
         "merged": "C:\\Cellphone_Robot\\ailib\\build\\intermediates\\res\\merged\\debug\\drawable-xxhdpi-v4\\speaker_silent.png",
         "source": "C:\\Cellphone_Robot\\ailib\\src\\main\\res\\drawable-xxhdpi\\speaker_silent.png"
-    },
-    {
-        "merged": "C:\\Users\\Khalil\\Desktop\\Cell Phone Robot Research Project\\Cell Phone Robot Report and Code\\myRobot\\C:\\Users\\Khalil\\Desktop\\Cell Phone Robot Research Project\\Cell Phone Robot Report and Code\\myRobot\\C:\\Cellphone_Robot\\ailib\\build\\intermediates\\res\\merged\\debug\\drawable-xxhdpi-v4\\speaker_silent.png",
-        "source": "C:\\Users\\Khalil\\Desktop\\Cell Phone Robot Research Project\\Cell Phone Robot Report and Code\\myRobot\\C:\\Users\\Khalil\\Desktop\\Cell Phone Robot Research Project\\Cell Phone Robot Report and Code\\myRobot\\C:\\Cellphone_Robot\\ailib\\src\\main\\res\\drawable-xxhdpi\\speaker_silent.png"
-    },
-    {
-        "merged": "C:\\Users\\Khalil\\Desktop\\Cell Phone Robot Research Project\\Cell Phone Robot Report and Code\\myRobot\\ailib\\build\\intermediates\\res\\merged\\debug\\drawable-xxhdpi-v4\\microphone_control.png",
-        "source": "C:\\Users\\Khalil\\Desktop\\Cell Phone Robot Research Project\\Cell Phone Robot Report and Code\\myRobot\\ailib\\src\\main\\res\\drawable-xxhdpi\\microphone_control.png"
     },
     {
         "merged": "C:\\Cellphone_Robot\\ailib\\build\\intermediates\\res\\merged\\debug\\drawable-xxhdpi-v4\\microphone_control.png",
@@ -42,41 +14,5 @@
     {
         "merged": "C:\\Cellphone_Robot\\ailib\\build\\intermediates\\res\\merged\\debug\\drawable-xxhdpi-v4\\cube.png",
         "source": "C:\\Cellphone_Robot\\ailib\\src\\main\\res\\drawable-xxhdpi\\cube.png"
-    },
-    {
-        "merged": "C:\\Users\\Khalil\\Desktop\\Cell Phone Robot Research Project\\Cell Phone Robot Report and Code\\myRobot\\ailib\\build\\intermediates\\res\\merged\\debug\\drawable-xxhdpi-v4\\speaker.png",
-        "source": "C:\\Users\\Khalil\\Desktop\\Cell Phone Robot Research Project\\Cell Phone Robot Report and Code\\myRobot\\ailib\\src\\main\\res\\drawable-xxhdpi\\speaker.png"
-    },
-    {
-        "merged": "C:\\Users\\Khalil\\Desktop\\Cell Phone Robot Research Project\\Cell Phone Robot Report and Code\\myRobot\\C:\\Cellphone_Robot\\ailib\\build\\intermediates\\res\\merged\\debug\\drawable-xxhdpi-v4\\cube.png",
-        "source": "C:\\Users\\Khalil\\Desktop\\Cell Phone Robot Research Project\\Cell Phone Robot Report and Code\\myRobot\\C:\\Cellphone_Robot\\ailib\\src\\main\\res\\drawable-xxhdpi\\cube.png"
-    },
-    {
-        "merged": "C:\\Users\\Khalil\\Desktop\\Cell Phone Robot Research Project\\Cell Phone Robot Report and Code\\myRobot\\C:\\Cellphone_Robot\\ailib\\build\\intermediates\\res\\merged\\debug\\drawable-xxhdpi-v4\\microphone_control.png",
-        "source": "C:\\Users\\Khalil\\Desktop\\Cell Phone Robot Research Project\\Cell Phone Robot Report and Code\\myRobot\\C:\\Cellphone_Robot\\ailib\\src\\main\\res\\drawable-xxhdpi\\microphone_control.png"
-    },
-    {
-        "merged": "C:\\Users\\Khalil\\Desktop\\Cell Phone Robot Research Project\\Cell Phone Robot Report and Code\\myRobot\\C:\\Users\\Khalil\\Desktop\\Cell Phone Robot Research Project\\Cell Phone Robot Report and Code\\myRobot\\ailib\\build\\intermediates\\res\\merged\\debug\\drawable-xxhdpi-v4\\speaker_silent.png",
-        "source": "C:\\Users\\Khalil\\Desktop\\Cell Phone Robot Research Project\\Cell Phone Robot Report and Code\\myRobot\\C:\\Users\\Khalil\\Desktop\\Cell Phone Robot Research Project\\Cell Phone Robot Report and Code\\myRobot\\ailib\\src\\main\\res\\drawable-xxhdpi\\speaker_silent.png"
-    },
-    {
-        "merged": "C:\\Users\\Khalil\\Desktop\\Cell Phone Robot Research Project\\Cell Phone Robot Report and Code\\myRobot\\C:\\Users\\Khalil\\Desktop\\Cell Phone Robot Research Project\\Cell Phone Robot Report and Code\\myRobot\\C:\\Cellphone_Robot\\ailib\\build\\intermediates\\res\\merged\\debug\\drawable-xxhdpi-v4\\microphone_control.png",
-        "source": "C:\\Users\\Khalil\\Desktop\\Cell Phone Robot Research Project\\Cell Phone Robot Report and Code\\myRobot\\C:\\Users\\Khalil\\Desktop\\Cell Phone Robot Research Project\\Cell Phone Robot Report and Code\\myRobot\\C:\\Cellphone_Robot\\ailib\\src\\main\\res\\drawable-xxhdpi\\microphone_control.png"
-    },
-    {
-        "merged": "C:\\Users\\Khalil\\Desktop\\Cell Phone Robot Research Project\\Cell Phone Robot Report and Code\\myRobot\\C:\\Cellphone_Robot\\ailib\\build\\intermediates\\res\\merged\\debug\\drawable-xxhdpi-v4\\speaker_silent.png",
-        "source": "C:\\Users\\Khalil\\Desktop\\Cell Phone Robot Research Project\\Cell Phone Robot Report and Code\\myRobot\\C:\\Cellphone_Robot\\ailib\\src\\main\\res\\drawable-xxhdpi\\speaker_silent.png"
-    },
-    {
-        "merged": "C:\\Users\\Khalil\\Desktop\\Cell Phone Robot Research Project\\Cell Phone Robot Report and Code\\myRobot\\C:\\Users\\Khalil\\Desktop\\Cell Phone Robot Research Project\\Cell Phone Robot Report and Code\\myRobot\\C:\\Cellphone_Robot\\ailib\\build\\intermediates\\res\\merged\\debug\\drawable-xxhdpi-v4\\speaker.png",
-        "source": "C:\\Users\\Khalil\\Desktop\\Cell Phone Robot Research Project\\Cell Phone Robot Report and Code\\myRobot\\C:\\Users\\Khalil\\Desktop\\Cell Phone Robot Research Project\\Cell Phone Robot Report and Code\\myRobot\\C:\\Cellphone_Robot\\ailib\\src\\main\\res\\drawable-xxhdpi\\speaker.png"
-    },
-    {
-        "merged": "C:\\Users\\Khalil\\Desktop\\Cell Phone Robot Research Project\\Cell Phone Robot Report and Code\\myRobot\\C:\\Cellphone_Robot\\ailib\\build\\intermediates\\res\\merged\\debug\\drawable-xxhdpi-v4\\speaker.png",
-        "source": "C:\\Users\\Khalil\\Desktop\\Cell Phone Robot Research Project\\Cell Phone Robot Report and Code\\myRobot\\C:\\Cellphone_Robot\\ailib\\src\\main\\res\\drawable-xxhdpi\\speaker.png"
-    },
-    {
-        "merged": "C:\\Users\\Khalil\\Desktop\\Cell Phone Robot Research Project\\Cell Phone Robot Report and Code\\myRobot\\C:\\Users\\Khalil\\Desktop\\Cell Phone Robot Research Project\\Cell Phone Robot Report and Code\\myRobot\\C:\\Cellphone_Robot\\ailib\\build\\intermediates\\res\\merged\\debug\\drawable-xxhdpi-v4\\cube.png",
-        "source": "C:\\Users\\Khalil\\Desktop\\Cell Phone Robot Research Project\\Cell Phone Robot Report and Code\\myRobot\\C:\\Users\\Khalil\\Desktop\\Cell Phone Robot Research Project\\Cell Phone Robot Report and Code\\myRobot\\C:\\Cellphone_Robot\\ailib\\src\\main\\res\\drawable-xxhdpi\\cube.png"
     }
 ]

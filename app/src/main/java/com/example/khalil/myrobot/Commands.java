@@ -37,6 +37,7 @@ class Commands {
     static final String NLP_TURNAROUND_ROTATION_DIRECTION = "rotation_direction";
 
     static final String NLP_ACTION_ROBOT = "robot";
+    static final String NLP_ACTION_CONTACT = "contact";
 
     static final String NLP_ACTION_WALK = "walk";
     // NLP_ACTION_WALK actionParameters

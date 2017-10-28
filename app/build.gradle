@@ -6,7 +6,7 @@ android {
     buildToolsVersion "25.0.2"
     defaultConfig {
         applicationId "com.example.khalil.myrobot"
-        minSdkVersion 15
+        minSdkVersion 19
         targetSdkVersion 25
         multiDexEnabled true
         versionCode 1
@@ -63,6 +63,7 @@ dependencies {
     //compile 'ai.api:libai:1.4.8'
     compile project(':ailib')
     compile "org.jetbrains.kotlin:kotlin-stdlib-jre7:$kotlin_version"
+    compile 'com.github.pschroen:slack-api-android:c66cc8d997'
 }
 
 apply plugin: 'kotlin-android-extensions'
