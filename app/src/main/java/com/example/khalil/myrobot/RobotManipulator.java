@@ -63,11 +63,7 @@ public class RobotManipulator extends AppCompatActivity implements CameraFragmen
             case Commands.NLP_ACTION_WALK:
                 walk(actionParameter);
                 break;
-
         }
-
-
-
     }
 
     private void walk(String actionParameter) {
