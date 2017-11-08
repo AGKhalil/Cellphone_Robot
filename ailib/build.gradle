@@ -1,5 +1,4 @@
 apply plugin: 'com.android.library'
-apply plugin: 'com.neenbedankt.android-apt'
 
 android {
     compileSdkVersion Integer.parseInt(project.ANDROID_BUILD_SDK_VERSION)
@@ -34,6 +33,7 @@ android {
         exclude 'META-INF/NOTICE.txt'
         exclude 'LICENSE.txt'
     }
+    buildToolsVersion '26.0.2'
 }
 
 dependencies {
@@ -49,6 +49,8 @@ dependencies {
     testCompile "junit:junit:4.12"
     testCompile "org.assertj:assertj-core:1.7.0"
     testCompile "org.robolectric:robolectric:3.1.2"
+    annotationProcessor 'org.apache.logging.log4j:log4j-core:2.2'
+    compile 'org.apache.logging.log4j:log4j-core:2.2'
 }
 
 apply from: '../gradle-mvn-push.gradle'

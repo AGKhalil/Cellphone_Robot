@@ -1,0 +1,39 @@
+-- Merging decision tree log ---
+manifest
+ADDED from /Users/Khalil/Desktop/Cell Phone Robot Research Project/Updated code/Cellphone_Robot/ailib/src/main/AndroidManifest.xml:1:1-6:12
+INJECTED from /Users/Khalil/Desktop/Cell Phone Robot Research Project/Updated code/Cellphone_Robot/ailib/src/main/AndroidManifest.xml:1:1-6:12
+INJECTED from /Users/Khalil/Desktop/Cell Phone Robot Research Project/Updated code/Cellphone_Robot/ailib/src/main/AndroidManifest.xml:1:1-6:12
+INJECTED from /Users/Khalil/Desktop/Cell Phone Robot Research Project/Updated code/Cellphone_Robot/ailib/src/main/AndroidManifest.xml:1:1-6:12
+INJECTED from /Users/Khalil/Desktop/Cell Phone Robot Research Project/Updated code/Cellphone_Robot/ailib/src/main/AndroidManifest.xml:1:1-6:12
+INJECTED from /Users/Khalil/Desktop/Cell Phone Robot Research Project/Updated code/Cellphone_Robot/ailib/src/main/AndroidManifest.xml:1:1-6:12
+INJECTED from /Users/Khalil/Desktop/Cell Phone Robot Research Project/Updated code/Cellphone_Robot/ailib/src/main/AndroidManifest.xml:1:1-6:12
+	package
+		ADDED from /Users/Khalil/Desktop/Cell Phone Robot Research Project/Updated code/Cellphone_Robot/ailib/src/main/AndroidManifest.xml:2:5-21
+		INJECTED from /Users/Khalil/Desktop/Cell Phone Robot Research Project/Updated code/Cellphone_Robot/ailib/src/main/AndroidManifest.xml
+		INJECTED from /Users/Khalil/Desktop/Cell Phone Robot Research Project/Updated code/Cellphone_Robot/ailib/src/main/AndroidManifest.xml
+	android:versionName
+		INJECTED from /Users/Khalil/Desktop/Cell Phone Robot Research Project/Updated code/Cellphone_Robot/ailib/src/main/AndroidManifest.xml
+		ADDED from /Users/Khalil/Desktop/Cell Phone Robot Research Project/Updated code/Cellphone_Robot/ailib/src/main/AndroidManifest.xml:1:1-6:12
+		INJECTED from /Users/Khalil/Desktop/Cell Phone Robot Research Project/Updated code/Cellphone_Robot/ailib/src/main/AndroidManifest.xml
+	android:versionCode
+		INJECTED from /Users/Khalil/Desktop/Cell Phone Robot Research Project/Updated code/Cellphone_Robot/ailib/src/main/AndroidManifest.xml
+		ADDED from /Users/Khalil/Desktop/Cell Phone Robot Research Project/Updated code/Cellphone_Robot/ailib/src/main/AndroidManifest.xml:1:1-6:12
+		INJECTED from /Users/Khalil/Desktop/Cell Phone Robot Research Project/Updated code/Cellphone_Robot/ailib/src/main/AndroidManifest.xml
+	xmlns:android
+		ADDED from /Users/Khalil/Desktop/Cell Phone Robot Research Project/Updated code/Cellphone_Robot/ailib/src/main/AndroidManifest.xml:1:11-69
+application
+ADDED from /Users/Khalil/Desktop/Cell Phone Robot Research Project/Updated code/Cellphone_Robot/ailib/src/main/AndroidManifest.xml:4:5-5:12
+uses-sdk
+INJECTED from /Users/Khalil/Desktop/Cell Phone Robot Research Project/Updated code/Cellphone_Robot/ailib/src/main/AndroidManifest.xml reason: use-sdk injection requested
+INJECTED from /Users/Khalil/Desktop/Cell Phone Robot Research Project/Updated code/Cellphone_Robot/ailib/src/main/AndroidManifest.xml
+INJECTED from /Users/Khalil/Desktop/Cell Phone Robot Research Project/Updated code/Cellphone_Robot/ailib/src/main/AndroidManifest.xml
+INJECTED from /Users/Khalil/Desktop/Cell Phone Robot Research Project/Updated code/Cellphone_Robot/ailib/src/main/AndroidManifest.xml
+INJECTED from /Users/Khalil/Desktop/Cell Phone Robot Research Project/Updated code/Cellphone_Robot/ailib/src/main/AndroidManifest.xml
+	android:targetSdkVersion
+		INJECTED from /Users/Khalil/Desktop/Cell Phone Robot Research Project/Updated code/Cellphone_Robot/ailib/src/main/AndroidManifest.xml
+		ADDED from /Users/Khalil/Desktop/Cell Phone Robot Research Project/Updated code/Cellphone_Robot/ailib/src/main/AndroidManifest.xml
+		INJECTED from /Users/Khalil/Desktop/Cell Phone Robot Research Project/Updated code/Cellphone_Robot/ailib/src/main/AndroidManifest.xml
+	android:minSdkVersion
+		INJECTED from /Users/Khalil/Desktop/Cell Phone Robot Research Project/Updated code/Cellphone_Robot/ailib/src/main/AndroidManifest.xml
+		ADDED from /Users/Khalil/Desktop/Cell Phone Robot Research Project/Updated code/Cellphone_Robot/ailib/src/main/AndroidManifest.xml
+		INJECTED from /Users/Khalil/Desktop/Cell Phone Robot Research Project/Updated code/Cellphone_Robot/ailib/src/main/AndroidManifest.xml

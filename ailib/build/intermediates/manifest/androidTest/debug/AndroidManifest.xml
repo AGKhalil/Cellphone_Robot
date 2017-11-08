@@ -13,7 +13,7 @@
         android:label="Tests for ai.api.test"
         android:targetPackage="ai.api.test" />
 
-    <application>
+    <application android:debuggable="true" >
         <uses-library android:name="android.test.runner" />
     </application>
 
