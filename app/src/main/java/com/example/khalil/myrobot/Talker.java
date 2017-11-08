@@ -13,7 +13,7 @@ import org.ros.node.topic.Publisher;
 class Talker extends AbstractNodeMain {
     private String randomCommand = "Hello";
     private Publisher<std_msgs.String> publisher;
-    Talker(CentralHub centralHub) {
+    Talker(RobotController centralHub) {
 
     }
 

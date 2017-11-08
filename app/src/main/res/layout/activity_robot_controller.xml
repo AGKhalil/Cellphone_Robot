@@ -1,6 +1,72 @@
 <?xml version="1.0" encoding="utf-8"?>
-<android.support.constraint.ConstraintLayout
-    xmlns:android="http://schemas.android.com/apk/res/android" android:layout_width="match_parent"
-    android:layout_height="match_parent">
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    xmlns:opencv="http://schemas.android.com/apk/res-auto"
+    tools:context="com.example.khalil.myrobot.RobotController">
 
-</android.support.constraint.ConstraintLayout>
+    <TextView
+        android:id="@+id/ultrasonic_title"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/ultrasonic_reading"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="54dp"
+        android:textSize="30sp"
+        android:textColor="#ff3300"/>
+
+
+    <TextView
+        android:id="@+id/ultrasonic_reading"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/ultrasonic_title"
+        android:textSize="20sp"
+        android:layout_centerHorizontal="true"/>
+
+    <TextView
+        android:id="@+id/robot_state"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/just_minding_my_business"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="16dp"
+        android:layout_below="@+id/ultrasonic_reading"
+        android:textSize="30sp"
+        android:textColor="#ff6600"/>
+    <Button
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/action_spinner"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="16sp"
+        android:text="GO"
+        android:id="@+id/robot_button"/>
+
+    <Spinner
+        android:id="@+id/action_spinner"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/robot_state"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="16sp" />
+
+    <LinearLayout
+        android:layout_weight="1"
+        android:layout_below="@id/robot_button"
+        android:orientation="horizontal"
+        android:layout_height="wrap_content"
+        android:layout_width="wrap_content">
+
+        <org.opencv.android.JavaCameraView
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:visibility="gone"
+            android:id="@+id/HelloOpenCvView"
+            opencv:show_fps="true"
+            opencv:camera_id="any" />
+
+    </LinearLayout>
+
+</RelativeLayout>

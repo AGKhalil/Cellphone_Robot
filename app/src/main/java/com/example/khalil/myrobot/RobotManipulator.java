@@ -1,5 +1,6 @@
 package com.example.khalil.myrobot;
 
+import android.annotation.SuppressLint;
 import android.os.Bundle;
 import android.os.Handler;
 import android.support.annotation.Nullable;
@@ -24,6 +25,7 @@ import static com.example.khalil.myrobot.Commands.TURN_COUNTERCLOCKWISE;
 public class RobotManipulator extends AppCompatActivity implements CameraFragmentResultListener {
     public String TAG = "RobotManipulator";
     private CommunicationOut postToMedia = new CommunicationOut("wherever I am"); // Social media object that posts to
+    @SuppressLint("MissingPermission")
     public final CameraFragment cameraFragment =
             CameraFragment.newInstance(new Configuration.Builder().build()); // A camera fragment
     public String socialParameter = "";

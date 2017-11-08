@@ -6,7 +6,7 @@ android {
         resolutionStrategy.force 'com.google.code.findbugs:jsr305:1.3.9'
     }
     compileSdkVersion 25
-    buildToolsVersion "25.0.2"
+    buildToolsVersion '26.0.2'
     defaultConfig {
         applicationId "com.example.khalil.myrobot"
         minSdkVersion 15
@@ -36,6 +36,7 @@ repositories {
     mavenCentral()
 
     maven { url "https://oss.sonatype.org/content/repositories/snapshots" }
+    google()
 }
 
 dependencies {
@@ -52,6 +53,7 @@ dependencies {
     compile 'org.greenrobot:eventbus:3.0.0'
     compile 'com.android.support:multidex:1.0.1'
     testCompile 'junit:junit:4.12'
+    compile project(':openCVLibrary330')
     compile 'com.github.ytai.ioio:IOIOLibAndroidDevice:5.07'
     compile 'com.github.ytai.ioio:IOIOLibAndroidBluetooth:5.07'
     compile 'com.github.ytai.ioio:IOIOLibAndroidAccessory:5.07'
@@ -60,12 +62,12 @@ dependencies {
     compile 'com.yayandroid:LocationManager:2.0.1'
     compile 'com.github.florent37:camerafragment:1.0.4'
     compile 'org.twitter4j:twitter4j-core:4.0.6'
-    compile fileTree(dir: 'libs', include: ['*.jar'])
+    compile fileTree(include: ['*.jar'], dir: 'libs')
     compile 'commons-io:commons-io:2.4'
     //compile 'ai.api:libai:1.4.8'
     compile project(':ailib')
     compile "org.jetbrains.kotlin:kotlin-stdlib-jre7:$kotlin_version"
-    compile ('org.ros.android_core:android_honeycomb_mr2:[0.1,0.2)') {
+    compile('org.ros.android_core:android_honeycomb_mr2:[0.1,0.2)') {
         exclude group: 'junit'
         exclude group: 'xml-apis'
     }
@@ -75,6 +77,9 @@ dependencies {
     compile 'org.ros.rosjava_messages:geometry_msgs:[0.1,)'
     compile 'org.twitter4j:twitter4j-core:4.0.6'
     compile 'com.github.florent37:camerafragment:1.0.4'
+    annotationProcessor 'org.apache.logging.log4j:log4j-core:2.2'
+    compile 'org.apache.logging.log4j:log4j-core:2.2'
+    implementation project(':openCVLibrary330')
 }
 
 apply plugin: 'kotlin-android-extensions'
