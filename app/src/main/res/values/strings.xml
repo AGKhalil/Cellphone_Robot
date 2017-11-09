@@ -11,4 +11,11 @@
     <string name="non_empty_query">Query should not be empty</string>
     <string name="ultrasonic_reading">Ultrasonic Reading</string>
     <string name="just_minding_my_business">Just minding my business</string>
+    <string name="facebook_app_id">1536393749786978</string>
+    <string name="microsoft_translate_key" templateMergeStrategy="preserve" translatable="false">
+        6fef20f930e64204b2aafca02e800548
+    </string>
+    <string name="slack_key" templateMergeStrategy="preserve" translatable="false">
+        xoxb-261603682465-QyB6BLreiew6tGQESKIK4rux
+    </string>
 </resources>

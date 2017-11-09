@@ -12,6 +12,8 @@ import android.os.IBinder
 import android.support.v4.content.LocalBroadcastManager
 import android.text.TextUtils
 import android.util.Log
+import io.github.firemaples.language.Language
+import io.github.firemaples.language.SpokenDialect
 
 
 @Suppress("UNREACHABLE_CODE")
@@ -33,6 +35,8 @@ class NaturalLanguageProcessService : Service() {//AppCompatActivity(), AdapterV
     var platform = ""
     var message = ""
     private var aiDataService: AIDataService? = null
+    var translate_key = ""
+    var textprocess: TextProcess? = null
 
     override fun onBind(intent: Intent?): IBinder {
         TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
@@ -53,6 +57,8 @@ class NaturalLanguageProcessService : Service() {//AppCompatActivity(), AdapterV
                 AIConfiguration.RecognitionEngine.System)
         Log.d(TAG,"initservice")
         aiDataService = AIDataService(this,config)
+        translate_key = resources.getString(R.string.microsoft_translate_key)
+        textprocess = TextProcess(translate_key)
     }
 
 
@@ -192,6 +198,14 @@ class NaturalLanguageProcessService : Service() {//AppCompatActivity(), AdapterV
         platform = ""
     }
 
+    fun sendtoSlack(msg:String, channel:String){
+        val i = Intent(this, SlackService::class.java)
+        i.putExtra("msg", msg)
+        i.putExtra("channelID", channel)
+        Log.d(CentralHub.TAG,"Send to slack"+ msg)
+        startService(i)
+    }
+
     private fun sendMessage() {
         val intent = Intent("NLP-event")
         Log.d("sender", "Broadcasting message")
@@ -224,6 +238,18 @@ class NaturalLanguageProcessService : Service() {//AppCompatActivity(), AdapterV
         intent.putExtra(Commands.NLP_SPEECH,speech)
         intent.putExtra(Commands.ORIGINAL_MESSAGE, message)
         intent.putExtra(Commands.NLP_ACTION_ROBOT, platform)
+        intent.putExtra(Commands.NLP_ACTION_CONTACT,phonenumber)
+
+         // Phonenumber could be a slack id number
+        if (phonenumber.length ==9 ){
+            AsyncTask.execute { textprocess!!.speak(speech, SpokenDialect.ENGLISH_UNITED_STATES) }
+            sendtoSlack(speech,phonenumber)
+        }
+        else{
+            val sms = CommunicationOut(speech)
+            sms.sendSMS(phonenumber)
+        }
+
 
         // This is for checking variables
         when (action){
@@ -234,7 +260,7 @@ class NaturalLanguageProcessService : Service() {//AppCompatActivity(), AdapterV
             else {intent.putExtra(Commands.NLP_NAVIGATION_DESTINATION, destination)}
 
             Commands.NLP_ACTION_PICTURE_TAKING -> if (socialmedia == ""){
-                Log.d(TAG,"picture taking requires socialmedia")
+                Log.d(TAG,"picture taking requires social media")
                 return
             }
             else {intent.putExtra(Commands.NLP_PICTURE_TAKING_SOCIAL_MEDIA, socialmedia)}
@@ -252,16 +278,6 @@ class NaturalLanguageProcessService : Service() {//AppCompatActivity(), AdapterV
             else {intent.putExtra(Commands.NLP_WALK_SHAPE, shape)}
         }
 
-//        if (platform == "") {
-//
-//        } else if (platform == Commands.MICKEY && CentralHub.myIdentifier == Commands.LILY){
-//            //send back the speech to wherever the message comes from
-//            sendsms.sendSMS("7654095215")
-//            Log.d(TAG, "Fuck ME")
-//        } else if (platform == Commands.LILY && CentralHub.myIdentifier == Commands.MICKEY){
-//            //send back the speech to wherever the message comes from
-//            sendsms.sendSMS("7654096743")
-//        }
 
         LocalBroadcastManager.getInstance(this).sendBroadcast(intent)
         clear()

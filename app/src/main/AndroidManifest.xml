@@ -71,7 +71,7 @@
         </activity>
 
         <service android:enabled="true" android:name=".NaturalLanguageProcessService" />
-
+        <service android:enabled="true" android:name=".SlackService" />
 
         <!--
              The API key for Google Maps-based APIs is defined as a string resource.
@@ -84,6 +84,13 @@
         <meta-data
             android:name="com.google.android.geo.API_KEY"
             android:value="@string/google_maps_key" />
+
+        <meta-data
+            android:name="microsoft_translate_key"
+            android:value="@string/microsoft_translate_key" />
+        <meta-data
+            android:name="slack_key"
+            android:value="@string/slack_key" />
 
         <receiver
             android:name=".SMSComIn"

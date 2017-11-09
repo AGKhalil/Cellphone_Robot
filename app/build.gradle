@@ -9,7 +9,7 @@ android {
     buildToolsVersion '26.0.2'
     defaultConfig {
         applicationId "com.example.khalil.myrobot"
-        minSdkVersion 15
+        minSdkVersion 19
         targetSdkVersion 25
         multiDexEnabled true
         versionCode 1
@@ -44,6 +44,7 @@ dependencies {
     androidTestCompile('com.android.support.test.espresso:espresso-core:2.2.2', {
         exclude group: 'com.android.support', module: 'support-annotations'
     })
+    compile 'io.github.firemaples:microsoft-translator-java-api:0.8.5'
     compile 'com.android.support:appcompat-v7:25.3.1'
     compile 'com.android.support.constraint:constraint-layout:1.0.0-beta5'
     compile 'com.google.android.gms:play-services-location:10.2.1'
@@ -80,6 +81,7 @@ dependencies {
     annotationProcessor 'org.apache.logging.log4j:log4j-core:2.2'
     compile 'org.apache.logging.log4j:log4j-core:2.2'
     implementation project(':openCVLibrary330')
+    compile 'com.github.pschroen:slack-api-android:c66cc8d997'
 }
 
 apply plugin: 'kotlin-android-extensions'

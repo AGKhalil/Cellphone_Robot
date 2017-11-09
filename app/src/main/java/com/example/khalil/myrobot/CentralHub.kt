@@ -8,11 +8,13 @@ package com.example.khalil.myrobot
  */
 
 import android.Manifest
+import android.annotation.SuppressLint
 import android.content.BroadcastReceiver
 import android.content.Context
 import android.content.Intent
 import android.content.IntentFilter
 import android.content.pm.PackageManager
+import android.os.AsyncTask
 import android.os.Bundle
 import android.support.v4.app.ActivityCompat
 import android.support.v4.content.LocalBroadcastManager
@@ -21,7 +23,9 @@ import android.util.Log
 import android.view.View
 import android.widget.RadioButton
 import android.widget.Toast
+import io.github.firemaples.language.Language
 import kotlinx.android.synthetic.main.activity_hub.*
+
 
 class CentralHub : AppCompatActivity() {
     private var robotDriverIntent: Intent? = null
@@ -35,10 +39,12 @@ class CentralHub : AppCompatActivity() {
     var shape = ""
     var platform = ""
     var message = ""
+    var contact = ""
     var myIdentifier = Commands.LILY
     var selectid:Int = 0
     var radioButton:RadioButton ?= null
-
+    var translate_key = ""
+    var textprocess: TextProcess? = null
     /**
      * Start of Testing Methods *****************************************
      */
@@ -48,6 +54,7 @@ class CentralHub : AppCompatActivity() {
      * a mock SMS destination.
      * @param view is the button view SEND SMS
      */
+
     fun mockStartRobotDriver(view: View) {
         selectid = radioRobot.checkedRadioButtonId
         radioButton = findViewById(selectid) as RadioButton
@@ -55,23 +62,52 @@ class CentralHub : AppCompatActivity() {
         // Start robot driver
         if (destination != null) {
             Toast.makeText(this, destination, Toast.LENGTH_SHORT).show()
-            startRobotDriver(destination, myIdentifier)
+//            startRobotDriver(destination, myIdentifier)
         }
     }
 
 
+    @SuppressLint("WrongConstant")
     fun mockSend(view: View){
         // Start NLP service
-//        val msg = TEXT_Send.text.toString()
-//        Toast.makeText(this,msg,0).show()
-//        val i = Intent(this, NaturalLanguageProcessService::class.java)
-//        i.putExtra("msg", msg)
-//        i.putExtra("myIdentifier", myIdentifier)
-//        i.putExtra("phonenumber","317914")
-//        Log.d(TAG,"myIdentifier"+ myIdentifier)
-//        startService(i)
-        this.startActivity(robotControllerIntent)
-        Log.d("ALAASASAK", "I WOOORKKKKKKK")
+        val msg = TEXT_Send.text.toString()
+        Toast.makeText(this,msg,0).show()
+        val i = Intent(this, NaturalLanguageProcessService::class.java)
+        i.putExtra("msg", msg)
+        i.putExtra("myIdentifier", myIdentifier)
+        i.putExtra("phonenumber","317914")
+        Log.d(TAG,"myIdentifier"+ myIdentifier)
+        startService(i)
+    }
+
+    fun sendtoNLP(msg:String, myIdentifier:String, channel:String){
+        val i = Intent(this, NaturalLanguageProcessService::class.java)
+        i.putExtra("msg", msg)
+        i.putExtra("myIdentifier", myIdentifier)
+        i.putExtra("phonenumber",channel)
+        Log.d(TAG,"myIdentifier"+ myIdentifier)
+        startService(i)
+    }
+
+    fun sendtoSlack(msg:String, channel:String){
+        val i = Intent(this, SlackService::class.java)
+        i.putExtra("msg", msg)
+        i.putExtra("channelID", channel)
+        Log.d(TAG,"Send to slack"+ msg)
+        startService(i)
+    }
+
+    fun mocktranslate(view: View){
+        AsyncTask.execute {
+            val test_string = "Here, parameters fName and personAge inside the parenthesis accepts values Joe and 25 respectively when person1 object is created. However, fName and personAge are used without using var or val, and are not properties of the Person class."
+            val response = textprocess!!.translate("Wählen Sie die Sprache, in der Sie bevorzugt stöbern, einkaufen und Mitteilungen von uns erhalten möchten.",Language.GERMAN,Language.ENGLISH)
+            Log.d("Translate",response)
+//            val language = textprocess!!.detect_language(test_string)
+//            val language2 = textprocess!!.break_sentence(test_string, Language.ENGLISH)
+//            Log.d("Translate",language.)
+//            Log.d("Translate",language2.toString())
+        }
+
     }
 
     /**
@@ -87,6 +123,12 @@ class CentralHub : AppCompatActivity() {
         setContentView(R.layout.activity_hub) // Sets the XML view file that appears to the user.
         robotDriverIntent = Intent(this, RobotDriver::class.java) // Associates mIntent with
         robotManipulatorIntent = Intent(this, RobotManipulator::class.java) // Associates mIntent with
+
+        translate_key = resources.getString(R.string.microsoft_translate_key)
+        textprocess = TextProcess(translate_key)
+        //init service
+        sendtoSlack("init","")
+
         // RobotManipulator.
         robotControllerIntent = Intent(this, RobotController::class.java)
 
@@ -119,10 +161,13 @@ class CentralHub : AppCompatActivity() {
             action = intent.getStringExtra(Commands.NLP_ACTION)
             speech = intent.getStringExtra(Commands.NLP_SPEECH)
             platform = intent.getStringExtra(Commands.NLP_ACTION_ROBOT)
+            contact = intent.getStringExtra(Commands.NLP_ACTION_CONTACT)
             selectid = radioRobot.checkedRadioButtonId
             radioButton = findViewById(selectid) as RadioButton
             myIdentifier = radioButton!!.text.toString()
             message = intent.getStringExtra(Commands.ORIGINAL_MESSAGE)
+
+
             val sendsms = CommunicationOut(message)
 
             Log.d("receiver", "Got intent: " + action)
@@ -151,19 +196,19 @@ class CentralHub : AppCompatActivity() {
             if (platform == "" || platform == myIdentifier) {
                 when(action){
                     Commands.NLP_ACTION_NAVIGATION -> {
-                        startRobotDriver(destination, myIdentifier)
+//                        startRobotDriver(destination, myIdentifier)
                     }
 
                     Commands.NLP_ACTION_PICTURE_TAKING -> {
-                        startRobotManipulator(action, socialmedia, myIdentifier)
+//                        startRobotManipulator(action, socialmedia, myIdentifier)
                     }
 
                     Commands.NLP_ACTION_TURNAROUND -> {
-                        startRobotManipulator(action, rotation_direction, myIdentifier)
+//                        startRobotManipulator(action, rotation_direction, myIdentifier)
                     }
 
                     Commands.NLP_ACTION_WALK -> {
-                        startRobotManipulator(action, shape, myIdentifier)
+                        startRobotController(action, shape, myIdentifier)
                     }
                 }
             } else if (platform == Commands.MICKEY && myIdentifier == Commands.LILY){
@@ -198,11 +243,16 @@ class CentralHub : AppCompatActivity() {
         this.startActivity(robotManipulatorIntent)
     }
 
+    /**
+     * This is the method that handles RobotManipulator.
+     */
+    private fun startRobotController(action: String, actionParameter: String,platform: String) {
+        Log.d(TAG, "robotControllerIntent: "+platform)
+        this.startActivity(robotControllerIntent)
+    }
 
     companion object {
         val TAG = CentralHub::class.java.getName()
     }
-
-    // TODO: RETURN ALL ACTIVITIES TO CENTRALHUB WHEN DONE.
 }
 
