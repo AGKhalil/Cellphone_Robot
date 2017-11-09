@@ -45,7 +45,7 @@ public class RobotController extends RosActivity implements CameraBridgeViewBase
     TextView robotState;
     Button btn;
     Spinner spinner;
-    Talker talkernode = new Talker(this);
+    Talker talkerNode = new Talker(this);
     String command = null;
 
     private static final String TAG = "RobotController";
@@ -134,13 +134,13 @@ public class RobotController extends RosActivity implements CameraBridgeViewBase
                 InetAddressFactory.newNonLoopback().getHostAddress());
         nodeConfiguration.setMasterUri(getMasterUri());
 
-        nodeMainExecutor.execute(talkernode, nodeConfiguration);
+        nodeMainExecutor.execute(talkerNode, nodeConfiguration);
         nodeMainExecutor.execute(lisnode, nodeConfiguration);
     }
 
     protected void publishGo(View view) {
         if (command != null) {
-            talkernode.publish(command);
+            talkerNode.publish(command);
             Log.d("ALAASASAK", "I WOOORKKKKKKK");
         }
     }

@@ -45,22 +45,17 @@ dependencies {
         exclude group: 'com.android.support', module: 'support-annotations'
     })
     compile 'io.github.firemaples:microsoft-translator-java-api:0.8.5'
-    compile 'com.android.support:appcompat-v7:25.3.1'
-    compile 'com.android.support.constraint:constraint-layout:1.0.0-beta5'
-    compile 'com.google.android.gms:play-services-location:10.2.1'
-    compile 'com.google.firebase:firebase-messaging:10.2.1'
-    compile 'com.google.android.gms:play-services-maps:10.2.1'
+    compile 'com.android.support:appcompat-v7:25.4.0'
+    compile 'com.android.support.constraint:constraint-layout:1.1.0-beta3'
+    compile 'com.google.android.gms:play-services-location:11.6.0'
+    compile 'com.google.firebase:firebase-messaging:11.6.0'
+    compile 'com.google.android.gms:play-services-maps:11.6.0'
+    //noinspection GradleDynamicVersion
     compile 'com.google.maps.android:android-maps-utils:0.5+'
     compile 'org.greenrobot:eventbus:3.0.0'
-    compile 'com.android.support:multidex:1.0.1'
+    compile 'com.android.support:multidex:1.0.2'
     testCompile 'junit:junit:4.12'
     compile project(':openCVLibrary330')
-    compile 'com.github.ytai.ioio:IOIOLibAndroidDevice:5.07'
-    compile 'com.github.ytai.ioio:IOIOLibAndroidBluetooth:5.07'
-    compile 'com.github.ytai.ioio:IOIOLibAndroidAccessory:5.07'
-    compile 'com.github.ytai.ioio:IOIOLibAndroid:5.07'
-    compile 'com.github.ytai.ioio:IOIOLibCore:5.07'
-    compile 'com.yayandroid:LocationManager:2.0.1'
     compile 'com.github.florent37:camerafragment:1.0.4'
     compile 'org.twitter4j:twitter4j-core:4.0.6'
     compile fileTree(include: ['*.jar'], dir: 'libs')
@@ -73,9 +68,9 @@ dependencies {
         exclude group: 'xml-apis'
     }
     // e.g. official msgs
-    compile 'org.ros.rosjava_messages:std_msgs:[0.1,)'
-    compile 'org.ros.rosjava_messages:sensor_msgs:[0.1,)'
-    compile 'org.ros.rosjava_messages:geometry_msgs:[0.1,)'
+    compile 'org.ros.rosjava_messages:std_msgs:0.5.10'
+    compile 'org.ros.rosjava_messages:sensor_msgs:1.12.5'
+    compile 'org.ros.rosjava_messages:geometry_msgs:1.12.5'
     compile 'org.twitter4j:twitter4j-core:4.0.6'
     compile 'com.github.florent37:camerafragment:1.0.4'
     annotationProcessor 'org.apache.logging.log4j:log4j-core:2.2'
