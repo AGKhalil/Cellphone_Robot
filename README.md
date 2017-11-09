@@ -16,7 +16,7 @@ After the installation is complete, run this: `adb shell getprop ro.product.cpu.
 
 I can pick any processor of the three to allocate to the OpenCV library. For guide's purpose, let's choose `arm64-v8a`. 
 
-Next, go to
+Next, go to [processor_libs](/processor_libs)
 
 This project is still in early development, further updates and robots will be coming soon. In the meantime please feel free to delve into our extensive [wiki](https://github.com/AGKhalil/Cellphone_Robot/wiki) or the first [research paper](https://github.com/AGKhalil/Cellphone_Robot/blob/master/Cell%20Phone%20Robot%20Paper.pdf) written surrounding this project and Lily, our first robot.
 
