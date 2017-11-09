@@ -47,8 +47,6 @@
             android:name="com.android.future.usb.accessory"
             android:required="false" />
 
-        <service android:enabled="true" android:name=".NavigationService" />
-
         <activity android:name=".CentralHub">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
@@ -63,27 +61,11 @@
                 android:resource="@xml/accessory_filter" />
         </activity>
 
-        <activity android:name=".RobotDriver">
-        </activity>
-        <activity android:name=".RobotManipulator">
-        </activity>
         <activity android:name=".RobotController">
         </activity>
 
         <service android:enabled="true" android:name=".NaturalLanguageProcessService" />
         <service android:enabled="true" android:name=".SlackService" />
-
-        <!--
-             The API key for Google Maps-based APIs is defined as a string resource.
-             (See the file "res/values/google_maps_api.xml").
-             Note that the API key is linked to the encryption key used to sign the APK.
-             You need a different API key for each encryption key, including the release key that is used to
-             sign the APK for publishing.
-             You can define the keys for the debug and release targets in src/debug/ and src/release/. 
-        -->
-        <meta-data
-            android:name="com.google.android.geo.API_KEY"
-            android:value="@string/google_maps_key" />
 
         <meta-data
             android:name="microsoft_translate_key"
@@ -100,7 +82,6 @@
                 <action android:name="android.provider.Telephony.SMS_RECEIVED"></action>
             </intent-filter>
         </receiver>
-
     </application>
 
 </manifest>

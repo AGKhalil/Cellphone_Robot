@@ -28,8 +28,6 @@ import kotlinx.android.synthetic.main.activity_hub.*
 
 
 class CentralHub : AppCompatActivity() {
-    private var robotDriverIntent: Intent? = null
-    private var robotManipulatorIntent: Intent? = null
     private var robotControllerIntent: Intent? = null
     var action = ""
     var speech = ""
@@ -45,27 +43,10 @@ class CentralHub : AppCompatActivity() {
     var radioButton:RadioButton ?= null
     var translate_key = ""
     var textprocess: TextProcess? = null
+
     /**
      * Start of Testing Methods *****************************************
      */
-
-    /**
-     * This method is used to bypass the SMS segment of the code. It starts NavigationService with
-     * a mock SMS destination.
-     * @param view is the button view SEND SMS
-     */
-
-    fun mockStartRobotDriver(view: View) {
-        selectid = radioRobot.checkedRadioButtonId
-        radioButton = findViewById(selectid) as RadioButton
-        myIdentifier = radioButton!!.text.toString()
-        // Start robot driver
-        if (destination != null) {
-            Toast.makeText(this, destination, Toast.LENGTH_SHORT).show()
-//            startRobotDriver(destination, myIdentifier)
-        }
-    }
-
 
     @SuppressLint("WrongConstant")
     fun mockSend(view: View){
@@ -121,8 +102,6 @@ class CentralHub : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_hub) // Sets the XML view file that appears to the user.
-        robotDriverIntent = Intent(this, RobotDriver::class.java) // Associates mIntent with
-        robotManipulatorIntent = Intent(this, RobotManipulator::class.java) // Associates mIntent with
 
         translate_key = resources.getString(R.string.microsoft_translate_key)
         textprocess = TextProcess(translate_key)
@@ -196,15 +175,12 @@ class CentralHub : AppCompatActivity() {
             if (platform == "" || platform == myIdentifier) {
                 when(action){
                     Commands.NLP_ACTION_NAVIGATION -> {
-//                        startRobotDriver(destination, myIdentifier)
                     }
 
                     Commands.NLP_ACTION_PICTURE_TAKING -> {
-//                        startRobotManipulator(action, socialmedia, myIdentifier)
                     }
 
                     Commands.NLP_ACTION_TURNAROUND -> {
-//                        startRobotManipulator(action, rotation_direction, myIdentifier)
                     }
 
                     Commands.NLP_ACTION_WALK -> {
@@ -222,29 +198,7 @@ class CentralHub : AppCompatActivity() {
     }
 
     /**
-     * This is the method that starts the RobotDriver by filing the mIntent when called.
-     */
-    private fun startRobotDriver(message: String, platform: String) {
-        robotDriverIntent!!.putExtra(Commands.HUB_TO_DRIVER_DESTINATION_MESSAGE, message) // The SMS, which is the destination name, is passed
-        // to RobotDriver, because it needs it to file the API request.
-        robotDriverIntent!!.putExtra(Commands.HUB_TO_DRIVER_ROBOT_TYPE, platform) // Lily or Mickey
-        Log.d(TAG, "startRobotDriver: "+platform)
-        this.startActivity(robotDriverIntent)  // This line is what actually starts the RobotDriver.
-    }
-
-    /**
-     * This is the method that handles RobotManipulator.
-     */
-    private fun startRobotManipulator(action: String, actionParameter: String,platform: String) {
-        robotManipulatorIntent!!.putExtra(Commands.HUB_TO_Manipulator_ACTION, action)
-        robotManipulatorIntent!!.putExtra(Commands.HUB_TO_Manipulator_ACTION_PAREMETER, actionParameter)
-        robotManipulatorIntent!!.putExtra(Commands.HUB_TO_Manipulator_ROBOT_TYPE, platform) // Lily or Mickey
-        Log.d(TAG, "startRobotManipulator: "+platform)
-        this.startActivity(robotManipulatorIntent)
-    }
-
-    /**
-     * This is the method that handles RobotManipulator.
+     * This is the method that handles RobotController.
      */
     private fun startRobotController(action: String, actionParameter: String,platform: String) {
         Log.d(TAG, "robotControllerIntent: "+platform)

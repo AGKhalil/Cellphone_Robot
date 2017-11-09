@@ -1,7 +1,17 @@
 package com.example.khalil.myrobot;
 
+import android.annotation.SuppressLint;
+import android.content.Intent;
 import android.os.AsyncTask;
+import android.os.Bundle;
+import android.os.Handler;
+import android.support.annotation.Nullable;
+import android.support.v7.app.AppCompatActivity;
 import android.telephony.SmsManager;
+
+import com.github.florent37.camerafragment.CameraFragment;
+import com.github.florent37.camerafragment.configuration.Configuration;
+import com.github.florent37.camerafragment.listeners.CameraFragmentResultListener;
 
 import java.io.File;
 
@@ -17,7 +27,11 @@ import twitter4j.conf.ConfigurationBuilder;
  * Modified to serve as communication out class by Michael.
  */
 
-class CommunicationOut {
+class CommunicationOut extends AppCompatActivity implements CameraFragmentResultListener {
+    private static String caption = "This is what stopped me!";
+    @SuppressLint("MissingPermission")
+    public final CameraFragment cameraFragment =
+            CameraFragment.newInstance(new Configuration.Builder().build()); // A camera fragment
     private static String message;
 
     /** Constructor to create an instance of CommunicationOut and pass to it the text message. */
@@ -25,12 +39,19 @@ class CommunicationOut {
         CommunicationOut.message = message;
     }
 
-    void postToSocialMedia(String filePath, String socialParamter) {
-        switch (socialParamter) {
-            case Commands.TWITTER:
-                postToTwitter(filePath);
-                break;
-        }
+    @Override
+    protected void onCreate(@Nullable Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        setContentView(R.layout.activity_commsout);
+        getSupportFragmentManager().beginTransaction()
+                .replace(R.id.manipulatorCameraFragment, cameraFragment, "TheCameraThing")
+                .commit();
+        new Handler().postDelayed(new Runnable() {
+            @Override
+            public void run() {
+                takeAPicture();
+            }
+        }, 3000);
     }
 
     /**
@@ -43,18 +64,18 @@ class CommunicationOut {
             protected Void doInBackground(String... params) {
                 ConfigurationBuilder twitterConfigBuilder = new ConfigurationBuilder();
                 twitterConfigBuilder.setDebugEnabled(true);
-                twitterConfigBuilder.setOAuthConsumerKey("lxRCnjL6HaMUg7HjxAJC1k6IH");
+                twitterConfigBuilder.setOAuthConsumerKey(getString(R.string.twitterSetOAuthConsumerKey));
                 twitterConfigBuilder.setOAuthConsumerSecret(
-                        "6E3oLs4kln9p4oMkBRi2LceOkXuDYKASlXIm53UEq1wDNC4FxI");
+                        getString(R.string.twitterSetOAuthConsumerSecret));
                 twitterConfigBuilder.setOAuthAccessToken(
-                        "854512192879820800-zcc88HtCEEcHyXO0JjgZJEFKmLP2HUi");
+                        getString(R.string.twitterSetOAuthAccessToken));
                 twitterConfigBuilder.setOAuthAccessTokenSecret(
-                        "bUPpgmB6ipYkVb2kQ0LgAOeUPQtzZ78qBRB2iSrHQdJAe");
+                        getString(R.string.twitterSetOAuthAccessTokenSecret));
 
                 Twitter twitter = new TwitterFactory(twitterConfigBuilder.build()).getInstance();
                 File file = new File(params[0]);
 
-                StatusUpdate status = new StatusUpdate("This is my view from " + message + "!");
+                StatusUpdate status = new StatusUpdate(caption);
                 status.setMedia(file); // set the image to be uploaded here.
                 try {
                     twitter.updateStatus(status);
@@ -66,8 +87,30 @@ class CommunicationOut {
         }.execute(filePath);
     }
 
+    public void takeAPicture() {
+        cameraFragment.takePhotoOrCaptureVideo(CommunicationOut.this,
+                "/storage/self/primary", "thePicture001");
+    }
+
     void sendSMS(String phoneNumber) {
         SmsManager sms = SmsManager.getDefault();
         sms.sendTextMessage(phoneNumber, null, message, null, null);
+    }
+
+    @Override
+    public void onVideoRecorded(String filePath) {
+
+    }
+
+    @Override
+    public void onPhotoTaken(byte[] bytes, String filePath) {
+        postToTwitter(filePath);
+        final Intent intent = new Intent(this, RobotController.class);
+        new Handler().postDelayed(new Runnable() {
+            @Override
+            public void run() {
+                startActivity(intent);
+            }
+        }, 3000);
     }
 }

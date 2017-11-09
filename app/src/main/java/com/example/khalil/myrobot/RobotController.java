@@ -202,8 +202,8 @@ public class RobotController extends RosActivity implements CameraBridgeViewBase
 
         Imgproc.findContours(mYellowThresh, yellowContours, new Mat(), Imgproc.RETR_EXTERNAL, Imgproc.CHAIN_APPROX_SIMPLE);
         Imgproc.findContours(mRedThresh, redContours, new Mat(), Imgproc.RETR_EXTERNAL, Imgproc.CHAIN_APPROX_SIMPLE);
-        double maxYellowArea = 300;
-        double maxRedArea = 300;
+        double maxYellowArea = 5000;
+        double maxRedArea = 5000;
         float[] yellowRadius = new float[1];
         float[] redRadius = new float[1];
         Point yellowCenter = new Point();
@@ -225,6 +225,7 @@ public class RobotController extends RosActivity implements CameraBridgeViewBase
         Imgproc.circle(mRgba, yellowCenter, (int)yellowRadius[0], new Scalar(0, 255, 0), 2);
         Imgproc.circle(mRgba, redCenter, (int)redRadius[0], new Scalar(255, 0, 0), 2);
 
+        // TODO: USE SLACK TO SEND MESSAGE HERE!
 
         return mRgba;
     }
