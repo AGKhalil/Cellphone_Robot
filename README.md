@@ -16,7 +16,13 @@ After the installation is complete, run this: `adb shell getprop ro.product.cpu.
 
 I can pick any processor of the three to allocate to the OpenCV library. For guide's purpose, let's choose `arm64-v8a`. 
 
-Next, go to [processor_libs](/processor_libs)
+Next, go to [`processor_libs`](/processor_libs) and go to the corresponding version directory. In this case, `arm64-v8a`. Copy `libopencv_java3.so`. Go to [`/app/rc/main/niLibs`](/app/rc/main/niLibs) and create a new directory named after the processor version, `arm64-v8a`. Go inside and paste `libopencv_java3.so`.
+
+Now that you're done allocating the correct processor version file to OpenCV, delete `processor_libs`. You no longer need it and it is a relatively large folder.
+
+### ailib
+
+## APIs
 
 This project is still in early development, further updates and robots will be coming soon. In the meantime please feel free to delve into our extensive [wiki](https://github.com/AGKhalil/Cellphone_Robot/wiki) or the first [research paper](https://github.com/AGKhalil/Cellphone_Robot/blob/master/Cell%20Phone%20Robot%20Paper.pdf) written surrounding this project and Lily, our first robot.
 
