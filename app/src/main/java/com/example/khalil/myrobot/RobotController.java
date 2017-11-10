@@ -85,7 +85,7 @@ public class RobotController extends RosActivity implements CameraBridgeViewBase
     public void startMasterChooser() {
         URI uri;
         try {
-            uri = new URI("http://192.168.1.101:11311/");
+            uri = new URI(getString(R.string.rosIP));
         } catch (URISyntaxException e) {
             throw new RosRuntimeException(e);
         }
