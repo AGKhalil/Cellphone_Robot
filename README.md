@@ -7,11 +7,12 @@ This repo allow the robot to: access a Natural Language Processor, translate tex
 ## What does the app do?
 The app is fundamentally acting as an extension to the robot, regardless of what the robot is or what it is capable of. The app acts as a higher level method of controlling the robot, while leveraging its access to the web and the many tools out there for Android phones. Once the robot is connected to the phone, the phone knows what the robot is capable of doing. The user can then communicate with the phone through texting or Instant Messaging over NLP to command the robot. This project is essentially a template for people to get creative with. If you have a ROS based robot and an Android phone, you can do all sorts of cool stuff.
 
+## Who is this project for?
+This project was created as a starting point for the roboticits and Android developers out there to build upon. You do not to be an Android/ROS expert to use this project. That being said, you should be familiar with both environemnts to use this project to its full potential. Furthermore, the Setup guide assumes you have some familiarity with navigating Ubuntu systems.
+
+
 # ROS Setup
 This user guide focuses mainly on setting up the Android app; however, to communicate with the ROS network a few steps need to be taken. This [repo](https://github.com/wang3303/ros_cellphonerobot) contains the ROS project we created to test the app with. To use the app you do not need to clone the whole project. There is only one script that your ROS project needs to have. [That](https://github.com/wang3303/ros_cellphonerobot) user guide will show you how to set up the script for your own uses, or you can just clone the whole project.
-
-## Script
-//TODO: Michael, you need to put instructions here. Also include the script in the current repo.
 
 ## Connection
 To connect the Android to ROS, you need to make sure the `ROS_MASTER_URI` is correctly referenced and that depends on whether the connection is over WIFI or USB.
@@ -19,29 +20,42 @@ To connect the Android to ROS, you need to make sure the `ROS_MASTER_URI` is cor
 ### WIFI
 Ensure the ROS host machine, in our case the Rhaspberry PI, and the Android phone are connected to the same WIFI network. 
 
-On the ROS host, copy the `ROS_MASTER_URI`. Then in terminal, type the following commands:
+On the ROS host, copy the device's `wlan0` IP address. Then in terminal, go to your root directory, open `.bashrc`, and type the following at the bottom of the script.
 
-//TODO: ADD COMMANDS HERE
-
-```terminal
-$ cd ..
-$ echo "export ROS_MASTER_URI=http://localhost:11311" >> .bashrc
-$ echo "source
+```
+export ROS_IP=DEVICE_IP_ADDRESS
+export ROS_MASTER_URI=http://DEVICE_IP_ADDRESS:11311/
 ```
 
-On the Android side, go to `strings.xml` located under [`/app/res/values`](/app/res/values) and tyoe in the `ROS_MASTER_URI` in the corresponding location.
+On the Android side, go to `strings.xml` located under [`/app/res/values`](/app/res/values) and type in the `ROS_MASTER_URI` in the corresponding location.
 
 ```xml
- <string name="rosIP">http://TYPE_IP_HERE:11311/</string>
- 
+ <string name="rosIP">http://DEVICE_IP_ADDRESS:11311/</string>
 ```
+
+Now you can launch `roscore` on the ROS host and the app will connect to it over WIFI.
+
 ### USB
 Connect the phone to the ROS host. Turn off WIFI connection on the ROS host device. On the Android, go to **Settings > More > Tethering & portable hotspost** and turn on **USB tethering**.
 
-On the ROS host device, go to terminal and type `$ config`
-//TODO: Find out the ethernet IP
-//TODO: Input in .bashrc
-//TODO: Update strings.xml  
+On the ROS host, copy the device's `ethernet` IP address. Then in terminal, go to your root directory, open `.bashrc`, and type the following at the bottom of the script.
+
+```
+export ROS_IP=DEVICE_IP_ADDRESS
+export ROS_MASTER_URI=http://DEVICE_IP_ADDRESS:11311/
+```
+
+On the Android side, go to `strings.xml` located under [`/app/res/values`](/app/res/values) and type in the `ROS_MASTER_URI` in the corresponding location.
+
+```xml
+ <string name="rosIP">http://DEVICE_IP_ADDRESS:11311/</string>
+
+```
+
+Now you can launch `roscore` on the ROS host and the app will connect to it over USB.
+
+## ROS Script
+//TODO: Michael, you need to put instructions here. 
 
 # Android Setup
 ## Libraries
@@ -79,15 +93,3 @@ This [link](https://apps.twitter.com) will take you to registering your app for 
 
 ### GroupMe
 // TODO: User guide setup by Michael
-
-
-
-This project is still in early development, further updates and robots will be coming soon. In the meantime please feel free to delve into our extensive [wiki](https://github.com/AGKhalil/Cellphone_Robot/wiki) or the first [research paper](https://github.com/AGKhalil/Cellphone_Robot/blob/master/Cell%20Phone%20Robot%20Paper.pdf) written surrounding this project and Lily, our first robot.
-
-Here's a picture of Lily!
-<p align="center">
-<img src="https://github.com/AGKhalil/Cellphone_Robot/blob/master/wiki_images/Lily/FrontShot.png" width="400">
-</p>
-<p align="center">
-Front view of Lily
-</p>
