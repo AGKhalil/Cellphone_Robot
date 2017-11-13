@@ -28,7 +28,7 @@ class Slack(var slackToken:String){
                 System.out.println("User id: " + mBotId)
                 System.out.println("Team name: " + authentication.team)
                 System.out.println("User name: " + authentication.user)
-                mWebApiClient.meMessage("D7Q7NDWVB", authentication.user +"is back!")
+                mWebApiClient.meMessage("D7Q7NDWVB", authentication.user +" is back!")
             }
         })
 

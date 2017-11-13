@@ -1,6 +1,7 @@
 package com.example.khalil.myrobot;
 
 import android.content.Context;
+import android.content.Intent;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
@@ -24,6 +25,7 @@ import java.util.Map;
 
 class Listener extends AbstractNodeMain {
     private RobotController context;
+    Talker talkerNode;
 
     Listener(RobotController centralHub, Context context) {
         this.context = (RobotController) context;
@@ -70,9 +72,9 @@ class Listener extends AbstractNodeMain {
                 updateReading(Float.toString(range.getRange()));
 
                 if (range.getRange() < finalParamDistance) {
-//                    Intent intent = new Intent(context, CommunicationOut.class);
-//                    context.startActivity(intent);
-                    updateState("I'm blocked!");
+                    Intent intent = new Intent(context, CommunicationOut.class);
+                    context.startActivity(intent);
+//                    updateState("I'm blocked!");
                     subscriber.shutdown();
                 }
             }

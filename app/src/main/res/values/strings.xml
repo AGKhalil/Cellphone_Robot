@@ -11,9 +11,9 @@
     <string name="slack_key" templateMergeStrategy="preserve" translatable="false">
         xoxb-261603682465-QyB6BLreiew6tGQESKIK4rux
     </string>
-    <string name="twitterSetOAuthConsumerKey">lxRCnjL6HaMUg7HjxAJC1k6IH</string>
-    <string name="twitterSetOAuthConsumerSecret">6E3oLs4kln9p4oMkBRi2LceOkXuDYKASlXIm53UEq1wDNC4FxI</string>
-    <string name="twitterSetOAuthAccessToken">854512192879820800-zcc88HtCEEcHyXO0JjgZJEFKmLP2HUi</string>
-    <string name="twitterSetOAuthAccessTokenSecret">bUPpgmB6ipYkVb2kQ0LgAOeUPQtzZ78qBRB2iSrHQdJAe</string>
+    <string name="twitterSetOAuthConsumerKey">5UzcKeigyOBvpurcmY1vcMbAf</string>
+    <string name="twitterSetOAuthConsumerSecret">1NA1e1jU1dPNZ3g1WAklCziCOKDhGvuaAbBaIH4s8SuxOwaiQZ</string>
+    <string name="twitterSetOAuthAccessToken">913466006806417409-FNNTLxT8affA8PyzOeLVf4Syd36AOmo</string>
+    <string name="twitterSetOAuthAccessTokenSecret">dYJepotUZZWNq1n8N6BcIlepkzGoiDXhGNmUUMN8nli4o</string>
     <string name="rosIP">http://192.168.1.101:11311/</string>
 </resources>

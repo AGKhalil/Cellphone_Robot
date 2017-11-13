@@ -1,9 +1,11 @@
 package com.example.khalil.myrobot;
 
+import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.os.AsyncTask;
 import android.os.Build;
 import android.os.Bundle;
+import android.os.Handler;
 import android.util.Log;
 import android.view.SurfaceView;
 import android.view.View;
@@ -46,7 +48,9 @@ public class RobotController extends RosActivity implements CameraBridgeViewBase
     Button btn;
     Spinner spinner;
     Talker talkerNode = new Talker(this);
-    String command = null;
+    String command = "f";
+    boolean sawRedBall = true;
+    boolean sawYellowBall = true;
 
     private static final String TAG = "RobotController";
     private JavaCameraView javaCameraView;
@@ -103,13 +107,13 @@ public class RobotController extends RosActivity implements CameraBridgeViewBase
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        Log.d(TAG, "onCreate is Loaded");
         setContentView(R.layout.activity_robot_controller);
         ultrasonicReading = (TextView) findViewById(R.id.ultrasonic_reading);
         robotState = (TextView) findViewById(R.id.robot_state);
         btn = (Button) findViewById(R.id.robot_button);
         spinner = (Spinner) findViewById(R.id.action_spinner);
         btn.setOnClickListener( new View.OnClickListener() {
-
             @Override
             public void onClick(View v) {
                 publishGo(v);
@@ -124,10 +128,21 @@ public class RobotController extends RosActivity implements CameraBridgeViewBase
         javaCameraView.setMaxFrameSize(640, 480);
         javaCameraView.setVisibility(SurfaceView.VISIBLE);
         javaCameraView.setCvCameraViewListener(this);
+        Intent intent = getIntent();
+        String command = intent.getStringExtra("action");
+
+        new Handler().postDelayed(new Runnable() {
+            @Override
+            public void run() {
+                publishOnStart("f");
+            }
+        }, 2000);
+
     }
 
     @Override
     protected void init(NodeMainExecutor nodeMainExecutor) {
+        Log.d(TAG, "init is loaded");
         Listener lisnode = new Listener(this, this);
 
         NodeConfiguration nodeConfiguration = NodeConfiguration.newPublic(
@@ -136,6 +151,8 @@ public class RobotController extends RosActivity implements CameraBridgeViewBase
 
         nodeMainExecutor.execute(talkerNode, nodeConfiguration);
         nodeMainExecutor.execute(lisnode, nodeConfiguration);
+
+
     }
 
     protected void publishGo(View view) {
@@ -143,6 +160,10 @@ public class RobotController extends RosActivity implements CameraBridgeViewBase
             talkerNode.publish(command);
             Log.d("ALAASASAK", "I WOOORKKKKKKK");
         }
+    }
+
+    protected void publishOnStart(String newCommand) {
+        talkerNode.publish(newCommand);
     }
 
     @Override
@@ -213,6 +234,14 @@ public class RobotController extends RosActivity implements CameraBridgeViewBase
             if (Imgproc.contourArea(c) > maxYellowArea) {
                 MatOfPoint2f c2f = new MatOfPoint2f(c.toArray());
                 Imgproc.minEnclosingCircle(c2f, yellowCenter, yellowRadius);
+
+                if (sawYellowBall) {
+                    Intent intent = new Intent(this, SlackService.class);
+                    intent.putExtra("msg", "I found the yellow ball!");
+                    intent.putExtra("channelID", "G7Q5G4XS8");
+                    startService(intent);
+                    sawYellowBall = false;
+                }
             }
         }
         for (int i = 0; i < redContours.size(); i++) {
@@ -220,6 +249,14 @@ public class RobotController extends RosActivity implements CameraBridgeViewBase
             if (Imgproc.contourArea(d) > maxRedArea) {
                 MatOfPoint2f c2f = new MatOfPoint2f(d.toArray());
                 Imgproc.minEnclosingCircle(c2f, redCenter, redRadius);
+
+                if (sawRedBall) {
+                    Intent intent = new Intent(this, SlackService.class);
+                    intent.putExtra("msg", "I found the red ball!");
+                    intent.putExtra("channelID", "G7Q5G4XS8");
+                    startService(intent);
+                    sawRedBall = false;
+                }
             }
         }
         Imgproc.circle(mRgba, yellowCenter, (int)yellowRadius[0], new Scalar(0, 255, 0), 2);

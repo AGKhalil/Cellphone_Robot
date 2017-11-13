@@ -12,7 +12,6 @@ import android.os.IBinder
 import android.support.v4.content.LocalBroadcastManager
 import android.text.TextUtils
 import android.util.Log
-import io.github.firemaples.language.Language
 import io.github.firemaples.language.SpokenDialect
 
 
@@ -246,8 +245,8 @@ class NaturalLanguageProcessService : Service() {//AppCompatActivity(), AdapterV
             sendtoSlack(speech,phonenumber)
         }
         else{
-            val sms = CommunicationOut(speech)
-            sms.sendSMS(phonenumber)
+//            val sms = CommunicationOut(speech)
+//            sms.sendSMS(phonenumber)
         }
 
 

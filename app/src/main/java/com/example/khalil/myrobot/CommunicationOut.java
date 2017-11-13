@@ -27,17 +27,17 @@ import twitter4j.conf.ConfigurationBuilder;
  * Modified to serve as communication out class by Michael.
  */
 
-class CommunicationOut extends AppCompatActivity implements CameraFragmentResultListener {
+public class CommunicationOut extends AppCompatActivity implements CameraFragmentResultListener {
     private static String caption = "This is what stopped me!";
     @SuppressLint("MissingPermission")
     public final CameraFragment cameraFragment =
             CameraFragment.newInstance(new Configuration.Builder().build()); // A camera fragment
     private static String message;
 
-    /** Constructor to create an instance of CommunicationOut and pass to it the text message. */
-    CommunicationOut(String message){
-        CommunicationOut.message = message;
-    }
+//    /** Constructor to create an instance of CommunicationOut and pass to it the text message. */
+//    CommunicationOut(String message){
+//        CommunicationOut.message = message;
+//    }
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -51,7 +51,7 @@ class CommunicationOut extends AppCompatActivity implements CameraFragmentResult
             public void run() {
                 takeAPicture();
             }
-        }, 3000);
+        }, 5000);
     }
 
     /**

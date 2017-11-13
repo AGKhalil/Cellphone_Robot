@@ -47,7 +47,7 @@ class SlackService : Service() {
                     System.out.println("User id: " + mBotId)
                     System.out.println("Team name: " + authentication.team)
                     System.out.println("User name: " + authentication.user)
-                    mWebApiClient!!.meMessage("D7Q7NDWVB", authentication.user +"is back!")
+                    mWebApiClient!!.meMessage("G7Q5G4XS8", authentication.user +"is back!")
 
                 }
             })

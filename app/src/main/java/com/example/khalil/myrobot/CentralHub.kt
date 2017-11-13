@@ -147,7 +147,7 @@ class CentralHub : AppCompatActivity() {
             message = intent.getStringExtra(Commands.ORIGINAL_MESSAGE)
 
 
-            val sendsms = CommunicationOut(message)
+//            val sendsms = CommunicationOut(message)
 
             Log.d("receiver", "Got intent: " + action)
             TEXT_Receive.setText(speech)
@@ -189,10 +189,10 @@ class CentralHub : AppCompatActivity() {
                 }
             } else if (platform == Commands.MICKEY && myIdentifier == Commands.LILY){
                 //send back the speech to wherever the message comes from
-                sendsms.sendSMS("7654095215")
+//                sendsms.sendSMS("7654095215")
             } else if (platform == Commands.LILY && myIdentifier == Commands.MICKEY){
                 //send back the speech to wherever the message comes from
-                sendsms.sendSMS("7654096743")
+//                sendsms.sendSMS("7654096743")
             }
         }
     }
@@ -202,6 +202,7 @@ class CentralHub : AppCompatActivity() {
      */
     private fun startRobotController(action: String, actionParameter: String,platform: String) {
         Log.d(TAG, "robotControllerIntent: "+platform)
+        robotControllerIntent!!.putExtra("action", action)
         this.startActivity(robotControllerIntent)
     }
 
