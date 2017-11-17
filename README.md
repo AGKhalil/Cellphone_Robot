@@ -89,7 +89,8 @@ This [link](https://apps.twitter.com) will take you to registering your app for 
 ```
 
 ### Slack
-// TODO: User guide setup by Michael
+[This link](https://api.slack.com/bot-users) will introduce how to register a bot and interact with it. Also, there are various [Libraries, Plugins, and Sample Apps](https://api.slack.com/community) that you can use. In this project, we implement [slack-api-android ](https://github.com/pschroen/slack-api-android).
+Paste your access key in the corresponding location.
+```
 
-### GroupMe
-// TODO: User guide setup by Michael
+```
