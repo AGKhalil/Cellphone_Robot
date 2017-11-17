@@ -27,7 +27,7 @@ export ROS_IP=DEVICE_IP_ADDRESS
 export ROS_MASTER_URI=http://DEVICE_IP_ADDRESS:11311/
 ```
 
-On the Android side, go to `strings.xml` located under [`/app/res/values`](app/res/values) and type in the `ROS_MASTER_URI` in the corresponding location.
+On the Android side, go to `strings.xml` located under [`/app/res/values`](./app/res/values) and type in the `ROS_MASTER_URI` in the corresponding location.
 
 ```xml
  <string name="rosIP">http://DEVICE_IP_ADDRESS:11311/</string>
