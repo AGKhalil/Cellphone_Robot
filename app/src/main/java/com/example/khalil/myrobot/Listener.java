@@ -12,6 +12,7 @@ import org.ros.namespace.GraphName;
 import org.ros.node.AbstractNodeMain;
 import org.ros.node.ConnectedNode;
 import org.ros.node.parameter.ParameterTree;
+import org.ros.node.topic.Publisher;
 import org.ros.node.topic.Subscriber;
 
 import java.util.ArrayList;
@@ -26,6 +27,7 @@ import java.util.Map;
 class Listener extends AbstractNodeMain {
     private RobotController context;
     Talker talkerNode;
+    private Publisher<std_msgs.String> publisher;
 
     Listener(RobotController centralHub, Context context) {
         this.context = (RobotController) context;
@@ -41,6 +43,7 @@ class Listener extends AbstractNodeMain {
         final Log log = connectedNode.getLog();
         final Subscriber<sensor_msgs.Range> subscriber = connectedNode.newSubscriber("distance",
                 sensor_msgs.Range._TYPE);
+        publisher = connectedNode.newPublisher("action", std_msgs.String._TYPE);
 
         Map<?, ?> paramsActions;
         Map<?, ?> paramMotors;
@@ -68,13 +71,14 @@ class Listener extends AbstractNodeMain {
         subscriber.addMessageListener(new MessageListener<sensor_msgs.Range>() {
             @Override
             public void onNewMessage(sensor_msgs.Range range) {
-//                log.info("I heard: \"" + range.getRange() + "\"");
+                log.info("I heard: \"" + range.getRange() + "\"");
                 updateReading(Float.toString(range.getRange()));
 
                 if (range.getRange() < finalParamDistance) {
                     Intent intent = new Intent(context, CommunicationOut.class);
                     context.startActivity(intent);
-//                    updateState("I'm blocked!");
+                    updateState("I'm blocked!");
+                    publish("r");
                     subscriber.shutdown();
                 }
             }
@@ -129,5 +133,13 @@ class Listener extends AbstractNodeMain {
                 context.robotState.setText(textytext);
             }
         });
+    }
+
+    public void publish(String message) {
+        if (publisher != null) {
+            std_msgs.String toPublish = publisher.newMessage();
+            toPublish.setData(message);
+            publisher.publish(toPublish);
+        }
     }
 }

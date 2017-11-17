@@ -11,9 +11,9 @@ import org.ros.node.topic.Publisher;
  */
 
 class Talker extends AbstractNodeMain {
-    public String randomCommand = null;
     private static final String TAG = "Talker";
     private Publisher<std_msgs.String> publisher;
+    private Publisher<std_msgs.String> publisherAbort;
     Talker(RobotController centralHub) {
 
     }
@@ -27,15 +27,7 @@ class Talker extends AbstractNodeMain {
     public void onStart(final ConnectedNode connectedNode) {
         final Log log = connectedNode.getLog();
         publisher = connectedNode.newPublisher("action", std_msgs.String._TYPE);
-
-        publish("f");
-
-//        new Handler().postDelayed(new Runnable() {
-//            @Override
-//            public void run() {
-//                publish("f");
-//            }
-//        }, 2000);
+        publisherAbort = connectedNode.newPublisher("abort_mission", std_msgs.String._TYPE);
     }
 
     public void publish(String message) {
@@ -46,7 +38,11 @@ class Talker extends AbstractNodeMain {
         }
     }
 
-    public void setMessage(String message) {
-        randomCommand = message;
+    public void setPublisherAbort(String message) {
+        if (publisherAbort != null) {
+            std_msgs.String toPublish = publisherAbort.newMessage();
+            toPublish.setData(message);
+            publisherAbort.publish(toPublish);
+        }
     }
 }

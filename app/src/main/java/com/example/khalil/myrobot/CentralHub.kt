@@ -59,6 +59,9 @@ class CentralHub : AppCompatActivity() {
         i.putExtra("phonenumber","317914")
         Log.d(TAG,"myIdentifier"+ myIdentifier)
         startService(i)
+
+//        val i = Intent(this, ROSCamera::class.java)
+//        startActivity(i)
     }
 
     fun sendtoNLP(msg:String, myIdentifier:String, channel:String){

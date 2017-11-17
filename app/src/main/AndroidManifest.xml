@@ -64,6 +64,9 @@
         <activity android:name=".CommunicationOut">
         </activity>
 
+        <activity android:name=".ROSCamera">
+        </activity>
+
         <service android:enabled="true" android:name=".NaturalLanguageProcessService" />
         <service android:enabled="true" android:name=".SlackService" />
 

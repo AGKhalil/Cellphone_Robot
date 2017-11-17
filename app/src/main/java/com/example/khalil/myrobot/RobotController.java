@@ -51,6 +51,7 @@ public class RobotController extends RosActivity implements CameraBridgeViewBase
     String command = "f";
     boolean sawRedBall = true;
     boolean sawYellowBall = true;
+    boolean robotWon = true;
 
     private static final String TAG = "RobotController";
     private JavaCameraView javaCameraView;
@@ -82,7 +83,7 @@ public class RobotController extends RosActivity implements CameraBridgeViewBase
     }
 
     protected RobotController() {
-        super("Example", "Example");
+        super("MainNode", "MainNode");
     }
 
     @Override
@@ -164,6 +165,10 @@ public class RobotController extends RosActivity implements CameraBridgeViewBase
 
     protected void publishOnStart(String newCommand) {
         talkerNode.publish(newCommand);
+    }
+
+    protected void publishToAbort() {
+        talkerNode.setPublisherAbort("abort");
     }
 
     @Override
@@ -259,11 +264,20 @@ public class RobotController extends RosActivity implements CameraBridgeViewBase
                 }
             }
         }
+
+        if (robotWon) {
+            if (!sawRedBall & !sawYellowBall) {
+                Intent intent = new Intent(this, SlackService.class);
+                intent.putExtra("msg", "I won!");
+                intent.putExtra("channelID", "G7Q5G4XS8");
+                startService(intent);
+                robotWon = false;
+                publishToAbort();
+            }
+        }
+
         Imgproc.circle(mRgba, yellowCenter, (int)yellowRadius[0], new Scalar(0, 255, 0), 2);
         Imgproc.circle(mRgba, redCenter, (int)redRadius[0], new Scalar(255, 0, 0), 2);
-
-        // TODO: USE SLACK TO SEND MESSAGE HERE!
-
         return mRgba;
     }
 }
