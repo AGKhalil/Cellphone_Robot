@@ -27,7 +27,7 @@ export ROS_IP=DEVICE_IP_ADDRESS
 export ROS_MASTER_URI=http://DEVICE_IP_ADDRESS:11311/
 ```
 
-On the Android side, go to `strings.xml` located under [`/app/res/values`](./app/res/values) and type in the `ROS_MASTER_URI` in the corresponding location.
+On the Android side, go to `strings.xml` located under [`/app/res/values`](app/res/values) and type in the `ROS_MASTER_URI` in the corresponding location.
 
 ```xml
  <string name="rosIP">http://DEVICE_IP_ADDRESS:11311/</string>
@@ -45,7 +45,7 @@ export ROS_IP=DEVICE_IP_ADDRESS
 export ROS_MASTER_URI=http://DEVICE_IP_ADDRESS:11311/
 ```
 
-On the Android side, go to `strings.xml` located under [`/app/res/values`](./app/res/values) and type in the `ROS_MASTER_URI` in the corresponding location.
+On the Android side, go to `strings.xml` located under [`/app/res/values`](app/res/values) and type in the `ROS_MASTER_URI` in the corresponding location.
 
 ```xml
  <string name="rosIP">http://DEVICE_IP_ADDRESS:11311/</string>
@@ -68,7 +68,7 @@ After the installation is complete, run this: `adb shell getprop ro.product.cpu.
 
 I can pick any processor of the three to allocate to the OpenCV library. For the guide's purpose, let's choose `arm64-v8a`. 
 
-Next, go to [`processor_libs`](/processor_libs) and copy the corresponding version directory. In this case, `arm64-v8a`. Afterwards, go to [`/app/rc/main/niLibs`](./app/rc/main/niLibs) and paste `arm64-v8a`. 
+Next, go to [`processor_libs`](processor_libs) and copy the corresponding version directory. In this case, `arm64-v8a`. Afterwards, go to [`/app/rc/main/niLibs`](app/rc/main/niLibs) and paste `arm64-v8a`. 
 
 Now that you're done allocating the correct processor version file to OpenCV, delete `processor_libs`. You no longer need it and it is a relatively large folder.
 
@@ -79,7 +79,7 @@ Now that you're done allocating the correct processor version file to OpenCV, de
 The app includes many APIs, all of which need access keys. Below are the respective links for obtaining them. All you need to do to have the APIs work is paste the keys in the corresponding `string.xml` allocation.
 
 ### Twitter
-This [link](https://apps.twitter.com) will take you to registering your app for access keys. Once the registration process is done, go to `strings.xml` located under [`/app/res/values`](./app/res/values). Paste your respective access keys in the corresponding locations.
+This [link](https://apps.twitter.com) will take you to registering your app for access keys. Once the registration process is done, go to `strings.xml` located under [`/app/res/values`](app/res/values). Paste your respective access keys in the corresponding locations.
 
 ```xml
 <string name="twitterSetOAuthConsumerKey">HERE</string>
