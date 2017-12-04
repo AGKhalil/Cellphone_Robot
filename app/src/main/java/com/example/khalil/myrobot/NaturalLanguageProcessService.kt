@@ -12,7 +12,6 @@ import android.os.IBinder
 import android.support.v4.content.LocalBroadcastManager
 import android.text.TextUtils
 import android.util.Log
-import io.github.firemaples.language.SpokenDialect
 
 
 @Suppress("UNREACHABLE_CODE")
@@ -241,7 +240,7 @@ class NaturalLanguageProcessService : Service() {//AppCompatActivity(), AdapterV
 
          // Phonenumber could be a slack id number
         if (phonenumber.length ==9 ){
-            AsyncTask.execute { textprocess!!.speak(speech, SpokenDialect.ENGLISH_UNITED_STATES) }
+//            AsyncTask.execute { textprocess!!.speak(speech, SpokenDialect.ENGLISH_UNITED_STATES) }
             sendtoSlack(speech,phonenumber)
         }
         else{

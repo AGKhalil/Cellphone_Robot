@@ -28,7 +28,7 @@ import twitter4j.conf.ConfigurationBuilder;
  */
 
 public class CommunicationOut extends AppCompatActivity implements CameraFragmentResultListener {
-    private static String caption = "This is what stopped me!";
+    private static String caption = "I found both balls, I WIN!";
     @SuppressLint("MissingPermission")
     public final CameraFragment cameraFragment =
             CameraFragment.newInstance(new Configuration.Builder().build()); // A camera fragment
@@ -105,7 +105,7 @@ public class CommunicationOut extends AppCompatActivity implements CameraFragmen
     @Override
     public void onPhotoTaken(byte[] bytes, String filePath) {
         postToTwitter(filePath);
-        final Intent intent = new Intent(this, RobotController.class);
+        final Intent intent = new Intent(this, CentralHub.class);
         new Handler().postDelayed(new Runnable() {
             @Override
             public void run() {

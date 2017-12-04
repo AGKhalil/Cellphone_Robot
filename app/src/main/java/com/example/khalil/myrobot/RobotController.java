@@ -267,12 +267,14 @@ public class RobotController extends RosActivity implements CameraBridgeViewBase
 
         if (robotWon) {
             if (!sawRedBall & !sawYellowBall) {
+                publishToAbort();
                 Intent intent = new Intent(this, SlackService.class);
                 intent.putExtra("msg", "I won!");
                 intent.putExtra("channelID", "G7Q5G4XS8");
                 startService(intent);
                 robotWon = false;
-                publishToAbort();
+                Intent otherIntent = new Intent(this, CommunicationOut.class);
+                startActivity(otherIntent);
             }
         }
 

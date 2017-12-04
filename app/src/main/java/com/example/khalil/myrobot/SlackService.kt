@@ -24,7 +24,7 @@ class SlackService : Service() {
     var mRtmClient:SlackRealTimeMessagingClient? = null
     val TAG = "SlackService"
     var myIdentifier = Commands.MICKEY
-
+    var usr = ""
     override fun onBind(intent: Intent?): IBinder {
         TODO("not implemented")
     }
@@ -33,7 +33,7 @@ class SlackService : Service() {
         super.onCreate()
         Log.d(TAG, "oncreate")
         AsyncTask.execute {
-            slackToken = "xoxb-261603682465-QyB6BLreiew6tGQESKIK4rux" //=  resources.getString(R.string.slack_key)
+            slackToken = resources.getString(R.string.slack_key) //=  resources.getString(R.string.slack_key)
             mWebApiClient = SlackClientFactory.createWebApiClient(slackToken)
             webSocketUrl = mWebApiClient!!.startRealTimeMessagingApi().findPath("url").asText()
             mRtmClient = SlackRealTimeMessagingClient(webSocketUrl)
@@ -43,11 +43,12 @@ class SlackService : Service() {
                 override fun onMessage(message: JsonNode) {
                     val authentication = mWebApiClient!!.auth()
                     val mBotId = authentication.user_id
+                    usr = authentication.user
 
                     System.out.println("User id: " + mBotId)
                     System.out.println("Team name: " + authentication.team)
                     System.out.println("User name: " + authentication.user)
-                    mWebApiClient!!.meMessage("G7Q5G4XS8", authentication.user +"is back!")
+//                    mWebApiClient!!.meMessage("G7Q5G4XS8", authentication.user +" is back!")
 
                 }
             })
@@ -59,7 +60,6 @@ class SlackService : Service() {
                     val text = message.findPath("text").asText()
                     val authentication = mWebApiClient!!.auth()
                     val mBotId = authentication.getUser_id()
-
                     if (userId != null && userId != mBotId) {
                         var channel: Channel?
                         try {
@@ -83,7 +83,7 @@ class SlackService : Service() {
                         Log.d(TAG,"myIdentifier："+ myIdentifier)
                         startService(i)
                         // Copy cat
-                        mWebApiClient!!.meMessage(channelId, userName + ": " + text)
+                        //mWebApiClient!!.meMessage(channelId, userName + ": " + text)
                     }
                 }
             })
@@ -96,7 +96,11 @@ class SlackService : Service() {
         val message = intent!!.getStringExtra("msg")
         val channel = intent!!.getStringExtra("channelID")
         if (message =="init") {return Service.START_STICKY}
-        AsyncTask.execute {mWebApiClient!!.meMessage(channel, message)}
+        if (message.substring(0,3) =="I w" || message.substring(0, 3) == "Oka"){
+            AsyncTask.execute {mWebApiClient!!.meMessage(channel, message)}
+            return Service.START_STICKY
+        }
+        AsyncTask.execute {mWebApiClient!!.meMessage(channel, usr+": "+message)}
         return Service.START_STICKY
     }
 

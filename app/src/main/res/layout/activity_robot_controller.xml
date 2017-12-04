@@ -42,7 +42,8 @@
         android:layout_centerHorizontal="true"
         android:layout_marginTop="16sp"
         android:text="GO"
-        android:id="@+id/robot_button"/>
+        android:id="@+id/robot_button"
+        android:visibility="invisible"/>
 
     <Spinner
         android:id="@+id/action_spinner"
@@ -50,7 +51,8 @@
         android:layout_height="wrap_content"
         android:layout_below="@+id/robot_state"
         android:layout_centerHorizontal="true"
-        android:layout_marginTop="16sp" />
+        android:layout_marginTop="16sp"
+        android:visibility="invisible"/>
 
     <LinearLayout
         android:layout_weight="1"

@@ -1,7 +1,6 @@
 package com.example.khalil.myrobot;
 
 import android.content.Context;
-import android.content.Intent;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
@@ -75,14 +74,18 @@ class Listener extends AbstractNodeMain {
                 updateReading(Float.toString(range.getRange()));
 
                 if (range.getRange() < finalParamDistance) {
-                    Intent intent = new Intent(context, CommunicationOut.class);
-                    context.startActivity(intent);
                     updateState("I'm blocked!");
-                    publish("r");
-                    subscriber.shutdown();
+//                    new Handler().postDelayed(new Runnable() {
+//                        @Override
+//                        public void run() {
+//                            updateState("Just minding my business");
+//                        }
+//                    }, 2000);
+                    publish("f");
                 }
             }
         });
+//        subscriber.shutdown();
     }
 
     private void updateReading(final String textytext){
