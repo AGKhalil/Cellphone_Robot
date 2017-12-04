@@ -54,8 +54,8 @@ On the Android side, go to `strings.xml` located under [`/app/src/main/res/value
 
 Now you can launch `roscore` on the ROS host and the app will connect to it over USB.
 
-## ROS Script
-//TODO: Michael, you need to put instructions here. 
+## ROS Package
+The ROS package can be found [here](https://github.com/wang3303/ros_cellphonerobot/wiki).
 
 # Android Setup
 ## Libraries
@@ -72,8 +72,10 @@ Next, go to [`processor_libs`](processor_libs) and copy the corresponding versio
 
 Now that you're done allocating the correct processor version file to OpenCV, delete `processor_libs`. You no longer need it and it is a relatively large folder.
 
-### ailib
-// TODO: User guide setup by Michael
+### Dialogflow
+For setting up Dialogflow and trying sample app, please click [here](https://github.com/dialogflow/dialogflow-android-client/blob/master/README.md).
+
+For detailed explanation of natual language process service, you can go [here](https://github.com/AGKhalil/Cellphone_Robot/wiki/NLP).
 
 ## APIs
 The app includes many APIs, all of which need access keys. Below are the respective links for obtaining them. All you need to do to have the APIs work is paste the keys in the corresponding `string.xml` allocation.
@@ -90,7 +92,20 @@ This [link](https://apps.twitter.com) will take you to registering your app for 
 
 ### Slack
 [This link](https://api.slack.com/bot-users) will introduce how to register a bot and interact with it. Also, there are various [Libraries, Plugins, and Sample Apps](https://api.slack.com/community) that you can use. In this project, we implement [slack-api-android ](https://github.com/pschroen/slack-api-android).
-Paste your access key in the corresponding location.
+Make sure you add the following line to your `build.gradle`. 
+```gradle
+allprojects {
+    repositories {
+        maven { url 'https://jitpack.io' }
+    }
+}
 ```
 
+and:
+
+```gradle
+dependencies {
+    compile 'com.github.pschroen:slack-api-android:c66cc8d997'
+}
 ```
+Check [here](https://github.com/AGKhalil/Cellphone_Robot/wiki/slack) for usage.
