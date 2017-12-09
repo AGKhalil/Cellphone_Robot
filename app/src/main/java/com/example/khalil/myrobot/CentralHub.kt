@@ -28,6 +28,10 @@ import kotlinx.android.synthetic.main.activity_hub.*
 
 
 class CentralHub : AppCompatActivity() {
+    // TODO: please comment on each variable explaining what it is. Look at RobotController as an example.
+    // TODO: delete the radio button.
+    // TODO: delete the identifier stuff.
+    // TODO: Add code descriptions. Look at RobotController as an example.
     private var robotControllerIntent: Intent? = null
     var action = ""
     var speech = ""
@@ -56,7 +60,7 @@ class CentralHub : AppCompatActivity() {
         val i = Intent(this, NaturalLanguageProcessService::class.java)
         i.putExtra("msg", msg)
         i.putExtra("myIdentifier", myIdentifier)
-        i.putExtra("phonenumber","317914")
+        i.putExtra("phonenumber","G7Q5G4XS8")
         Log.d(TAG,"myIdentifier"+ myIdentifier)
         startService(i)
 
@@ -64,6 +68,7 @@ class CentralHub : AppCompatActivity() {
 //        startActivity(i)
     }
 
+    // TODO: Is this code block needed?
     fun sendtoNLP(msg:String, myIdentifier:String, channel:String){
         val i = Intent(this, NaturalLanguageProcessService::class.java)
         i.putExtra("msg", msg)
@@ -81,6 +86,7 @@ class CentralHub : AppCompatActivity() {
         startService(i)
     }
 
+    // TODO: delete all commented code that you dont need.
     fun mocktranslate(view: View){
         AsyncTask.execute {
             val test_string = "Here, parameters fName and personAge inside the parenthesis accepts values Joe and 25 respectively when person1 object is created. However, fName and personAge are used without using var or val, and are not properties of the Person class."

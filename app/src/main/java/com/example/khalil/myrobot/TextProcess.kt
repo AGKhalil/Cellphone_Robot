@@ -15,6 +15,8 @@ import io.github.firemaples.translate.Translate
  * Created by Michael on 2017/10/20.
  */
 
+// TODO: add more description. add more comments. add more variable explanation. Look at RobotController as an example.
+// TODO: delete unnecessary code.
 
 class TextProcess(var key:String) {
     val TAG = "TextProcess"

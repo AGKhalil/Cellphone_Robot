@@ -10,6 +10,8 @@ import java.net.URL
  * Created by Michael on 2017/10/21.
  */
 
+// TODO: delete this class.
+
 class GroupMe {
     val TAG = "Groupme"
     private val REQUEST_URL = "https://api.groupme.com/v3/bots/post"

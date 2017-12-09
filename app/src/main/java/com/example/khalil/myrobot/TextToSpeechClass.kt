@@ -9,6 +9,9 @@ import android.speech.tts.TextToSpeech
  * This is for text to speech
  */
 
+// TODO: add more description. add more comments. add more variable explanation. Look at RobotController as an example.
+// TODO: delete unnecessary code.
+
 object TextToSpeechClass {
 
     private var textToSpeech: TextToSpeech? = null

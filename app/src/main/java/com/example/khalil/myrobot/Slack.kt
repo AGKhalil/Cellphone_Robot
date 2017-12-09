@@ -11,6 +11,10 @@ import com.fasterxml.jackson.databind.JsonNode
 /**
  * Created by Michael on 2017/10/25.
  */
+
+// TODO: add more description. add more comments. add more variable explanation. Look at RobotController as an example.
+// TODO: delete unnecessary code.
+
 class Slack(var slackToken:String){
     val mWebApiClient = SlackClientFactory.createWebApiClient(slackToken)
     val webSocketUrl = mWebApiClient.startRealTimeMessagingApi().findPath("url").asText()

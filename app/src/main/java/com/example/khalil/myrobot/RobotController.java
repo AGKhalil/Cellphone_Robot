@@ -42,21 +42,26 @@ import java.util.List;
  * Created by Khalil on 11/8/17.
  */
 
+// TODO remove the button and spinner and all associated functions m8.
+
 public class RobotController extends RosActivity implements CameraBridgeViewBase.CvCameraViewListener2 {
-    TextView ultrasonicReading;
-    TextView robotState;
+    TextView ultrasonicReading; // Ultrasonic sensor reading TextView.
+    TextView robotState; // Robot status TextView.
+
+    //Needs to be deleted.
     Button btn;
     Spinner spinner;
-    Talker talkerNode = new Talker(this);
-    String command = "f";
-    boolean sawRedBall = true;
-    boolean sawYellowBall = true;
-    boolean robotWon = true;
 
-    private static final String TAG = "RobotController";
-    private JavaCameraView javaCameraView;
-    Mat imgHSV, mYellowThresh, circles, mRgba, mRedThresh;
 
+    Talker talkerNode = new Talker(this); // Talker instance used to publish commands.
+    boolean sawRedBall = false; // Flag to signify if robot saw the red ball.
+    boolean sawYellowBall = false; // Flag to signify if robot saw the yellow ball.
+    boolean robotWon = false; // Flag to signify if robot saw both balls.
+    private static final String TAG = "RobotController"; // Log tag name.
+    private JavaCameraView javaCameraView; // Camera fragment that inputs frame stream.
+    Mat imgHSV, mYellowThresh, mRgba, mRedThresh; // Mats used for image manipulation.
+
+    // This BaseLoaderCallback is used to instantiate javaCameraView.
     BaseLoaderCallback mLoaderCallBack = new BaseLoaderCallback(this) {
         @Override
         public void onManagerConnected(int status) {
@@ -74,6 +79,7 @@ public class RobotController extends RosActivity implements CameraBridgeViewBase
         }
     };
 
+    // Checks if the OpenCV Library is loaded or not.
     static {
         if(!OpenCVLoader.initDebug()){
             Log.d(TAG, "OpenCV not loaded");
@@ -86,15 +92,20 @@ public class RobotController extends RosActivity implements CameraBridgeViewBase
         super("MainNode", "MainNode");
     }
 
+    /**
+     * This method establishes the connection with the ROS network
+     */
     @Override
     public void startMasterChooser() {
         URI uri;
         try {
+            // The uri address.
             uri = new URI(getString(R.string.rosIP));
         } catch (URISyntaxException e) {
             throw new RosRuntimeException(e);
         }
 
+        // Connection is asynchronous.
         nodeMainExecutorService.setMasterUri(uri);
         new AsyncTask<Void, Void, Void>() {
             @Override
@@ -105,13 +116,26 @@ public class RobotController extends RosActivity implements CameraBridgeViewBase
         }.execute();
     }
 
+    /**
+     * This function sets up the activity's main layout as well as associating the appropriate
+     * variables with their views. Afterwards, javaCameraView is configured and a listener to its
+     * frames is established. onCreate then publishes "f" to the ROS network after a two-second
+     * delay by calling publishOnStart(). This is done so the robot always starts by going
+     * "freestyle".
+     */
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         Log.d(TAG, "onCreate is Loaded");
+
+        // Activity layout is inflated.
         setContentView(R.layout.activity_robot_controller);
+
+        // View are matched up with the corresponding variables.
         ultrasonicReading = (TextView) findViewById(R.id.ultrasonic_reading);
         robotState = (TextView) findViewById(R.id.robot_state);
+
+        // Needs to be deleted.
         btn = (Button) findViewById(R.id.robot_button);
         spinner = (Spinner) findViewById(R.id.action_spinner);
         btn.setOnClickListener( new View.OnClickListener() {
@@ -120,22 +144,26 @@ public class RobotController extends RosActivity implements CameraBridgeViewBase
                 publishGo(v);
             }
         });
+
         javaCameraView = (JavaCameraView) findViewById(R.id.HelloOpenCvView);
+
+        // Checking permission.
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
             if (checkSelfPermission(android.Manifest.permission.CAMERA) != PackageManager.PERMISSION_GRANTED) {
                 requestPermissions(new String[]{android.Manifest.permission.CAMERA}, 1);
             }
         }
+
+        // Setting up javaCameraView to fit on screen and start listening to stream.
         javaCameraView.setMaxFrameSize(640, 480);
         javaCameraView.setVisibility(SurfaceView.VISIBLE);
         javaCameraView.setCvCameraViewListener(this);
-        Intent intent = getIntent();
-        String command = intent.getStringExtra("action");
 
+        // Publishes "f" to robot to start moving 2 seconds after the activity is set up.
         new Handler().postDelayed(new Runnable() {
             @Override
             public void run() {
-                publishOnStart("f");
+                publishOnStart();
             }
         }, 2000);
 
@@ -144,27 +172,25 @@ public class RobotController extends RosActivity implements CameraBridgeViewBase
     @Override
     protected void init(NodeMainExecutor nodeMainExecutor) {
         Log.d(TAG, "init is loaded");
-        Listener lisnode = new Listener(this, this);
+        Listener lisNode = new Listener(this, this);
 
         NodeConfiguration nodeConfiguration = NodeConfiguration.newPublic(
                 InetAddressFactory.newNonLoopback().getHostAddress());
         nodeConfiguration.setMasterUri(getMasterUri());
 
         nodeMainExecutor.execute(talkerNode, nodeConfiguration);
-        nodeMainExecutor.execute(lisnode, nodeConfiguration);
+        nodeMainExecutor.execute(lisNode, nodeConfiguration);
 
 
     }
 
     protected void publishGo(View view) {
-        if (command != null) {
-            talkerNode.publish(command);
-            Log.d("ALAASASAK", "I WOOORKKKKKKK");
-        }
+        talkerNode.publish("f");
+        Log.d("ALAASASAK", "I WOOORKKKKKKK");
     }
 
-    protected void publishOnStart(String newCommand) {
-        talkerNode.publish(newCommand);
+    protected void publishOnStart() {
+        talkerNode.publish("f");
     }
 
     protected void publishToAbort() {
@@ -203,7 +229,6 @@ public class RobotController extends RosActivity implements CameraBridgeViewBase
         imgHSV = new Mat(height, width, CvType.CV_8UC4);
         mYellowThresh = new Mat(height, width, CvType.CV_8UC1);
         mRedThresh = new Mat(height, width, CvType.CV_8UC1);
-        circles = new Mat();
         Log.d(TAG, "SIZE: " + height);
         Log.d(TAG, "SIZE: " + width);
     }
@@ -240,12 +265,12 @@ public class RobotController extends RosActivity implements CameraBridgeViewBase
                 MatOfPoint2f c2f = new MatOfPoint2f(c.toArray());
                 Imgproc.minEnclosingCircle(c2f, yellowCenter, yellowRadius);
 
-                if (sawYellowBall) {
+                if (!sawYellowBall) {
                     Intent intent = new Intent(this, SlackService.class);
                     intent.putExtra("msg", "I found the yellow ball!");
                     intent.putExtra("channelID", "G7Q5G4XS8");
                     startService(intent);
-                    sawYellowBall = false;
+                    sawYellowBall = true;
                 }
             }
         }
@@ -255,24 +280,24 @@ public class RobotController extends RosActivity implements CameraBridgeViewBase
                 MatOfPoint2f c2f = new MatOfPoint2f(d.toArray());
                 Imgproc.minEnclosingCircle(c2f, redCenter, redRadius);
 
-                if (sawRedBall) {
+                if (!sawRedBall) {
                     Intent intent = new Intent(this, SlackService.class);
                     intent.putExtra("msg", "I found the red ball!");
                     intent.putExtra("channelID", "G7Q5G4XS8");
                     startService(intent);
-                    sawRedBall = false;
+                    sawRedBall = true;
                 }
             }
         }
 
-        if (robotWon) {
-            if (!sawRedBall & !sawYellowBall) {
+        if (!robotWon) {
+            if (sawRedBall & sawYellowBall) {
                 publishToAbort();
                 Intent intent = new Intent(this, SlackService.class);
                 intent.putExtra("msg", "I won!");
                 intent.putExtra("channelID", "G7Q5G4XS8");
                 startService(intent);
-                robotWon = false;
+                robotWon = true;
                 Intent otherIntent = new Intent(this, CommunicationOut.class);
                 startActivity(otherIntent);
             }

@@ -20,6 +20,9 @@ import android.util.Log
  * This is for text communication
  */
 
+// TODO: add more description. add more comments. add more variable explanation. Look at RobotController as an example.
+// TODO: delete unnecessary code.
+
 class NaturalLanguageProcessService : Service() {//AppCompatActivity(), AdapterView.OnItemSelectedListener, View.OnClickListener {
 
     //private val gson = GsonFactory.getGson()
@@ -149,7 +152,7 @@ class NaturalLanguageProcessService : Service() {//AppCompatActivity(), AdapterV
         //resultTextView.setText("Speech: "+speech)
 
         //Speak out
-        TextToSpeechClass.speak(speech)
+        //TextToSpeechClass.speak(speech)
 
         val metadata = result.metadata
         if (metadata != null) {

@@ -17,6 +17,10 @@ import com.fasterxml.jackson.databind.JsonNode
 /**
  * Created by Michael on 2017/10/25.
  */
+
+// TODO: add more description. add more comments. add more variable explanation. Look at RobotController as an example.
+// TODO: delete unnecessary code.
+
 class SlackService : Service() {
     var slackToken:String? = null//=  resources.getString(R.string.slack_key)
     var mWebApiClient:SlackWebApiClient? = null
