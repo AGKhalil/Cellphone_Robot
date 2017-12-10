@@ -46,7 +46,7 @@ class SMSComIn : BroadcastReceiver() {
                     // Here starts service NLP
                     val i = Intent(context, NaturalLanguageProcessService::class.java)
                     i.putExtra("msg",message)
-                    i.putExtra("phonenumber",phoneNumber)
+                    i.putExtra("contact",phoneNumber)
                     context.startService(i)
 
 

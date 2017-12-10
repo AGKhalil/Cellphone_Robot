@@ -35,28 +35,28 @@
         android:layout_below="@+id/ultrasonic_reading"
         android:textSize="30sp"
         android:textColor="#ff6600"/>
-    <Button
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_below="@+id/action_spinner"
-        android:layout_centerHorizontal="true"
-        android:layout_marginTop="16sp"
-        android:text="GO"
-        android:id="@+id/robot_button"
-        android:visibility="invisible"/>
+    <!--<Button-->
+        <!--android:layout_width="wrap_content"-->
+        <!--android:layout_height="wrap_content"-->
+        <!--android:layout_below="@+id/action_spinner"-->
+        <!--android:layout_centerHorizontal="true"-->
+        <!--android:layout_marginTop="16sp"-->
+        <!--android:text="GO"-->
+        <!--android:id="@+id/robot_button"-->
+        <!--android:visibility="invisible"/>-->
 
-    <Spinner
-        android:id="@+id/action_spinner"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_below="@+id/robot_state"
-        android:layout_centerHorizontal="true"
-        android:layout_marginTop="16sp"
-        android:visibility="invisible"/>
+    <!--<Spinner-->
+        <!--android:id="@+id/action_spinner"-->
+        <!--android:layout_width="wrap_content"-->
+        <!--android:layout_height="wrap_content"-->
+        <!--android:layout_below="@+id/robot_state"-->
+        <!--android:layout_centerHorizontal="true"-->
+        <!--android:layout_marginTop="16sp"-->
+        <!--android:visibility="invisible"/>-->
 
     <LinearLayout
         android:layout_weight="1"
-        android:layout_below="@id/robot_button"
+        android:layout_below="@id/robot_state"
         android:orientation="horizontal"
         android:layout_height="wrap_content"
         android:layout_width="wrap_content">

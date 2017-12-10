@@ -5,8 +5,6 @@ package com.example.khalil.myrobot;
  * This file stores all the string commands for intents, intent pointers, commands, etc.
  */
 
-// TODO more needs to be deleted after modifications
-
 class Commands {
     static final String MICKEY = "Mickey";
     static final String LILY = "Lily";
@@ -18,9 +16,6 @@ class Commands {
     /** NLP action cases **/
     static final String ORIGINAL_MESSAGE = "message";
 
-    static final String NLP_ACTION_NAVIGATION = "navigation";
-    // NLP_ACTION_NAVIGATION actionParameters
-    static final String NLP_NAVIGATION_DESTINATION = "destination";
 
     static final String NLP_ACTION_PICTURE_TAKING = "picturetaking";
     // NLP_ACTION_PICTURE_TAKING actionParameters
@@ -34,6 +29,5 @@ class Commands {
     static final String NLP_ACTION_CONTACT = "contact";
 
     static final String NLP_ACTION_WALK = "walk";
-    // NLP_ACTION_WALK actionParameters
-    static final String NLP_WALK_SHAPE = "shape";
+
 }

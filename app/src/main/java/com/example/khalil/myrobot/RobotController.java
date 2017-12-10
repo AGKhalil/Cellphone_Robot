@@ -8,9 +8,6 @@ import android.os.Bundle;
 import android.os.Handler;
 import android.util.Log;
 import android.view.SurfaceView;
-import android.view.View;
-import android.widget.Button;
-import android.widget.Spinner;
 import android.widget.TextView;
 
 import org.opencv.android.BaseLoaderCallback;
@@ -42,15 +39,13 @@ import java.util.List;
  * Created by Khalil on 11/8/17.
  */
 
-// TODO remove the button and spinner and all associated functions m8.
-
 public class RobotController extends RosActivity implements CameraBridgeViewBase.CvCameraViewListener2 {
     TextView ultrasonicReading; // Ultrasonic sensor reading TextView.
     TextView robotState; // Robot status TextView.
 
     //Needs to be deleted.
-    Button btn;
-    Spinner spinner;
+//    Button btn;
+//    Spinner spinner;
 
 
     Talker talkerNode = new Talker(this); // Talker instance used to publish commands.
@@ -60,7 +55,8 @@ public class RobotController extends RosActivity implements CameraBridgeViewBase
     private static final String TAG = "RobotController"; // Log tag name.
     private JavaCameraView javaCameraView; // Camera fragment that inputs frame stream.
     Mat imgHSV, mYellowThresh, mRgba, mRedThresh; // Mats used for image manipulation.
-
+    private String contact = "";
+    private String action = "";
     // This BaseLoaderCallback is used to instantiate javaCameraView.
     BaseLoaderCallback mLoaderCallBack = new BaseLoaderCallback(this) {
         @Override
@@ -127,6 +123,9 @@ public class RobotController extends RosActivity implements CameraBridgeViewBase
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         Log.d(TAG, "onCreate is Loaded");
+        Intent intent = getIntent();
+        action  = intent.getStringExtra("action");
+        contact  = intent.getStringExtra("contact");
 
         // Activity layout is inflated.
         setContentView(R.layout.activity_robot_controller);
@@ -136,14 +135,14 @@ public class RobotController extends RosActivity implements CameraBridgeViewBase
         robotState = (TextView) findViewById(R.id.robot_state);
 
         // Needs to be deleted.
-        btn = (Button) findViewById(R.id.robot_button);
-        spinner = (Spinner) findViewById(R.id.action_spinner);
-        btn.setOnClickListener( new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                publishGo(v);
-            }
-        });
+//        btn = (Button) findViewById(R.id.robot_button);
+//        spinner = (Spinner) findViewById(R.id.action_spinner);
+//        btn.setOnClickListener( new View.OnClickListener() {
+//            @Override
+//            public void onClick(View v) {
+//                publishGo(v);
+//            }
+//        });
 
         javaCameraView = (JavaCameraView) findViewById(R.id.HelloOpenCvView);
 
@@ -180,14 +179,8 @@ public class RobotController extends RosActivity implements CameraBridgeViewBase
 
         nodeMainExecutor.execute(talkerNode, nodeConfiguration);
         nodeMainExecutor.execute(lisNode, nodeConfiguration);
-
-
     }
 
-    protected void publishGo(View view) {
-        talkerNode.publish("f");
-        Log.d("ALAASASAK", "I WOOORKKKKKKK");
-    }
 
     protected void publishOnStart() {
         talkerNode.publish("f");
@@ -268,7 +261,7 @@ public class RobotController extends RosActivity implements CameraBridgeViewBase
                 if (!sawYellowBall) {
                     Intent intent = new Intent(this, SlackService.class);
                     intent.putExtra("msg", "I found the yellow ball!");
-                    intent.putExtra("channelID", "G7Q5G4XS8");
+                    intent.putExtra("channelID", contact);
                     startService(intent);
                     sawYellowBall = true;
                 }
@@ -283,7 +276,7 @@ public class RobotController extends RosActivity implements CameraBridgeViewBase
                 if (!sawRedBall) {
                     Intent intent = new Intent(this, SlackService.class);
                     intent.putExtra("msg", "I found the red ball!");
-                    intent.putExtra("channelID", "G7Q5G4XS8");
+                    intent.putExtra("channelID", contact);
                     startService(intent);
                     sawRedBall = true;
                 }
@@ -295,7 +288,7 @@ public class RobotController extends RosActivity implements CameraBridgeViewBase
                 publishToAbort();
                 Intent intent = new Intent(this, SlackService.class);
                 intent.putExtra("msg", "I won!");
-                intent.putExtra("channelID", "G7Q5G4XS8");
+                intent.putExtra("channelID", contact);
                 startService(intent);
                 robotWon = true;
                 Intent otherIntent = new Intent(this, CommunicationOut.class);

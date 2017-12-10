@@ -82,9 +82,10 @@ class Listener extends AbstractNodeMain {
 
                     // Tell user I am blocked. Used for debugging more than anything.
                     updateState("I'm blocked!");
-
                     // Publishes "f" again to have the robot change trajectory.
                     publish();
+                }else{
+                    updateState("No block detected");
                 }
             }
         });
