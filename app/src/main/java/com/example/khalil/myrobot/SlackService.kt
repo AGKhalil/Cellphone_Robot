@@ -17,8 +17,17 @@ import com.fasterxml.jackson.databind.JsonNode
 /**
  * Created by Michael on 2017/10/25.
  */
+
 class SlackService : Service() {
-    var slackToken:String? = null//=  resources.getString(R.string.slack_key)
+    /**
+     * This script provides a service class which could receive messages and send messages on Slack
+     * in the background.
+     * @param slackToken:String is where you store your slack bot token. Check here to get your token.
+     * @param mWebApiClient:SlackWebApiClient is Slack api client.
+     * @param webSocketUrl is socket URL.
+     * @param mRtmClient:SlackRealTimeMessagingClient is Slack messageing client.
+     */
+    var slackToken:String? = null
     var mWebApiClient:SlackWebApiClient? = null
     var webSocketUrl:String? = null
     var mRtmClient:SlackRealTimeMessagingClient? = null
@@ -30,6 +39,11 @@ class SlackService : Service() {
     }
 
     override fun onCreate() {
+        /**
+         * This function is where you initiate your slack messaging client and register your
+         * listener in yout SlackRealTimeMessagingClient to all kinds of message types. You are
+         * able to extract information received.
+         */
         super.onCreate()
         Log.d(TAG, "oncreate")
         AsyncTask.execute {
@@ -48,8 +62,6 @@ class SlackService : Service() {
                     System.out.println("User id: " + mBotId)
                     System.out.println("Team name: " + authentication.team)
                     System.out.println("User name: " + authentication.user)
-//                    mWebApiClient!!.meMessage("G7Q5G4XS8", authentication.user +" is back!")
-
                 }
             })
 
@@ -79,11 +91,9 @@ class SlackService : Service() {
                         val i = Intent(baseContext, NaturalLanguageProcessService::class.java)
                         i.putExtra("msg", text)
                         i.putExtra("myIdentifier", myIdentifier)
-                        i.putExtra("phonenumber",channelId)
+                        i.putExtra("contact",channelId)
                         Log.d(TAG,"myIdentifier："+ myIdentifier)
                         startService(i)
-                        // Copy cat
-                        //mWebApiClient!!.meMessage(channelId, userName + ": " + text)
                     }
                 }
             })
@@ -93,6 +103,12 @@ class SlackService : Service() {
     }
 
     override fun onStartCommand(intent: Intent?, flags: Int, startId: Int): Int {
+        /**
+         * This function would be called to send messages to a certain channel when you do the
+         * following in another service or activity.
+         * @param msg is the String message you would like to send
+         * @param channel is the channel ID where the message will be delivered
+         */
         val message = intent!!.getStringExtra("msg")
         val channel = intent!!.getStringExtra("channelID")
         if (message =="init") {return Service.START_STICKY}
