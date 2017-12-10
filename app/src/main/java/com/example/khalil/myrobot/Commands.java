@@ -21,11 +21,6 @@ class Commands {
     // NLP_ACTION_PICTURE_TAKING actionParameters
     static final String NLP_PICTURE_TAKING_SOCIAL_MEDIA = "socialmedia";
 
-    static final String NLP_ACTION_TURNAROUND = "turnaround";
-    // NLP_ACTION_TURNAROUND actionParameters
-    static final String NLP_TURNAROUND_ROTATION_DIRECTION = "rotation_direction";
-
-    static final String NLP_ACTION_ROBOT = "robot";
     static final String NLP_ACTION_CONTACT = "contact";
 
     static final String NLP_ACTION_WALK = "walk";
