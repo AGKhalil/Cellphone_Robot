@@ -18,4 +18,5 @@
     <string name="rosIP">http://ENTER_YOUR_ADDRESS:11311/</string>
     <string name="lily_slack_key">ENTER_YOUR_KEY</string>
     <string name="mickey_slack_key">ENTER_YOUR_KEY</string>
+    <string name="NLP_key">ENTER_YOUR_KEY</string>
 </resources>

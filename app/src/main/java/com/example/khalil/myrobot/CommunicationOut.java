@@ -7,7 +7,6 @@ import android.os.Bundle;
 import android.os.Handler;
 import android.support.annotation.Nullable;
 import android.support.v7.app.AppCompatActivity;
-import android.telephony.SmsManager;
 
 import com.github.florent37.camerafragment.CameraFragment;
 import com.github.florent37.camerafragment.configuration.Configuration;
@@ -23,35 +22,33 @@ import twitter4j.conf.ConfigurationBuilder;
 
 /**
  * Created by Khalil on 6/24/17.
- * This class was in charge of posting to social media.
- * Modified to serve as communication out class by Michael.
+ * This class takes a picture 3 seconds after being called and posting it to Twitter.
  */
 
 public class CommunicationOut extends AppCompatActivity implements CameraFragmentResultListener {
-    private static String caption = "I found both balls, I WIN!";
     @SuppressLint("MissingPermission")
     public final CameraFragment cameraFragment =
-            CameraFragment.newInstance(new Configuration.Builder().build()); // A camera fragment
-    private static String message;
-
-//    /** Constructor to create an instance of CommunicationOut and pass to it the text message. */
-//    CommunicationOut(String message){
-//        CommunicationOut.message = message;
-//    }
+            CameraFragment.newInstance(new Configuration.Builder().build()); // The camera fragment
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+
+        // Activity layout is inflated.
         setContentView(R.layout.activity_commsout);
+
+        // The camera fragment is initialized.
         getSupportFragmentManager().beginTransaction()
                 .replace(R.id.manipulatorCameraFragment, cameraFragment, "TheCameraThing")
                 .commit();
+
+        // After 3 seconds a picture is captured.
         new Handler().postDelayed(new Runnable() {
             @Override
             public void run() {
                 takeAPicture();
             }
-        }, 5000);
+        }, 3000);
     }
 
     /**
@@ -75,6 +72,9 @@ public class CommunicationOut extends AppCompatActivity implements CameraFragmen
                 Twitter twitter = new TwitterFactory(twitterConfigBuilder.build()).getInstance();
                 File file = new File(params[0]);
 
+                // Image caption.
+                String caption = "I found both balls, I WIN!";
+
                 StatusUpdate status = new StatusUpdate(caption);
                 status.setMedia(file); // set the image to be uploaded here.
                 try {
@@ -87,21 +87,33 @@ public class CommunicationOut extends AppCompatActivity implements CameraFragmen
         }.execute(filePath);
     }
 
+
+    /**
+     * This method uses the camera fragment to obtain an image. The image is saved to file.
+     */
     public void takeAPicture() {
         cameraFragment.takePhotoOrCaptureVideo(CommunicationOut.this,
                 "/storage/self/primary", "thePicture001");
     }
 
-    void sendSMS(String phoneNumber) {
-        SmsManager sms = SmsManager.getDefault();
-        sms.sendTextMessage(phoneNumber, null, message, null, null);
-    }
-
+    /**
+     * A similar function to onPhotoTaken(), although only triggered when a video is recorded. This
+     * method is not used in this project scope, but is present due to the
+     * CameraFragmentResultListener implementation.
+     * @param filePath the video file path.
+     */
     @Override
     public void onVideoRecorded(String filePath) {
 
     }
 
+    /**
+     * This is a method implemented by CameraFragmentResultListener, it is called immediately once
+     * a picture is captured on a camera fragment. This method calls postToTwitter() and sends to
+     * it the image's file path. Furthermore, this method creates an intent for CentralHub and
+     * starts it after a delay of 3 seconds. The delay allows the app enough time to upload the
+     * image prior to returning to the app's main activity.
+     */
     @Override
     public void onPhotoTaken(byte[] bytes, String filePath) {
         postToTwitter(filePath);
