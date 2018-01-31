@@ -23,7 +23,7 @@ To connect the Android to ROS, you need to make sure the `ROS_MASTER_URI` is cor
 ### WIFI
 Ensure the ROS host machine, in our case the Rhaspberry PI, and the Android phone are connected to the same WIFI network. 
 
-On the ROS host, copy the device's `wlan0` IP address. Then in terminal, go to your root directory, open `.bashrc`, and type the following at the bottom of the script.
+On the ROS host, copy the Pi's `wlan0` IP address. Then in terminal, go to your root directory, open `.bashrc`, and type the following at the bottom of the script.
 
 ```
 export ROS_IP=DEVICE_IP_ADDRESS
@@ -36,12 +36,18 @@ On the Android side, go to `strings.xml` located under [`/app/src/main/res/value
  <string name="rosIP">http://DEVICE_IP_ADDRESS:11311/</string>
 ```
 
-Now you can launch `roscore` on the ROS host and the app will connect to it over WIFI.
+To update your ROS enviroments, run the following in a terminal:
+
+```
+source ~/.bashrc
+```
+
+Now you can launch `roscore` on the ROS host and the app will connect to it over WIFI. 
 
 ### USB
 Connect the phone to the ROS host. Turn off WIFI connection on the ROS host device. On the Android, go to **Settings > More > Tethering & portable hotspost** and turn on **USB tethering**.
 
-On the ROS host, copy the device's `ethernet` IP address. Then in terminal, go to your root directory, open `.bashrc`, and type the following at the bottom of the script.
+On the ROS host, copy the Pi's `ethernet` IP address. Then in terminal, go to your root directory, open `.bashrc`, and type the following at the bottom of the script.
 
 ```
 export ROS_IP=DEVICE_IP_ADDRESS
@@ -53,6 +59,12 @@ On the Android side, go to `strings.xml` located under [`/app/src/main/res/value
 ```xml
  <string name="rosIP">http://DEVICE_IP_ADDRESS:11311/</string>
 
+```
+
+To update your ROS enviroments, run the following in a terminal:
+
+```
+source ~/.bashrc
 ```
 
 Now you can launch `roscore` on the ROS host and the app will connect to it over USB.
