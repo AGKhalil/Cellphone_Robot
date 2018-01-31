@@ -21,7 +21,8 @@
         android:layout_height="wrap_content"
         android:ems="10"
         android:inputType="textPersonName"
-        android:hint="Text" />
+        android:hint="Text"
+        android:text="wander"/>
 
     <EditText
         android:id="@+id/TEXT_Receive"
@@ -30,6 +31,13 @@
         android:ems="10"
         android:inputType="textPersonName"
         android:hint="Speech" />
+
+    <EditText
+        android:id="@+id/TEXT_URL"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:inputType="textUri"
+        android:text="http://192.168.199.130:11311" />
 
 
     <RadioGroup

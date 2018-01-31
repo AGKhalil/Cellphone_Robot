@@ -149,7 +149,7 @@ class NaturalLanguageProcessService : Service() {//AppCompatActivity(), AdapterV
         //resultTextView.setText("Speech: "+speech)
 
         //Speak out
-        TextToSpeechClass.speak(speech)
+//        TextToSpeechClass.speak(speech)
 
         val metadata = result.metadata
         if (metadata != null) {

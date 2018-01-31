@@ -1,11 +1,12 @@
 package com.example.khalil.myrobot;
 
+import android.content.Context;
 import android.content.Intent;
 import android.content.pm.PackageManager;
+import android.hardware.SensorManager;
 import android.os.AsyncTask;
 import android.os.Build;
 import android.os.Bundle;
-import android.os.Handler;
 import android.util.Log;
 import android.view.SurfaceView;
 import android.view.View;
@@ -44,6 +45,8 @@ import java.util.List;
 
 public class RobotController extends RosActivity implements CameraBridgeViewBase.CvCameraViewListener2 {
     TextView ultrasonicReading;
+    private SensorManager mSensorManager;
+    private Context context;
     TextView robotState;
     Button btn;
     Spinner spinner;
@@ -52,7 +55,7 @@ public class RobotController extends RosActivity implements CameraBridgeViewBase
     boolean sawRedBall = true;
     boolean sawYellowBall = true;
     boolean robotWon = true;
-
+    String IP;
     private static final String TAG = "RobotController";
     private JavaCameraView javaCameraView;
     Mat imgHSV, mYellowThresh, circles, mRgba, mRedThresh;
@@ -90,7 +93,8 @@ public class RobotController extends RosActivity implements CameraBridgeViewBase
     public void startMasterChooser() {
         URI uri;
         try {
-            uri = new URI(getString(R.string.rosIP));
+            uri = new URI(IP);
+            //uri = new URI(getString(R.string.rosIP));
         } catch (URISyntaxException e) {
             throw new RosRuntimeException(e);
         }
@@ -131,18 +135,23 @@ public class RobotController extends RosActivity implements CameraBridgeViewBase
         javaCameraView.setCvCameraViewListener(this);
         Intent intent = getIntent();
         String command = intent.getStringExtra("action");
+        Log.d(TAG, "command: "+command);
+        IP = intent.getStringExtra("uri");
+        Log.d(TAG, "onCreate: "+IP);
+        mSensorManager = (SensorManager)this.getSystemService(SENSOR_SERVICE);
 
-        new Handler().postDelayed(new Runnable() {
-            @Override
-            public void run() {
-                publishOnStart("f");
-            }
-        }, 2000);
+//        new Handler().postDelayed(new Runnable() {
+//            @Override
+//            public void run() {
+//                publishOnStart("f");
+//            }
+//        }, 2000);
 
     }
 
     @Override
     protected void init(NodeMainExecutor nodeMainExecutor) {
+        int sensorDelay = SensorManager.SENSOR_DELAY_GAME;
         Log.d(TAG, "init is loaded");
         Listener lisnode = new Listener(this, this);
 
@@ -152,6 +161,19 @@ public class RobotController extends RosActivity implements CameraBridgeViewBase
 
         nodeMainExecutor.execute(talkerNode, nodeConfiguration);
         nodeMainExecutor.execute(lisnode, nodeConfiguration);
+
+        context = this.getApplicationContext();
+        NodeConfiguration nodeConfiguration1 = NodeConfiguration.newPublic(InetAddressFactory.newNonLoopback().getHostAddress());
+        nodeConfiguration1.setMasterUri(getMasterUri());
+        nodeConfiguration1.setNodeName("android_sensors_driver_nav_sat_fix");
+        NewNavSatFixPublisher nav_pub = new NewNavSatFixPublisher(context);
+        nodeMainExecutor.execute(nav_pub, nodeConfiguration1);
+
+        NodeConfiguration nodeConfiguration2 = NodeConfiguration.newPublic(InetAddressFactory.newNonLoopback().getHostAddress());
+        nodeConfiguration2.setMasterUri(getMasterUri());
+        nodeConfiguration2.setNodeName("android_sensors_driver_imu");
+        ImuPublisher imu_pub = new ImuPublisher(mSensorManager, sensorDelay);
+        nodeMainExecutor.execute(imu_pub, nodeConfiguration2);
 
 
     }

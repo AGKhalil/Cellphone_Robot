@@ -206,6 +206,8 @@ class CentralHub : AppCompatActivity() {
     private fun startRobotController(action: String, actionParameter: String,platform: String) {
         Log.d(TAG, "robotControllerIntent: "+platform)
         robotControllerIntent!!.putExtra("action", action)
+        Log.d(TAG, "uri: "+TEXT_URL.text)
+        robotControllerIntent!!.putExtra("uri", TEXT_URL.text.toString())
         this.startActivity(robotControllerIntent)
     }
 
