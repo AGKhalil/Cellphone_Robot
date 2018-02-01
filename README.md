@@ -4,6 +4,9 @@ Welcome to the Cellphone_Robot project! Through this project we are aiming to ex
 
 This repo allow the robot to: access a Natural Language Processor, translate text, send SMS, send Slack messages, send GroupMe messages, post to Twitter, perform basic image processing, and communicate back and forth with a ROS network. In our hardware setup, we had the ROS network running on a Raspberry Pi 3 mounted on the RC robot itself. We used a portable rechargable battery to make this happen. The phone is also mounted on the robot using a cellphone holder. Have fun experimenting!
 
+## Demo Video
+[![Demo Video](https://github.com/AGKhalil/Cellphone_Robot/blob/master/wiki_images/VideoSS.png)](https://youtu.be/JWv4LxLAfJA)
+
 ## What does the app do?
 The app is fundamentally acting as an extension to the robot, regardless of what the robot is or what it is capable of. The app acts as a higher level method of controlling the robot, while leveraging its access to the web and the many tools out there for Android phones. Once the robot is connected to the phone, the phone knows what the robot is capable of doing. The user can then communicate with the phone through texting or Instant Messaging over NLP to command the robot. This project is essentially a template for people to get creative with. If you have a ROS based robot and an Android phone, you can do all sorts of cool stuff.
 
@@ -20,7 +23,7 @@ To connect the Android to ROS, you need to make sure the `ROS_MASTER_URI` is cor
 ### WIFI
 Ensure the ROS host machine, in our case the Rhaspberry PI, and the Android phone are connected to the same WIFI network. 
 
-On the ROS host, copy the device's `wlan0` IP address. Then in terminal, go to your root directory, open `.bashrc`, and type the following at the bottom of the script.
+On the ROS host, copy the Pi's `wlan0` IP address. Then in terminal, go to your root directory, open `.bashrc`, and type the following at the bottom of the script.
 
 ```
 export ROS_IP=DEVICE_IP_ADDRESS
@@ -33,12 +36,18 @@ On the Android side, go to `strings.xml` located under [`/app/src/main/res/value
  <string name="rosIP">http://DEVICE_IP_ADDRESS:11311/</string>
 ```
 
-Now you can launch `roscore` on the ROS host and the app will connect to it over WIFI.
+To update your ROS enviroments, run the following in a terminal:
+
+```
+source ~/.bashrc
+```
+
+Now you can launch `roscore` on the ROS host and the app will connect to it over WIFI. 
 
 ### USB
 Connect the phone to the ROS host. Turn off WIFI connection on the ROS host device. On the Android, go to **Settings > More > Tethering & portable hotspost** and turn on **USB tethering**.
 
-On the ROS host, copy the device's `ethernet` IP address. Then in terminal, go to your root directory, open `.bashrc`, and type the following at the bottom of the script.
+On the ROS host, copy the Pi's `ethernet` IP address. Then in terminal, go to your root directory, open `.bashrc`, and type the following at the bottom of the script.
 
 ```
 export ROS_IP=DEVICE_IP_ADDRESS
@@ -50,6 +59,12 @@ On the Android side, go to `strings.xml` located under [`/app/src/main/res/value
 ```xml
  <string name="rosIP">http://DEVICE_IP_ADDRESS:11311/</string>
 
+```
+
+To update your ROS enviroments, run the following in a terminal:
+
+```
+source ~/.bashrc
 ```
 
 Now you can launch `roscore` on the ROS host and the app will connect to it over USB.

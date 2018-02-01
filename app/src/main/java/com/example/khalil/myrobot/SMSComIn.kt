@@ -19,15 +19,12 @@ import android.telephony.SmsMessage
 import android.util.Log
 import android.widget.Toast
 
-/**
- * Public constructor.
- */
 class SMSComIn : BroadcastReceiver() {
 
     var message: String = ""  // The SMS variable.
 
     /**
-     * This method receives the SMS and sends it to TaskActivity as an EventBus.
+     * This method receives the SMS and sends it to NaturalLanguageProcessService as an intent.
      */
     override fun onReceive(context: Context, intent: Intent) {
         // Retrieves a map of extended data from the intent.
@@ -46,13 +43,10 @@ class SMSComIn : BroadcastReceiver() {
 
                     Log.i("SmsReceiver", "senderNum: $senderNum; message: $message")
 
-                    /*// This block takes care of sending the SMS to TaskActivity.
-                    EventBus.getDefault().post(TaskActivity.OnReceiverEvent(message))*/
-
                     // Here starts service NLP
                     val i = Intent(context, NaturalLanguageProcessService::class.java)
                     i.putExtra("msg",message)
-                    i.putExtra("phonenumber",phoneNumber)
+                    i.putExtra("contact",phoneNumber)
                     context.startService(i)
 
 
