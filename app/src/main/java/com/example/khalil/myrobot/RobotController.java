@@ -192,7 +192,6 @@ public class RobotController extends RosActivity implements CameraBridgeViewBase
         nodeConfiguration.setMasterUri(getMasterUri());
 
         nodeMainExecutor.execute(talkerNode, nodeConfiguration);
-        nodeMainExecutor.execute(lisnode, nodeConfiguration);
 
         context = this.getApplicationContext();
         NodeConfiguration nodeConfiguration1 = NodeConfiguration.newPublic(InetAddressFactory.newNonLoopback().getHostAddress());
