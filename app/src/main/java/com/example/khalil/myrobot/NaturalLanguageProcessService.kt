@@ -5,6 +5,7 @@ import ai.api.RequestExtras
 import ai.api.android.AIConfiguration
 import ai.api.android.AIDataService
 import ai.api.model.*
+import android.annotation.SuppressLint
 import android.app.Service
 import android.content.Intent
 import android.os.AsyncTask
@@ -12,6 +13,7 @@ import android.os.IBinder
 import android.support.v4.content.LocalBroadcastManager
 import android.text.TextUtils
 import android.util.Log
+import com.google.gson.JsonElement
 
 
 @Suppress("UNREACHABLE_CODE")
@@ -29,6 +31,9 @@ class NaturalLanguageProcessService : Service() {
     var socialmedia = ""
     var contact = ""
     var message = ""
+    var target = ""
+    var room = ""
+    private var parameters: HashMap<String, JsonElement>? = null
     private var aiDataService: AIDataService? = null
     var translate_key = ""
     var textprocess: TextProcess? = null
@@ -90,7 +95,8 @@ class NaturalLanguageProcessService : Service() {
           * @param contextString(String): The context con figured in Dialogflow.
           */
         Log.d(TAG,"send request")
-        val task = object : AsyncTask<String, Void, AIResponse>() {
+        val task = @SuppressLint("StaticFieldLeak")
+        object : AsyncTask<String, Void, AIResponse>() {
 
             private var aiError: AIError? = null
 
@@ -156,6 +162,13 @@ class NaturalLanguageProcessService : Service() {
         speech = result.fulfillment.speech
         Log.i(TAG, "Speech: " + speech)
 
+        parameters = result.parameters
+
+        if (parameters != null) {
+            target = parameters!!["name"].toString()
+            room = parameters!!["room"].toString()
+        }
+
         val metadata = result.metadata
         if (metadata != null) {
             Log.i(TAG, "Intent id: " + metadata.intentId)
@@ -187,6 +200,8 @@ class NaturalLanguageProcessService : Service() {
         speech = ""
         socialmedia = ""
         contact = ""
+        target = ""
+        room = ""
     }
 
     fun sendtoSlack(msg:String, channel:String){
@@ -221,8 +236,10 @@ class NaturalLanguageProcessService : Service() {
         intent.putExtra(Commands.NLP_SPEECH,speech)
         intent.putExtra(Commands.ORIGINAL_MESSAGE, message)
         intent.putExtra(Commands.NLP_ACTION_CONTACT, contact)
+        intent.putExtra("room", room)
+        intent.putExtra("name", target)
 
-         // contact could be a slack id number
+        // contact could be a slack id number
         if (contact.length ==9 ){
             // Uncomment this part to play audio
 //            AsyncTask.execute { textprocess!!.speak(speech, SpokenDialect.ENGLISH_UNITED_STATES) }

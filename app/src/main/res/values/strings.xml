@@ -9,7 +9,7 @@
         6fef20f930e64204b2aafca02e800548
     </string>
     <string name="slack_key" templateMergeStrategy="preserve" translatable="false">
-        xoxb-275047425767-kEhjI7Xjyrh44F1yIfQxSynf
+        xoxb-307448398001-f9yGjGDA99cxsCtLa04R0KQs
     </string>
     <string name="twitterSetOAuthConsumerKey">5UzcKeigyOBvpurcmY1vcMbAf</string>
     <string name="twitterSetOAuthConsumerSecret">1NA1e1jU1dPNZ3g1WAklCziCOKDhGvuaAbBaIH4s8SuxOwaiQZ</string>
@@ -18,5 +18,19 @@
     <string name="rosIP">http://192.168.199.130:11311/</string>
     <string name="lily_slack_key">xoxb-275047425767-kEhjI7Xjyrh44F1yIfQxSynf</string>
     <string name="mickey_slack_key">xoxb-261603682465-QyB6BLreiew6tGQESKIK4rux</string>
-    <string name="NLP_key">b99aaea780704deb9b455dd830628a37</string>
+    <string name="new_mickey_slack_key">xoxb-307448398001-f9yGjGDA99cxsCtLa04R0KQs</string>
+    <string name="NLP_key">d3810546ecd844afa149f6ec3bebfff9</string>
+    <string name="status_explanation_0">The goal has yet to be processed by the action server</string>
+    <string name="status_explanation_1">The goal is currently being processed by the action server</string>
+    <string name="status_explanation_2">The goal received a cancel request after it started executing and has since completed its execution (Terminal State)</string>
+    <string name="status_explanation_3">The goal was achieved successfully by the action server (Terminal State)</string>
+    <string name="status_explanation_4">The goal was aborted during execution by the action server due to some failure (Terminal State)</string>
+    <string name="status_explanation_5">The goal was rejected by the action server without being processed, because the goal was unattainable or invalid (Terminal State)</string>
+    <string name="status_explanation_6">The goal received a cancel request after it started executing and has not yet completed execution</string>
+    <string name="status_explanation_7">The goal received a cancel request before it started executing, but the action server has not yet confirmed that the goal is canceled</string>
+    <string name="status_explanation_8">The goal received a cancel request before it started executing and was successfully cancelled (Terminal State)</string>
+    <string name="status_explanation_9">An action client can determine that a goal is LOST. This should not be sent over the wire by an action server</string>
+    <string name="status_text">Status text</string>
+    <string name="status_number">Status number</string>
+    <string name="job_delivered">Job delivered!</string>
 </resources>

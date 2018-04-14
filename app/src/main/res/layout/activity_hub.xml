@@ -6,6 +6,21 @@
     tools:context="com.example.khalil.myrobot.CentralHub"
     android:orientation="vertical">
 
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Welcome to myRobot, please text me on Slack. My handle is @michael_new. Make sure to connect to your robot's correct IP address below!"
+        android:textSize="20dp"
+        android:paddingHorizontal="10dp"
+        android:textColor="#ba1336ce"/>
+
+    <EditText
+        android:id="@+id/TEXT_URL"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:inputType="textUri"
+        android:text="http://10.186.130.70:11311" />
+
     <Button
         android:id="@+id/BTN_send"
         android:layout_width="match_parent"
@@ -13,7 +28,8 @@
         android:layout_marginLeft="21dp"
         android:layout_marginStart="21dp"
         android:onClick="mockSend"
-        android:text="Send" />
+        android:text="Send"
+        android:visibility="invisible"/>
 
     <EditText
         android:id="@+id/TEXT_Send"
@@ -22,7 +38,8 @@
         android:ems="10"
         android:inputType="textPersonName"
         android:hint="Text"
-        android:text="wander"/>
+        android:text="pick up from Ahmed at 1102"
+        android:visibility="invisible"/>
 
     <EditText
         android:id="@+id/TEXT_Receive"
@@ -30,15 +47,8 @@
         android:layout_height="wrap_content"
         android:ems="10"
         android:inputType="textPersonName"
-        android:hint="Speech" />
-
-    <EditText
-        android:id="@+id/TEXT_URL"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:inputType="textUri"
-        android:text="http://192.168.199.130:11311" />
-
+        android:hint="Speech"
+        android:visibility="invisible"/>
 
     <RadioGroup
         android:id="@+id/radioRobot"

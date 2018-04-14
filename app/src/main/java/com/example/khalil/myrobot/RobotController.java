@@ -95,7 +95,7 @@ public class RobotController extends RosActivity implements CameraBridgeViewBase
     /**
      * This method establishes the connection with the ROS network
      */
-    @Override
+    @android.annotation.SuppressLint("StaticFieldLeak")@Override
     public void startMasterChooser() {
         URI uri;
         try {
@@ -185,7 +185,7 @@ public class RobotController extends RosActivity implements CameraBridgeViewBase
     protected void init(NodeMainExecutor nodeMainExecutor) {
         int sensorDelay = SensorManager.SENSOR_DELAY_GAME;
         Log.d(TAG, "init is loaded");
-        Listener lisNode = new Listener(this, this);
+        Listener lisNode = new Listener(this);
 
         NodeConfiguration nodeConfiguration = NodeConfiguration.newPublic(
                 InetAddressFactory.newNonLoopback().getHostAddress());

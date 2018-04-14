@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context="com.example.khalil.myrobot.RobotController"
+    android:padding="10dp">
+
+    <TextView
+        android:id="@+id/status_text"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/status_number"
+        android:layout_centerHorizontal="true"
+        android:textSize="20dp"
+        android:textColor="#bf0726f3"/>
+
+
+    <TextView
+        android:id="@+id/status_byte"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/status_text"
+        android:text="@string/status_text"
+        android:layout_centerHorizontal="true"
+        android:textSize="20dp"
+        android:textColor="#bff36107"/>
+
+    <Button
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/status_byte"
+        android:id="@+id/complete_button"
+        android:layout_centerHorizontal="true"
+        android:text="@string/job_delivered"/>
+
+    <Button
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/cancel_job"
+        android:text="Cancel"
+        android:layout_below="@id/complete_button"
+        android:layout_centerHorizontal="true"/>
+</RelativeLayout>

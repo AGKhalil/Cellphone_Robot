@@ -11,15 +11,12 @@ import org.ros.node.topic.Publisher;
  * This class is the ROS talker node mainly used to publish commands to the ROS network.
  */
 
-class Talker extends AbstractNodeMain {
+class TalkBot extends AbstractNodeMain {
     private static final String TAG = "Talker";
     private Publisher<std_msgs.String> publisher; // Publisher used to publish to the "action" topic.
     private Publisher<std_msgs.String> publisherAbort; // Publisher used to abort motion.
 
-    Talker(RobotController robotController) {
-    }
-
-    Talker(DeliveryBot deliveryBot) {
+    TalkBot(DeliveryBot deliveryBot) {
     }
 
     @Override
@@ -41,7 +38,7 @@ class Talker extends AbstractNodeMain {
         final Log log = connectedNode.getLog();
 
         // Publisher is allocated to the "action" topic.
-        publisher = connectedNode.newPublisher("action", std_msgs.String._TYPE);
+        publisher = connectedNode.newPublisher("location_goal", std_msgs.String._TYPE);
 
         // Publisher is allocated to the "abort_mission" topic.
         publisherAbort = connectedNode.newPublisher("abort_mission", std_msgs.String._TYPE);
@@ -73,3 +70,4 @@ class Talker extends AbstractNodeMain {
         }
     }
 }
+

@@ -30,12 +30,15 @@ class CentralHub : AppCompatActivity() {
      * This class is written entirely in Kotlin.
      */
     private var robotControllerIntent: Intent? = null
+    private var deliveryBotIntent: Intent? = null
     var action = ""
     var speech = ""
     var socialmedia = ""
     var message = ""
     var contact = ""
     var translate_key = ""
+    var target = ""
+    var room = ""
     var textprocess: TextProcess? = null
 
     /**
@@ -84,10 +87,11 @@ class CentralHub : AppCompatActivity() {
         translate_key = resources.getString(R.string.microsoft_translate_key)
         textprocess = TextProcess(translate_key)
         //init service
-        sendtoSlack("init","")
+        sendtoSlack("init","G7Q5G4XS8")
 
         // RobotManipulator.
         robotControllerIntent = Intent(this, RobotController::class.java)
+        deliveryBotIntent = Intent(this, DeliveryBot::class.java)
 
         // This IF block insures all permissions are granted.
         if (ActivityCompat.checkSelfPermission(this, Manifest.permission.CAMERA) != PackageManager.PERMISSION_GRANTED ||
@@ -120,6 +124,8 @@ class CentralHub : AppCompatActivity() {
             speech = intent.getStringExtra(Commands.NLP_SPEECH)
             contact = intent.getStringExtra(Commands.NLP_ACTION_CONTACT)
             message = intent.getStringExtra(Commands.ORIGINAL_MESSAGE)
+            target = intent.getStringExtra("name")
+            room = intent.getStringExtra("room")
 
             Log.d("receiver", "Got intent: " + action)
             TEXT_Receive.setText(speech)
@@ -129,6 +135,9 @@ class CentralHub : AppCompatActivity() {
                 }
                 Commands.NLP_ACTION_WALK -> {
                     startRobotController(action,contact)
+                }
+                "pickup" -> {
+                    startDeliveryBot(action,contact,room,target)
                 }
             }
         }
@@ -148,6 +157,25 @@ class CentralHub : AppCompatActivity() {
         robotControllerIntent!!.putExtra("uri", TEXT_URL.text.toString())
         robotControllerIntent!!.putExtra("contact", contact)
         this.startActivity(robotControllerIntent)
+    }
+
+    /**
+     * This is the method that handles DeliveryBot.
+     */
+    private fun startDeliveryBot(action: String, contact: String, room: String, target: String) {
+        /**
+         * This function is for starting a robot controlling activity corresponding to intent "walk".
+         * @param action: the name of the action return from NLP server
+         * @param contact: the contact info where the messages will be delivered
+         */
+        deliveryBotIntent!!.putExtra("action", action)
+        Log.d(TAG, "uri: "+TEXT_URL.text)
+        deliveryBotIntent!!.putExtra("uri", TEXT_URL.text.toString())
+        deliveryBotIntent!!.putExtra("contact", contact)
+        deliveryBotIntent!!.putExtra("room", room)
+        deliveryBotIntent!!.putExtra("target", target)
+        //Log.d(TAG, "")
+        this.startActivity(deliveryBotIntent)
     }
 
     companion object {

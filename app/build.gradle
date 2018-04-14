@@ -1,5 +1,6 @@
 apply plugin: 'com.android.application'
 apply plugin: 'kotlin-android'
+apply plugin: 'kotlin-android-extensions'
 
 android {
     configurations.all {
@@ -63,11 +64,12 @@ dependencies {
     implementation 'com.github.florent37:camerafragment:1.0.4'
     implementation 'org.twitter4j:twitter4j-core:4.0.6'
     implementation fileTree(include: ['*.jar'], dir: 'libs')
-    implementation 'commons-io:commons-io:2.4'
+    implementation 'commons-io:commons-io:2.6'
 
     //compile 'ai.api:libai:1.4.8'
     implementation project(':ailib')
     implementation "org.jetbrains.kotlin:kotlin-stdlib-jre7:$kotlin_version"
+    implementation "org.jetbrains.kotlin:kotlin-reflect:$kotlin_version"
     implementation('org.ros.android_core:android_honeycomb_mr2:[0.1,0.2)') {
         exclude group: 'junit'
         exclude group: 'xml-apis'
@@ -83,5 +85,3 @@ dependencies {
     implementation project(':openCVLibrary330')
     implementation 'com.github.pschroen:slack-api-android:c66cc8d997'
 }
-
-apply plugin: 'kotlin-android-extensions'

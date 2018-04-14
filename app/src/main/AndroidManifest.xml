@@ -61,6 +61,9 @@
         <activity android:name=".RobotController">
         </activity>
 
+        <activity android:name=".DeliveryBot">
+        </activity>
+
         <activity android:name=".CommunicationOut">
         </activity>
 

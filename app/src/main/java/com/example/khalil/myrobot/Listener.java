@@ -1,7 +1,4 @@
 package com.example.khalil.myrobot;
-
-import android.content.Context;
-
 import org.apache.commons.logging.Log;
 import org.ros.message.MessageListener;
 import org.ros.namespace.GraphName;
@@ -22,8 +19,10 @@ class Listener extends AbstractNodeMain {
     private RobotController context; // Used to modify views on activity_robot_controller.xml.
     private Publisher<std_msgs.String> publisher; // Publisher used to publish to the "action" topic.
 
-    Listener(RobotController robotController, Context context) {
-        this.context = (RobotController) context;
+    Listener(RobotController robotController) {
+    }
+
+    Listener(DeliveryBot deliveryBot) {
     }
 
     @Override
@@ -109,7 +108,7 @@ class Listener extends AbstractNodeMain {
     }
 
     /**
-     * This method updates the robotState TextView on RobotController.
+     * This method updates the botState TextView on RobotController.
      * @param textytext the message to be sown on screen.
      */
     private void updateState(final String textytext){

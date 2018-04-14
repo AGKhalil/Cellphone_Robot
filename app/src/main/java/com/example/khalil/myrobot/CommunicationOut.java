@@ -7,6 +7,7 @@ import android.os.Bundle;
 import android.os.Handler;
 import android.support.annotation.Nullable;
 import android.support.v7.app.AppCompatActivity;
+import android.util.Log;
 
 import com.github.florent37.camerafragment.CameraFragment;
 import com.github.florent37.camerafragment.configuration.Configuration;
@@ -26,6 +27,8 @@ import twitter4j.conf.ConfigurationBuilder;
  */
 
 public class CommunicationOut extends AppCompatActivity implements CameraFragmentResultListener {
+    private String contact;
+    final private String TAG = "CommunicationOut";
     @SuppressLint("MissingPermission")
     public final CameraFragment cameraFragment =
             CameraFragment.newInstance(new Configuration.Builder().build()); // The camera fragment
@@ -33,6 +36,9 @@ public class CommunicationOut extends AppCompatActivity implements CameraFragmen
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+
+        Intent intent = getIntent();
+        contact = intent.getStringExtra("channel");
 
         // Activity layout is inflated.
         setContentView(R.layout.activity_commsout);
@@ -46,6 +52,15 @@ public class CommunicationOut extends AppCompatActivity implements CameraFragmen
         new Handler().postDelayed(new Runnable() {
             @Override
             public void run() {
+                if (cameraFragment != null) {
+                    cameraFragment.switchCameraTypeFrontBack();
+                }
+            }
+        }, 1000);
+
+        new Handler().postDelayed(new Runnable() {
+            @Override
+            public void run() {
                 takeAPicture();
             }
         }, 3000);
@@ -54,7 +69,7 @@ public class CommunicationOut extends AppCompatActivity implements CameraFragmen
     /**
      * This method posts a picture and caption to Twitter.
      */
-    void postToTwitter(String filePath) {
+    @SuppressLint("StaticFieldLeak") void postToTwitter(String filePath) {
         new AsyncTask<String, Void, Void>() {
 
             @Override
@@ -71,9 +86,10 @@ public class CommunicationOut extends AppCompatActivity implements CameraFragmen
 
                 Twitter twitter = new TwitterFactory(twitterConfigBuilder.build()).getInstance();
                 File file = new File(params[0]);
+                Log.d(TAG, "File path: " + params[0]);
 
                 // Image caption.
-                String caption = "I found both balls, I WIN!";
+                String caption = "He took it!";
 
                 StatusUpdate status = new StatusUpdate(caption);
                 status.setMedia(file); // set the image to be uploaded here.
@@ -116,13 +132,23 @@ public class CommunicationOut extends AppCompatActivity implements CameraFragmen
      */
     @Override
     public void onPhotoTaken(byte[] bytes, String filePath) {
-        postToTwitter(filePath);
+        //postToTwitter(filePath);
+        postToSlack(filePath, contact);
         final Intent intent = new Intent(this, CentralHub.class);
         new Handler().postDelayed(new Runnable() {
             @Override
             public void run() {
                 startActivity(intent);
             }
-        }, 3000);
+        }, 1500);
+    }
+
+    public void postToSlack (String filepath, String channel){
+        final Intent intent = new Intent(this, SlackService.class);
+        intent.putExtra("msg","");
+        //intent.putExtra("filePath", filepath);
+        intent.putExtra("channelID", channel);
+        //Log.d(TAG, "postToSlack: "+filepath);
+        startService(intent);
     }
 }

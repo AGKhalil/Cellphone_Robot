@@ -6,6 +6,7 @@ import allbegray.slack.rtm.Event
 import allbegray.slack.rtm.EventListener
 import allbegray.slack.rtm.SlackRealTimeMessagingClient
 import allbegray.slack.type.Channel
+import allbegray.slack.type.File
 import allbegray.slack.webapi.SlackWebApiClient
 import android.app.Service
 import android.content.Intent
@@ -84,6 +85,8 @@ class SlackService : Service() {
                         val userName = user.getName()
 
                         println("Channel id: " + channelId)
+                        Log.d(TAG, "Channel ID: " + channelId)
+                        Log.d(TAG, "User ID: " + userId)
                         println("Channel name: " + if (channel != null) "#" + channel!!.getName() else "DM")
                         println("User id: " + userId)
                         println("User name: " + userName)
@@ -110,13 +113,24 @@ class SlackService : Service() {
          * @param channel is the channel ID where the message will be delivered
          */
         val message = intent!!.getStringExtra("msg")
-        val channel = intent!!.getStringExtra("channelID")
+        val channel = intent.getStringExtra("channelID")
+        val filepath  = "/storage/self/primary"
+        val filename  = "thePicture001.jpg"//"/storage/emulated/0/thePicture001.jpg"//= intent.getStringExtra("filepath")
+        Log.d(TAG,filepath)
         if (message =="init") {return Service.START_STICKY}
-        if (message.substring(0,3) =="I w" || message.substring(0, 3) == "Oka"){
+        if (message != ""){
+            Log.d(TAG,"Message Sending")
             AsyncTask.execute {mWebApiClient!!.meMessage(channel, message)}
             return Service.START_STICKY
+        } else {
+            Log.d(TAG,filepath+"!!")
+            var testFile = java.io.File(filepath,filename)
+            if (testFile != null && testFile.exists()) {
+                Log.d(TAG,"Sending Image")
+                AsyncTask.execute{val slackFile:allbegray.slack.type.File = mWebApiClient!!.uploadFile(testFile, "Delivered to...", "I did it!", channel)}
+            }
         }
-        AsyncTask.execute {mWebApiClient!!.meMessage(channel, usr+": "+message)}
+        //AsyncTask.execute {mWebApiClient!!.meMessage(channel, usr+": "+message)}
         return Service.START_STICKY
     }
 
