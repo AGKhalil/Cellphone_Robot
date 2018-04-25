@@ -5,7 +5,7 @@ Welcome to the Cellphone_Robot project! Through this project we are aiming to ex
 This repo allow the robot to: access a Natural Language Processor, translate text, send Slack messages, and communicate back and forth with a ROS network that operates on an autonomous navigation robot. In our hardware setup, we had the ROS network running on a Raspberry Pi 3 mounted on the RC robot itself. We used a portable rechargable battery to make this happen. The phone is also mounted on the robot using a cellphone holder. Have fun experimenting!
 
 ## Demo Video
-[![Demo Video](https://github.com/AGKhalil/Cellphone_Robot/blob/master/wiki_images/VideoSS.png)](https://youtu.be/JWv4LxLAfJA)
+[![Demo Video](https://github.com/AGKhalil/Cellphone_Robot/blob/master/wiki_images/VideoSS.png)](https://youtu.be/IUkcgtFX2zM)
 
 ## What does the app do?
 The app is fundamentally acting as an extension to the robot, regardless of what the robot is or what it is capable of. The app acts as a higher level method of controlling the robot, while leveraging its access to the web and the many tools out there for Android phones. The user can then communicate with the phone through texting or Instant Messaging over NLP to command the robot. This project is essentially a template for people to get creative with. If you have a ROS based robot and an Android phone, you can do all sorts of cool stuff. This repo is more tailored for our SLAM and Autonomous navigation [project](https://github.com/wang3303/delivery_bot), but for a more general version, please check our previous [work](https://github.com/AGKhalil/Cellphone_Robot_OpenCV).
