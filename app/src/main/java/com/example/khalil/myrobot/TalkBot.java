@@ -13,8 +13,7 @@ import org.ros.node.topic.Publisher;
 
 class TalkBot extends AbstractNodeMain {
     private static final String TAG = "Talker";
-    private Publisher<std_msgs.String> publisher; // Publisher used to publish to the "action" topic.
-    private Publisher<std_msgs.String> publisherAbort; // Publisher used to abort motion.
+    private Publisher<std_msgs.String> publisher; // Publisher used to publish to the "location_goal" topic.
 
     TalkBot(DeliveryBot deliveryBot) {
     }
@@ -26,22 +25,18 @@ class TalkBot extends AbstractNodeMain {
     }
 
     /**
-     * This method is called once an instance of Talker is called. Here the two publishers publisher
-     * and publisherAbort are initialized. The initializations include specifying the topic that
-     * will be published on as well as its data type. publish is used to issue commands for moving
-     * the robot, while publishToAbort is used to abort any commands published on publish should
-     * that deem necessary.
+     * This method is called once an instance of Talker is called. Here the publisher
+     * is initialized. The initialization includes specifying the topic that
+     * will be published on as well as its data type. publish is used to issue the location goals to
+     * the robot.
      * @param connectedNode current node.
      */
     @Override
     public void onStart(final ConnectedNode connectedNode) {
         final Log log = connectedNode.getLog();
 
-        // Publisher is allocated to the "action" topic.
+        // Publisher is allocated to the "location_goal" topic.
         publisher = connectedNode.newPublisher("location_goal", std_msgs.String._TYPE);
-
-        // Publisher is allocated to the "abort_mission" topic.
-        publisherAbort = connectedNode.newPublisher("abort_mission", std_msgs.String._TYPE);
     }
 
     /**
@@ -54,19 +49,6 @@ class TalkBot extends AbstractNodeMain {
             std_msgs.String toPublish = publisher.newMessage();
             toPublish.setData(message);
             publisher.publish(toPublish);
-        }
-    }
-
-    /**
-     * This method is public and can be accessed externally to publish a message on the
-     * publisherAbort in a Talker instance.
-     * @param message the message to be published.
-     */
-    void setPublisherAbort(String message) {
-        if (publisherAbort != null) {
-            std_msgs.String toPublish = publisherAbort.newMessage();
-            toPublish.setData(message);
-            publisherAbort.publish(toPublish);
         }
     }
 }

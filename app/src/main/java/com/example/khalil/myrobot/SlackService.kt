@@ -33,7 +33,7 @@ class SlackService : Service() {
     var webSocketUrl:String? = null
     var mRtmClient:SlackRealTimeMessagingClient? = null
     val TAG = "SlackService"
-    var myIdentifier = Commands.MICKEY
+    var myIdentifier = "Mickey"
     var usr = ""
     override fun onBind(intent: Intent?): IBinder {
         TODO("not implemented")

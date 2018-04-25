@@ -21,25 +21,28 @@ import java.net.URI;
 import java.net.URISyntaxException;
 
 public class DeliveryBot extends RosActivity {
-    TextView botState; // Robot status TextView.
-    TextView movebase; // Robot status TextView.
-    Button compButton;
-    Button cancelButton;
+    TextView botState; // Robot status TextView
+    TextView movebase; // Robot status TextView
+    Button compButton; // Job completion button
+    Button cancelButton; // Job cancellation button
 
-    String IP;
-    private Context context;
+    String IP; // ROS_MASTER_URI
+    private Context context; // Activity context
     TalkBot talkerNode = new TalkBot(this); // Talker instance used to publish commands.
     private static final String TAG = "DeliveryBot"; // Log tag name.
-    String contact = "";
-    String recipient = "";
-    private String action = "";
-    private String room = "";
-    private String target = "";
+    String contact = ""; // Contact ID
+    String recipient = ""; // Recipient ID
+    private String room = ""; // Location
+    private String target = ""; // Contact name
 
     protected DeliveryBot() {
         super("MainNode", "MainNode");
     }
 
+    /**
+     * This method starts up the ros nodes.
+     * @param nodeMainExecutor used to create and sustain the nodes.
+     */
     @Override
     protected void init(NodeMainExecutor nodeMainExecutor) {
         Log.d(TAG, "init is loaded");
@@ -62,7 +65,6 @@ public class DeliveryBot extends RosActivity {
         URI uri;
         try {
             uri = new URI(IP);
-            //uri = new URI(getString(R.string.rosIP));
         } catch (URISyntaxException e) {
             throw new RosRuntimeException(e);
         }
@@ -80,17 +82,13 @@ public class DeliveryBot extends RosActivity {
 
     /**
      * This function sets up the activity's main layout as well as associating the appropriate
-     * variables with their views. Afterwards, javaCameraView is configured and a listener to its
-     * frames is established. onCreate then publishes "f" to the ROS network after a two-second
-     * delay by calling publishOnStart(). This is done so the robot always starts by going
-     * "freestyle".
+     * variables with their views.
      */
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         Log.d(TAG, "onCreate is Loaded");
         Intent intent = getIntent();
-        action  = intent.getStringExtra("action");
         contact  = intent.getStringExtra("contact");
         target  = intent.getStringExtra("target");
         target = target.substring(1, target.length() - 1);
@@ -120,8 +118,8 @@ public class DeliveryBot extends RosActivity {
         compButton = findViewById(R.id.complete_button);
         compButton.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {
-                botState.setText("Status text");
-                movebase.setText("Status number");
+                botState.setText(R.string.status_text);
+                movebase.setText(R.string.status_number);
                 // Perform action on click
                 Intent activityChangeIntent = new Intent(DeliveryBot.this, CommunicationOut.class);
                 activityChangeIntent.putExtra("channel", contact);
@@ -154,10 +152,14 @@ public class DeliveryBot extends RosActivity {
         Log.d(TAG, "onCreate: "+ IP);
     }
 
-    void sendToSlack(String person) {
+    /**
+     * This method enables DeliveryBot to send messages to slack.
+     * @param text The text to be sent on Slack.
+     */
+    void sendToSlack(String text) {
         final Intent intent = new Intent(DeliveryBot.this, SlackService.class);
         intent.putExtra("msg", "I'm here!");
-        intent.putExtra("channelID", person);
+        intent.putExtra("channelID", text);
         startService(intent);
     }
 }

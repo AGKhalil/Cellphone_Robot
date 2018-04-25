@@ -33,4 +33,6 @@
     <string name="status_text">Status text</string>
     <string name="status_number">Status number</string>
     <string name="job_delivered">Job delivered!</string>
+    <string name="status_text">Status text</string>
+    <string name="status_number">Status number</string>
 </resources>
