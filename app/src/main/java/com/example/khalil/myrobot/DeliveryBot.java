@@ -118,8 +118,6 @@ public class DeliveryBot extends RosActivity {
         compButton = findViewById(R.id.complete_button);
         compButton.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {
-                botState.setText(R.string.status_text);
-                movebase.setText(R.string.status_number);
                 // Perform action on click
                 Intent activityChangeIntent = new Intent(DeliveryBot.this, CommunicationOut.class);
                 activityChangeIntent.putExtra("channel", contact);
