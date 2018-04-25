@@ -127,7 +127,9 @@ class SlackService : Service() {
             var testFile = java.io.File(filepath,filename)
             if (testFile != null && testFile.exists()) {
                 Log.d(TAG,"Sending Image")
-                AsyncTask.execute{val slackFile:allbegray.slack.type.File = mWebApiClient!!.uploadFile(testFile, "Delivered to...", "I did it!", channel)}
+                val person = intent.getStringExtra("person")
+                Log.d(TAG, "Person is " + person)
+                AsyncTask.execute{val slackFile:allbegray.slack.type.File = mWebApiClient!!.uploadFile(testFile, "Here is " + person + "!!!", "I did it!", channel)}
             }
         }
         //AsyncTask.execute {mWebApiClient!!.meMessage(channel, usr+": "+message)}

@@ -29,11 +29,9 @@ class CentralHub : AppCompatActivity() {
      * command is sent to the NLP. This can also be repeated through speech.
      * This class is written entirely in Kotlin.
      */
-    private var robotControllerIntent: Intent? = null
     private var deliveryBotIntent: Intent? = null
     var action = ""
     var speech = ""
-    var socialmedia = ""
     var message = ""
     var contact = ""
     var translate_key = ""
@@ -90,7 +88,6 @@ class CentralHub : AppCompatActivity() {
         sendtoSlack("init","G7Q5G4XS8")
 
         // RobotManipulator.
-        robotControllerIntent = Intent(this, RobotController::class.java)
         deliveryBotIntent = Intent(this, DeliveryBot::class.java)
 
         // This IF block insures all permissions are granted.
@@ -120,43 +117,21 @@ class CentralHub : AppCompatActivity() {
          */
         override fun onReceive(context: Context, intent: Intent) {
             // Get extra data included in the Intent
-            action = intent.getStringExtra(Commands.NLP_ACTION)
-            speech = intent.getStringExtra(Commands.NLP_SPEECH)
-            contact = intent.getStringExtra(Commands.NLP_ACTION_CONTACT)
-            message = intent.getStringExtra(Commands.ORIGINAL_MESSAGE)
+            action = intent.getStringExtra("action")
+            speech = intent.getStringExtra("speech")
+            contact = intent.getStringExtra("contact")
+            message = intent.getStringExtra("message")
             target = intent.getStringExtra("name")
             room = intent.getStringExtra("room")
 
             Log.d("receiver", "Got intent: " + action)
             TEXT_Receive.setText(speech)
             when(action){
-                Commands.NLP_ACTION_PICTURE_TAKING -> {
-                    socialmedia = intent.getStringExtra(Commands.NLP_PICTURE_TAKING_SOCIAL_MEDIA)
-                }
-                Commands.NLP_ACTION_WALK -> {
-                    startRobotController(action,contact)
-                }
                 "pickup" -> {
                     startDeliveryBot(action,contact,room,target)
                 }
             }
         }
-    }
-
-    /**
-     * This is the method that handles RobotController.
-     */
-    private fun startRobotController(action: String, contact: String) {
-        /**
-         * This function is for starting a robot controlling activity corresponding to intent "walk".
-         * @param action: the name of the action return from NLP server
-         * @param contact: the contact info where the messages will be delivered
-         */
-        robotControllerIntent!!.putExtra("action", action)
-        Log.d(TAG, "uri: "+TEXT_URL.text)
-        robotControllerIntent!!.putExtra("uri", TEXT_URL.text.toString())
-        robotControllerIntent!!.putExtra("contact", contact)
-        this.startActivity(robotControllerIntent)
     }
 
     /**

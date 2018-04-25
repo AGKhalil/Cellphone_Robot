@@ -59,7 +59,7 @@ public class LisBot extends AbstractNodeMain {
                         botcontext.runOnUiThread(new Runnable() {
                             @Override
                             public void run() {
-                                botcontext.sendToSlack();
+                                botcontext.sendToSlack(botcontext.recipient);
                             }
                         });
                         successFlag = false;

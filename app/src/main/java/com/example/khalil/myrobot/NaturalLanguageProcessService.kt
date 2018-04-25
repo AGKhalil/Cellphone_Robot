@@ -183,9 +183,6 @@ class NaturalLanguageProcessService : Service() {
             for ((key, value) in params) {
                 param_String= param_String + String.format("%s: %s\n", key, value.toString())
                 Log.i(TAG, String.format("%s: %s", key, value.toString()))
-                if (key == Commands.NLP_PICTURE_TAKING_SOCIAL_MEDIA) {
-                    socialmedia = value.toString()
-                }
             }
         }
         sendMessage()
@@ -232,10 +229,10 @@ class NaturalLanguageProcessService : Service() {
 
         Log.d(TAG, "Speech:" + speech)
 
-        intent.putExtra(Commands.NLP_ACTION, action)
-        intent.putExtra(Commands.NLP_SPEECH,speech)
-        intent.putExtra(Commands.ORIGINAL_MESSAGE, message)
-        intent.putExtra(Commands.NLP_ACTION_CONTACT, contact)
+        intent.putExtra("action", action)
+        intent.putExtra("speech",speech)
+        intent.putExtra("message", message)
+        intent.putExtra("contact", contact)
         intent.putExtra("room", room)
         intent.putExtra("name", target)
 
@@ -245,18 +242,7 @@ class NaturalLanguageProcessService : Service() {
 //            AsyncTask.execute { textprocess!!.speak(speech, SpokenDialect.ENGLISH_UNITED_STATES) }
             sendtoSlack(speech, contact)
         }
-        else{
-            // This is for sending messages.
-//            val sms = CommunicationOut(speech)
-//            sms.sendSMS(contact)
-        }
 
-        when (action){
-            Commands.NLP_ACTION_PICTURE_TAKING -> if (socialmedia == "") {
-                Log.d(TAG, "picture taking requires social media")
-                return
-            }
-        }
         LocalBroadcastManager.getInstance(this).sendBroadcast(intent)
         clear()
     }

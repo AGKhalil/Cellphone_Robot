@@ -7,7 +7,6 @@ package com.example.khalil.myrobot;
 
 class Commands {
     static final String MICKEY = "Mickey";
-    static final String LILY = "Lily";
 
     /** NLP JSON parameters **/
     static final String NLP_ACTION = "action";

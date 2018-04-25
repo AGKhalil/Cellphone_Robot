@@ -2,7 +2,6 @@ package com.example.khalil.myrobot;
 
 import android.annotation.SuppressLint;
 import android.content.Intent;
-import android.os.AsyncTask;
 import android.os.Bundle;
 import android.os.Handler;
 import android.support.annotation.Nullable;
@@ -13,14 +12,6 @@ import com.github.florent37.camerafragment.CameraFragment;
 import com.github.florent37.camerafragment.configuration.Configuration;
 import com.github.florent37.camerafragment.listeners.CameraFragmentResultListener;
 
-import java.io.File;
-
-import twitter4j.StatusUpdate;
-import twitter4j.Twitter;
-import twitter4j.TwitterException;
-import twitter4j.TwitterFactory;
-import twitter4j.conf.ConfigurationBuilder;
-
 /**
  * Created by Khalil on 6/24/17.
  * This class takes a picture 3 seconds after being called and posting it to Twitter.
@@ -28,6 +19,7 @@ import twitter4j.conf.ConfigurationBuilder;
 
 public class CommunicationOut extends AppCompatActivity implements CameraFragmentResultListener {
     private String contact;
+    private String target;
     final private String TAG = "CommunicationOut";
     @SuppressLint("MissingPermission")
     public final CameraFragment cameraFragment =
@@ -39,6 +31,8 @@ public class CommunicationOut extends AppCompatActivity implements CameraFragmen
 
         Intent intent = getIntent();
         contact = intent.getStringExtra("channel");
+        target = intent.getStringExtra("person");
+
 
         // Activity layout is inflated.
         setContentView(R.layout.activity_commsout);
@@ -65,44 +59,6 @@ public class CommunicationOut extends AppCompatActivity implements CameraFragmen
             }
         }, 3000);
     }
-
-    /**
-     * This method posts a picture and caption to Twitter.
-     */
-    @SuppressLint("StaticFieldLeak") void postToTwitter(String filePath) {
-        new AsyncTask<String, Void, Void>() {
-
-            @Override
-            protected Void doInBackground(String... params) {
-                ConfigurationBuilder twitterConfigBuilder = new ConfigurationBuilder();
-                twitterConfigBuilder.setDebugEnabled(true);
-                twitterConfigBuilder.setOAuthConsumerKey(getString(R.string.twitterSetOAuthConsumerKey));
-                twitterConfigBuilder.setOAuthConsumerSecret(
-                        getString(R.string.twitterSetOAuthConsumerSecret));
-                twitterConfigBuilder.setOAuthAccessToken(
-                        getString(R.string.twitterSetOAuthAccessToken));
-                twitterConfigBuilder.setOAuthAccessTokenSecret(
-                        getString(R.string.twitterSetOAuthAccessTokenSecret));
-
-                Twitter twitter = new TwitterFactory(twitterConfigBuilder.build()).getInstance();
-                File file = new File(params[0]);
-                Log.d(TAG, "File path: " + params[0]);
-
-                // Image caption.
-                String caption = "He took it!";
-
-                StatusUpdate status = new StatusUpdate(caption);
-                status.setMedia(file); // set the image to be uploaded here.
-                try {
-                    twitter.updateStatus(status);
-                } catch (TwitterException e) {
-                    e.printStackTrace();
-                }
-                return null;
-            }
-        }.execute(filePath);
-    }
-
 
     /**
      * This method uses the camera fragment to obtain an image. The image is saved to file.
@@ -132,9 +88,9 @@ public class CommunicationOut extends AppCompatActivity implements CameraFragmen
      */
     @Override
     public void onPhotoTaken(byte[] bytes, String filePath) {
-        //postToTwitter(filePath);
         postToSlack(filePath, contact);
         final Intent intent = new Intent(this, CentralHub.class);
+        Log.d(TAG, "Target is " + target);
         new Handler().postDelayed(new Runnable() {
             @Override
             public void run() {
@@ -146,8 +102,8 @@ public class CommunicationOut extends AppCompatActivity implements CameraFragmen
     public void postToSlack (String filepath, String channel){
         final Intent intent = new Intent(this, SlackService.class);
         intent.putExtra("msg","");
-        //intent.putExtra("filePath", filepath);
         intent.putExtra("channelID", channel);
+        intent.putExtra("person", target);
         //Log.d(TAG, "postToSlack: "+filepath);
         startService(intent);
     }

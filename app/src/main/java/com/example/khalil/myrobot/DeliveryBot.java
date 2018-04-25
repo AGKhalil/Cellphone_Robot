@@ -26,12 +26,12 @@ public class DeliveryBot extends RosActivity {
     Button compButton;
     Button cancelButton;
 
-    String IP = "http://10.186.130.214:11311";
+    String IP;
     private Context context;
     TalkBot talkerNode = new TalkBot(this); // Talker instance used to publish commands.
     private static final String TAG = "DeliveryBot"; // Log tag name.
     String contact = "";
-    String channel = "";
+    String recipient = "";
     private String action = "";
     private String room = "";
     private String target = "";
@@ -93,17 +93,18 @@ public class DeliveryBot extends RosActivity {
         action  = intent.getStringExtra("action");
         contact  = intent.getStringExtra("contact");
         target  = intent.getStringExtra("target");
+        target = target.substring(1, target.length() - 1);
         Log.d(TAG, "Target is: " + target);
         room = "me" + intent.getStringExtra("room");
         room = room.replace("\"", "");
 
         switch (target){
-            case "\"Ahmed\"":
-                channel = "D931MAEB1";
-                Log.d(TAG, "Channel is: " + channel);
+            case "Ahmed":
+                recipient = "D931MAEB1";
+                Log.d(TAG, "Channel is: " + contact);
                 break;
-            case "\"Michael\"":
-                channel = "D92R2RHAA";
+            case "Michael":
+                recipient = "D92R2RHAA";
                 break;
         }
 
@@ -124,6 +125,7 @@ public class DeliveryBot extends RosActivity {
                 // Perform action on click
                 Intent activityChangeIntent = new Intent(DeliveryBot.this, CommunicationOut.class);
                 activityChangeIntent.putExtra("channel", contact);
+                activityChangeIntent.putExtra("person", target);
                 DeliveryBot.this.startActivity(activityChangeIntent);
                 Intent intent = new Intent(DeliveryBot.this, SlackService.class);
                 intent.putExtra("msg", "Delivery successful! Nice doing business with you.");
@@ -148,14 +150,14 @@ public class DeliveryBot extends RosActivity {
             }
         }, 3000);
 
-        //IP = intent.getStringExtra("uri");
-        //Log.d(TAG, "onCreate: "+IP);
+        IP = intent.getStringExtra("uri");
+        Log.d(TAG, "onCreate: "+ IP);
     }
 
-    void sendToSlack() {
+    void sendToSlack(String person) {
         final Intent intent = new Intent(DeliveryBot.this, SlackService.class);
         intent.putExtra("msg", "I'm here!");
-        intent.putExtra("channelID", contact);
+        intent.putExtra("channelID", person);
         startService(intent);
     }
 }

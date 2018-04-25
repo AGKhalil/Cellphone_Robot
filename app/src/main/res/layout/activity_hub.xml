@@ -19,7 +19,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:inputType="textUri"
-        android:text="http://10.186.130.70:11311" />
+        android:text="http://10.186.130.214:11311" />
 
     <Button
         android:id="@+id/BTN_send"
