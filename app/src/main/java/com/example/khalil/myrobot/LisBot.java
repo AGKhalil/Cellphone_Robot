@@ -64,7 +64,7 @@ public class LisBot extends AbstractNodeMain {
     }
 
     /**
-     * This method updates the botState TextView on RobotController.
+     * This method updates the botState TextView on DeliveryBot.
      * @param textyText the status to be shown.
      */
     private void updateBotState(final java.lang.String textyText){
@@ -110,7 +110,7 @@ public class LisBot extends AbstractNodeMain {
     }
 
     /**
-     * This method updates the moveBase TextView on RobotController.
+     * This method updates the moveBase TextView on DeliveryBot.
      * @param textytext the status to be sown on screen.
      */
     private void updateMoveBase(final java.lang.String textytext){

@@ -14,7 +14,7 @@ import com.github.florent37.camerafragment.listeners.CameraFragmentResultListene
 
 /**
  * Created by Khalil on 6/24/17.
- * This class takes a picture 3 seconds after being called and posting it to Twitter.
+ * This class takes a picture 3 seconds after being called and posting it to Slack.
  */
 
 public class CommunicationOut extends AppCompatActivity implements CameraFragmentResultListener {
@@ -42,7 +42,7 @@ public class CommunicationOut extends AppCompatActivity implements CameraFragmen
                 .replace(R.id.manipulatorCameraFragment, cameraFragment, "TheCameraThing")
                 .commit();
 
-        // After 3 seconds a picture is captured.
+        // After 1 seconds a picture is captured.
         new Handler().postDelayed(new Runnable() {
             @Override
             public void run() {
@@ -81,9 +81,9 @@ public class CommunicationOut extends AppCompatActivity implements CameraFragmen
 
     /**
      * This is a method implemented by CameraFragmentResultListener, it is called immediately once
-     * a picture is captured on a camera fragment. This method calls postToTwitter() and sends to
+     * a picture is captured on a camera fragment. This method calls postToSlack() and sends to
      * it the image's file path. Furthermore, this method creates an intent for CentralHub and
-     * starts it after a delay of 3 seconds. The delay allows the app enough time to upload the
+     * starts it after a delay of 1.5 seconds. The delay allows the app enough time to upload the
      * image prior to returning to the app's main activity.
      */
     @Override
@@ -99,6 +99,11 @@ public class CommunicationOut extends AppCompatActivity implements CameraFragmen
         }, 1500);
     }
 
+    /**
+     * This method posts an image to Slack with a caption.
+     * @param filepath the image's file address for retrieval.
+     * @param channel Slack channel to post on.
+     */
     public void postToSlack (String filepath, String channel){
         final Intent intent = new Intent(this, SlackService.class);
         intent.putExtra("msg","");
