@@ -111,7 +111,7 @@ public class LisBot extends AbstractNodeMain {
 
     /**
      * This method updates the moveBase TextView on DeliveryBot.
-     * @param textytext the status to be sown on screen.
+     * @param textytext the status to be shown on screen.
      */
     private void updateMoveBase(final java.lang.String textytext){
         // Must run on main thread.
