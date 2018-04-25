@@ -6,20 +6,16 @@
     <string name="ultrasonic_reading">Ultrasonic Reading</string>
     <string name="just_minding_my_business">Just minding my business</string>
     <string name="microsoft_translate_key" templateMergeStrategy="preserve" translatable="false">
-        6fef20f930e64204b2aafca02e800548
+        ****
     </string>
     <string name="slack_key" templateMergeStrategy="preserve" translatable="false">
-        xoxb-307448398001-f9yGjGDA99cxsCtLa04R0KQs
+        ****
     </string>
-    <string name="twitterSetOAuthConsumerKey">5UzcKeigyOBvpurcmY1vcMbAf</string>
-    <string name="twitterSetOAuthConsumerSecret">1NA1e1jU1dPNZ3g1WAklCziCOKDhGvuaAbBaIH4s8SuxOwaiQZ</string>
-    <string name="twitterSetOAuthAccessToken">913466006806417409-FNNTLxT8affA8PyzOeLVf4Syd36AOmo</string>
-    <string name="twitterSetOAuthAccessTokenSecret">dYJepotUZZWNq1n8N6BcIlepkzGoiDXhGNmUUMN8nli4o</string>
     <string name="rosIP">http://192.168.199.130:11311/</string>
-    <string name="lily_slack_key">xoxb-275047425767-kEhjI7Xjyrh44F1yIfQxSynf</string>
-    <string name="mickey_slack_key">xoxb-261603682465-QyB6BLreiew6tGQESKIK4rux</string>
-    <string name="new_mickey_slack_key">xoxb-307448398001-f9yGjGDA99cxsCtLa04R0KQs</string>
-    <string name="NLP_key">d3810546ecd844afa149f6ec3bebfff9</string>
+    <string name="lily_slack_key">****</string>
+    <string name="mickey_slack_key">****</string>
+    <string name="new_mickey_slack_key">****</string>
+    <string name="NLP_key">****</string>
     <string name="status_explanation_0">The goal has yet to be processed by the action server</string>
     <string name="status_explanation_1">The goal is currently being processed by the action server</string>
     <string name="status_explanation_2">The goal received a cancel request after it started executing and has since completed its execution (Terminal State)</string>
